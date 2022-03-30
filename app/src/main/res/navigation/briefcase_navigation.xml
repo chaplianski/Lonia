@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/briefcase_navigation"
+    app:startDestination="@id/briefCaseFragment">
+
+    <fragment
+        android:id="@+id/briefCaseFragment"
+        android:name="com.example.testtask.presenter.ui.BriefCaseFragment"
+        android:label="fragment_brief_case"
+        tools:layout="@layout/fragment_brief_case" >
+        <action
+            android:id="@+id/action_briefCaseFragment_to_questionsFragment"
+            app:destination="@id/questionsFragment" />
+        <action
+            android:id="@+id/action_briefCaseFragment_to_answersFragment"
+            app:destination="@id/answersFragment" />
+        <action
+            android:id="@+id/action_briefCaseFragment_to_vesselsFragment"
+            app:destination="@id/vesselsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionsFragment"
+        android:name="com.example.testtask.presenter.ui.QuestionsFragment"
+        android:label="fragment_questions"
+        tools:layout="@layout/fragment_questions" >
+        <action
+            android:id="@+id/action_questionsFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/answerFragment"
+        android:name="com.example.testtask.presenter.ui.AnswerFragment"
+        android:label="fragment_answer"
+        tools:layout="@layout/fragment_answer" >
+        <action
+            android:id="@+id/action_answerFragment_to_informationFragment"
+            app:destination="@id/informationFragment" />
+        <action
+            android:id="@+id/action_answerFragment_to_questionsFragment"
+            app:destination="@id/questionsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.example.testtask.presenter.ui.InformationFragment"
+        android:label="fragment_information"
+        tools:layout="@layout/fragment_information" />
+    <fragment
+        android:id="@+id/answersFragment"
+        android:name="com.example.testtask.presenter.ui.AnswersFragment"
+        android:label="fragment_answers"
+        tools:layout="@layout/fragment_answers" >
+        <action
+            android:id="@+id/action_answersFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
+        <action
+            android:id="@+id/action_answersFragment_to_briefCaseFragment"
+            app:destination="@id/briefCaseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vesselsFragment"
+        android:name="com.example.testtask.presenter.ui.VesselsFragment"
+        android:label="fragment_vessels"
+        tools:layout="@layout/fragment_vessels" >
+        <action
+            android:id="@+id/action_vesselsFragment_to_portFragment"
+            app:destination="@id/portFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/portFragment"
+        android:name="com.example.testtask.presenter.ui.PortFragment"
+        android:label="fragment_port"
+        tools:layout="@layout/fragment_port" >
+        <action
+            android:id="@+id/action_portFragment_to_inspectionTypeFragment"
+            app:destination="@id/inspectionTypeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inspectionTypeFragment"
+        android:name="com.example.testtask.presenter.ui.InspectionTypeFragment"
+        android:label="fragment_inspection_type"
+        tools:layout="@layout/fragment_inspection_type" >
+        <action
+            android:id="@+id/action_inspectionTypeFragment_to_inspectionSourceFragment"
+            app:destination="@id/inspectionSourceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inspectionSourceFragment"
+        android:name="com.example.testtask.presenter.ui.InspectionSourceFragment"
+        android:label="fragment_inspection_source"
+        tools:layout="@layout/fragment_inspection_source" >
+        <action
+            android:id="@+id/action_inspectionSourceFragment_to_inspectorNameFragment"
+            app:destination="@id/inspectorNameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inspectorNameFragment"
+        android:name="com.example.testtask.presenter.ui.InspectorNameFragment"
+        android:label="fragment_inspector_name"
+        tools:layout="@layout/fragment_inspector_name" >
+        <action
+            android:id="@+id/action_inspectorNameFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.testtask.presenter.ui.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_briefCaseFragment"
+            app:destination="@id/briefCaseFragment" />
+    </fragment>
+</navigation>
