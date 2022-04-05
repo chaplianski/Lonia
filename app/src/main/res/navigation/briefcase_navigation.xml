@@ -9,7 +9,7 @@
         android:id="@+id/briefCaseFragment"
         android:name="com.example.testtask.presenter.ui.BriefCaseFragment"
         android:label="fragment_brief_case"
-        tools:layout="@layout/fragment_brief_case" >
+        tools:layout="@layout/fragment_briefcase" >
         <action
             android:id="@+id/action_briefCaseFragment_to_questionsFragment"
             app:destination="@id/questionsFragment" />
@@ -40,12 +40,19 @@
         <action
             android:id="@+id/action_answerFragment_to_questionsFragment"
             app:destination="@id/questionsFragment" />
+        <action
+            android:id="@+id/action_answerFragment_to_datePickerFragment"
+            app:destination="@id/datePickerFragment" />
     </fragment>
     <fragment
         android:id="@+id/informationFragment"
         android:name="com.example.testtask.presenter.ui.InformationFragment"
         android:label="fragment_information"
-        tools:layout="@layout/fragment_information" />
+        tools:layout="@layout/fragment_information" >
+        <action
+            android:id="@+id/action_informationFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/answersFragment"
         android:name="com.example.testtask.presenter.ui.AnswersFragment"
@@ -105,11 +112,15 @@
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.example.testtask.presenter.ui.CategoryFragment"
+        android:name="com.example.testtask.presenter.ui.QuestionnairesFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" >
         <action
             android:id="@+id/action_categoryFragment_to_briefCaseFragment"
             app:destination="@id/briefCaseFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/datePickerFragment"
+        android:name="com.example.testtask.presenter.ui.DatePickerFragment"
+        android:label="DatePickerFragment" />
 </navigation>

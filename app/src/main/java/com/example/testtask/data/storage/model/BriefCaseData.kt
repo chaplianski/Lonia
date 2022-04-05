@@ -1,30 +1,26 @@
 package com.example.testtask.data.storage.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.example.testtask.domain.model.Questions
 
 @Entity(tableName = "briefcase")
 data class BriefCaseData(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "briefCaseId")
-    val briefCaseId: Int,
+    var briefCaseId: Int,
     @ColumnInfo(name = "dateOfCreation")
-    val dateOfCreation: Long,
+    var dateOfCreation: Long ,
     @ColumnInfo(name = "inspector")
-    val inspector: String = "",
+    var inspector: String,
     @ColumnInfo(name = "port")
-    val port: String,
+    var port: String,
     @ColumnInfo(name = "inspectorName")
-    val inspectorName: String = "",
+    var inspectorName: String ,
     @ColumnInfo(name = "inspectorType")
-    val inspectorType: String,
+    var inspectorType: String ,
     @ColumnInfo(name = "vessel")
-    val vessel: String = "",
+    var vessel: String,
     @ColumnInfo(name = "category")
-    val category: String = "",
-    @ColumnInfo(name = "question")
-    val question: String
-
+    var category: String,
 )
+

@@ -1,5 +1,6 @@
 package com.example.testtask.presenter.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,11 @@ import com.example.testtask.R
 class InspectionSourceAdapter (private val inspector: List<String>):
     RecyclerView.Adapter<InspectionSourceAdapter.ViewHolder>() {
 
+    interface ShortOnClickListener{
+        fun ShortClick (item: String)
+    }
+
+    var shortOnClickListener: ShortOnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.inspection_source_item, parent, false)
@@ -18,6 +24,9 @@ class InspectionSourceAdapter (private val inspector: List<String>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.inspectorSource.text = inspector[position]
+        holder.itemView.setOnClickListener {
+            shortOnClickListener?.ShortClick(inspector[position])
+        }
     }
 
     override fun getItemCount(): Int {

@@ -9,6 +9,11 @@ import com.example.testtask.R
 
 class PortAdapter (private val ports: List<String>) : RecyclerView.Adapter<PortAdapter.ViewHolder>() {
 
+    interface ShortOnClickListener{
+        fun ShortClick (item: String)
+    }
+
+    var shortOnClickListener: ShortOnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.port_item, parent, false)
@@ -17,6 +22,9 @@ class PortAdapter (private val ports: List<String>) : RecyclerView.Adapter<PortA
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemPort.text = ports[position]
+        holder.itemView.setOnClickListener {
+            shortOnClickListener?.ShortClick(ports[position])
+        }
     }
 
     override fun getItemCount(): Int {

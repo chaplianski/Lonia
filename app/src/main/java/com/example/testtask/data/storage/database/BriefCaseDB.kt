@@ -6,10 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.testtask.data.storage.dao.BriefCaseDao
 import com.example.testtask.data.storage.model.BriefCaseData
+import com.example.testtask.data.storage.model.BriefcaseWithQuestions
+import com.example.testtask.data.storage.model.QuestionsData
 
-@Database(entities = [BriefCaseData::class],version = 1,exportSchema = false)
+@Database(entities = [BriefCaseData::class, QuestionsData::class],version = 1,exportSchema = false)
 abstract class BriefCaseDB: RoomDatabase() {
     abstract fun BriefCaseDao(): BriefCaseDao
+ //   abstract fun BriefcaseWithQuestions(): BriefcaseWithQuestions
 
     companion object{
         @Volatile

@@ -10,6 +10,11 @@ import com.example.testtask.R
 class InspectionTypeAdapter (private val inspectionType: List<String>):
     RecyclerView.Adapter<InspectionTypeAdapter.ViewHolder>(){
 
+    interface ShortOnClickListener{
+        fun ShortClick (item: String)
+    }
+
+    var shortOnClickListener: ShortOnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.inspection_type_item, parent, false)
@@ -18,6 +23,9 @@ class InspectionTypeAdapter (private val inspectionType: List<String>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.inspectionTypeItem.text = inspectionType[position]
+        holder.itemView.setOnClickListener {
+            shortOnClickListener?.ShortClick(inspectionType[position])
+        }
     }
 
     override fun getItemCount(): Int {

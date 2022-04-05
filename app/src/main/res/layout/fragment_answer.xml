@@ -28,20 +28,23 @@
 
     <EditText
         android:id="@+id/et_answer_date"
+        style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/border"
         android:ems="10"
         android:hint="Date of verification"
-        android:inputType="textPersonName"
+        android:inputType="date"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:scrollbarSize="4sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_answer_title"
         app:layout_constraintVertical_bias="0.0" />
@@ -74,21 +77,25 @@
 
     <EditText
         android:id="@+id/et_answer_content"
+        style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:gravity="left|top"
+        android:background="@drawable/border"
+        android:hint="Answer"
+        android:inputType="textMultiLine"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_answer_attach_photo"
         app:layout_constraintVertical_bias="0.0"
-        app:rippleColor="@color/white"/>
+        app:rippleColor="@color/white" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_answer_yes"
@@ -100,8 +107,8 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/et_answer_content"
         app:layout_constraintTop_toBottomOf="@+id/et_answer_content"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -113,11 +120,10 @@
         android:text="No"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/bt_answer_yes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintEnd_toEndOf="@+id/et_answer_content"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bt_answer_yes"
-        app:layout_constraintVertical_bias="0.0"
-        />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

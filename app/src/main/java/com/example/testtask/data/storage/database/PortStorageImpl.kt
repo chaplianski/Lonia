@@ -1,8 +1,9 @@
 package com.example.testtask.data.storage.database
 
-import com.example.testtask.data.storage.PortStorage
+import com.example.testtask.data.storage.storagies.PortStorage
+import javax.inject.Inject
 
-class PortStorageImpl : PortStorage {
+class PortStorageImpl @Inject constructor(): PortStorage {
 
     override fun getPortList(): List<String> {
         return listOf(

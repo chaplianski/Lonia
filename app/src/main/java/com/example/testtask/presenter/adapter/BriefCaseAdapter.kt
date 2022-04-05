@@ -12,6 +12,12 @@ class BriefCaseAdapter(briefCases: List<BriefCase>): RecyclerView.Adapter<BriefC
 
     private val briefCases = briefCases as MutableList<BriefCase>
 
+    interface ShortOnClickListener{
+        fun ShortClick (briefCase: BriefCase)
+    }
+
+    var shortOnClickListener: ShortOnClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.briefcase_item, parent, false)
         return ViewHolder(v)
@@ -19,6 +25,9 @@ class BriefCaseAdapter(briefCases: List<BriefCase>): RecyclerView.Adapter<BriefC
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(briefCases[position])
+        holder.itemView.setOnClickListener {
+            shortOnClickListener?.ShortClick(briefCases[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -29,13 +38,15 @@ class BriefCaseAdapter(briefCases: List<BriefCase>): RecyclerView.Adapter<BriefC
         val itemVessel: TextView = itemView.findViewById(R.id.tv_briefcase_item_vessel)
         val itemPort: TextView = itemView.findViewById(R.id.tv_briefcase_item_port)
         val itemInspectionSource: TextView = itemView.findViewById(R.id.tv_briefcase_item_inspection_source)
-        val itemQuestion: TextView = itemView.findViewById(R.id.tv_briefcase_item_question)
+        val itemQuestionnaires: TextView = itemView.findViewById(R.id.tv_briefcase_item_questionnaries)
+
 
     fun onBind(briefCase: BriefCase){
         itemVessel.text = briefCase.vessel
         itemPort.text = briefCase.port
         itemInspectionSource.text = briefCase.inspector
-        itemQuestion.text = briefCase.question
+        itemQuestionnaires.text = briefCase.category
+
 
     }
     }

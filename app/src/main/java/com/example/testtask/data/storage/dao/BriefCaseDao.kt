@@ -12,9 +12,6 @@ interface BriefCaseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertBriefCase(briefCaseData: BriefCaseData)
 
-//    @Query("DELETE FROM questions")
-//    fun deleteAll ()
-
     @Query("SELECT * FROM briefcase")
     fun getAllBriefCases(): List<BriefCaseData>
 

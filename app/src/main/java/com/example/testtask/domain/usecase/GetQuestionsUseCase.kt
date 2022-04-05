@@ -1,10 +1,12 @@
 package com.example.testtask.domain.usecase
 
-import com.example.testtask.domain.repository.QuestionRepository
+import com.example.testtask.domain.model.Questions
+import com.example.testtask.domain.repository.QuestionsRepository
+import javax.inject.Inject
 
-class GetQuestionsUseCase (private val questionRepository: QuestionRepository) {
+class GetQuestionsUseCase @Inject constructor (private val questionRepository: QuestionsRepository) {
 
-    fun execute (questionId: Int){
-        questionRepository.getQuestion(questionId)
+    fun execute (): List<Questions>{
+        return questionRepository.getQuestions()
     }
 }

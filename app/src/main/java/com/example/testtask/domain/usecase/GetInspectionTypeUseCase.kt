@@ -1,10 +1,11 @@
 package com.example.testtask.domain.usecase
 
 import com.example.testtask.domain.repository.InspectionTypeRepository
+import javax.inject.Inject
 
-class GetInspectionTypeUseCase (private val inspectionTypeRepository: InspectionTypeRepository) {
+class GetInspectionTypeUseCase @Inject constructor (private val inspectionTypeRepository: InspectionTypeRepository) {
 
-    fun execute(){
-        inspectionTypeRepository.getInspectionType()
+    fun execute(): List<String>{
+        return inspectionTypeRepository.getInspectionType()
     }
 }

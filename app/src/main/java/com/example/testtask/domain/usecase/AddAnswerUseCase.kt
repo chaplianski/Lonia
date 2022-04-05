@@ -1,8 +1,12 @@
 package com.example.testtask.domain.usecase
 
-class AddAnswerUseCase {
+import com.example.testtask.domain.model.Answers
+import com.example.testtask.domain.repository.AnswersRepository
+import com.example.testtask.domain.repository.BriefCaseRepository
 
-    fun execute (){
-        TODO()
+class AddAnswerUseCase (private val answersRepository: AnswersRepository){
+
+    fun execute (answer: Answers){
+        answersRepository.addAnswer(answer)
     }
 }

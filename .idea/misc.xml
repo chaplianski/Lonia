@@ -4,16 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/drawable/border.xml" value="0.4421875" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/drawable/ic_answer_svgrepo_com.xml" value="0.5497435897435897" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/drawable/ic_baseline_content_paste_search_24.xml" value="0.4421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/drawable/ic_baseline_error_outline_24.xml" value="0.4421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/drawable/ic_info_simple_bw.xml" value="0.4421875" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/drawable/ic_question_svgrepo_com.xml" value="0.5497435897435897" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/activity_main.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/answer_item.xml" value="0.5421875" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/briefcase_item.xml" value="0.8800000000000001" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/briefcase_item.xml" value="0.6267308850090307" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/category_item.xml" value="0.5421875" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_answer.xml" value="0.42604166666666665" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_answer.xml" value="0.536" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_answers.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_brief_case.xml" value="0.4" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_briefcase.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_category.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_information.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_inspection_source.xml" value="0.42604166666666665" />
@@ -23,10 +26,11 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_questions.xml" value="0.42604166666666665" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_vessels.xml" value="0.42604166666666665" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/inspection_source_item.xml" value="0.536" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/inspection_type_item.xml" value="0.42604166666666665" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/inspection_type_item.xml" value="0.72" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/port_item.xml" value="0.72" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/question_item.xml" value="0.42604166666666665" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/vessel_item.xml" value="0.42604166666666665" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/menu/bottum_navigation_menu.xml" value="0.5421875" />
       </map>
     </option>
   </component>
