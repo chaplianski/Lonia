@@ -1,11 +1,12 @@
 package com.example.testtask.data.storage.storagies
 
+import com.example.testtask.data.storage.model.AnswersData
 import com.example.testtask.data.storage.model.QuestionsData
 
 interface QuestionsStorage {
 
-    fun getQuestionsList(): List<QuestionsData>
+    fun getQuestionsList(briefcaseId: Long): List<QuestionsData>
 
-    fun addAllQuestions(questionsData: QuestionsData)
+    fun updateQuestions(questionsData: QuestionsData, answersData: AnswersData)
 
 }

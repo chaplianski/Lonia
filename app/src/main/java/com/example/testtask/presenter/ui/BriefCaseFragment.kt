@@ -53,6 +53,7 @@ class BriefCaseFragment : Fragment() {
 
         val navController = Navigation.findNavController(view)
         val addNewBriefCaseButton: FloatingActionButton = view.findViewById(R.id.bt_briefcase_add)
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
 
         briefcaseViewModel.getBriefCaseList()
 
@@ -68,6 +69,8 @@ class BriefCaseFragment : Fragment() {
                 briefcaseAdapter.shortOnClickListener = object : BriefCaseAdapter.ShortOnClickListener{
 
                     override fun ShortClick(briefCase: BriefCase) {
+
+                        sharedPref?.edit()?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)?.apply()
                         navController.navigate(R.id.action_briefCaseFragment_to_questionsFragment)
                     }
                 }

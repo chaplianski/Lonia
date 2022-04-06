@@ -31,7 +31,9 @@ class QuestionnairesFragment : Fragment() {
 
     @Inject
     lateinit var questionnairesViewModelFactory: QuestionnairesViewModelFactory
-    val questionnairesViewModel: QuestionnairesViewModel by viewModels { questionnairesViewModelFactory }
+    val questionnairesViewModel: QuestionnairesViewModel by viewModels {questionnairesViewModelFactory}
+
+
 
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
@@ -60,6 +62,7 @@ class QuestionnairesFragment : Fragment() {
 
         questionnairesViewModel.questionnaires.observe(this.viewLifecycleOwner, {questinnaries ->
             Log.d("MyLog", "GetList QuestionnariesFragment: $questinnaries")
+
             val questionnairesAdapter = QuestionnairesAdapter(questinnaries)
             val questionnairesRV = view.findViewById<RecyclerView>(R.id.rv_category)
             questionnairesRV.layoutManager = LinearLayoutManager(context)
@@ -90,8 +93,8 @@ class QuestionnairesFragment : Fragment() {
                                     vessel, inspectorType, inspectorName, inspector, category, port, qid
                                 )
 
-                                val navController = Navigation.findNavController(view)
-                                navController.navigate(R.id.action_categoryFragment_to_briefCaseFragment)
+
+                                navigateToNext()
 
 
                             })
@@ -109,4 +112,12 @@ class QuestionnairesFragment : Fragment() {
         })
 
     }
+
+    private fun navigateToNext (){
+
+        val navController = view?.let { Navigation.findNavController(it) }
+        navController?.navigate(R.id.action_categoryFragment_to_briefCaseFragment)
+    }
+
+
 }

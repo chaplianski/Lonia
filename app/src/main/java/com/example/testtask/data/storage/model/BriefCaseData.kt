@@ -7,7 +7,7 @@ import com.example.testtask.domain.model.Questions
 data class BriefCaseData(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "briefCaseId")
-    var briefCaseId: Int,
+    var briefCaseId: Long = 0,
     @ColumnInfo(name = "dateOfCreation")
     var dateOfCreation: Long ,
     @ColumnInfo(name = "inspector")
@@ -22,5 +22,7 @@ data class BriefCaseData(
     var vessel: String,
     @ColumnInfo(name = "category")
     var category: String,
+
+
 )
 

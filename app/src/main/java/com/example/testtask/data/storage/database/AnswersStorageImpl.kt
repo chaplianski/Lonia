@@ -1,12 +1,15 @@
 package com.example.testtask.data.storage.database
 
+import android.content.Context
 import com.example.testtask.data.storage.model.AnswersData
 import com.example.testtask.data.storage.storagies.AnswersStorage
 import javax.inject.Inject
 
-class AnswersStorageImpl @Inject constructor(): AnswersStorage {
+class AnswersStorageImpl @Inject constructor(context: Context): AnswersStorage {
 
-    override fun getAllAnswers(): List<AnswersData> {
-        TODO("Not yet implemented")
+    val briefCaseDatabase = BriefCaseDB.getDatabase(context)
+
+    override fun getAllAnswers(briefcaseId: Long): List<AnswersData> {
+        return briefCaseDatabase.BriefCaseDao().getAnsweredAnswer(briefcaseId)
     }
 }

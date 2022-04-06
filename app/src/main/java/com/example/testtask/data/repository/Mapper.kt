@@ -1,9 +1,6 @@
 package com.example.testtask.data.repository
 
-import com.example.testtask.data.storage.model.AnswersData
-import com.example.testtask.data.storage.model.BriefCaseData
-import com.example.testtask.data.storage.model.QuestionnairesData
-import com.example.testtask.data.storage.model.QuestionsData
+import com.example.testtask.data.storage.model.*
 import com.example.testtask.domain.model.Answers
 import com.example.testtask.domain.model.BriefCase
 import com.example.testtask.domain.model.Questionnaires
@@ -11,19 +8,6 @@ import com.example.testtask.domain.model.Questions
 
 class Mapper {
     companion object {
-
-        fun briefcaseMapDataToDomain(briefCaseData: BriefCaseData): BriefCase {
-            return BriefCase(
-                briefCaseId = briefCaseData.briefCaseId,
-                dateOfCreation = briefCaseData.dateOfCreation,
-                inspector = briefCaseData.inspector,
-                port = briefCaseData.port,
-                inspectorName = briefCaseData.inspectorName,
-                inspectorType = briefCaseData.inspectorType,
-                vessel = briefCaseData.vessel,
-                category = briefCaseData.category,
-            )
-        }
 
         fun briefcaseMapDomainToData(briefCase: BriefCase): BriefCaseData {
             return BriefCaseData(
@@ -38,7 +22,7 @@ class Mapper {
             )
         }
 
-        fun questionnairesЬapDataToDomain(questionnairesData: QuestionnairesData): Questionnaires {
+        fun questionnairesMapDataToDomain(questionnairesData: QuestionnairesData): Questionnaires {
             return Questionnaires(
                 qid = questionnairesData.qid,
                 title = questionnairesData.title
@@ -47,17 +31,17 @@ class Mapper {
 
         fun questionsMapDataToDomain(questionsData: QuestionsData): Questions {
             return Questions(
-                idQuestion = questionsData.idQuestion,
-                questionID = questionsData.questionID,
+                //     idQuestion = questionsData.idQuestion,
+                questionid = questionsData.questionid,
                 comment = questionsData.comment,
                 dateOfInspection = questionsData.dateOfInspection,
                 answer = questionsData.answer,
-                questionCode = questionsData.questionCode,
+                questioncode = questionsData.questioncode,
                 question = questionsData.question,
                 commentForQuestion = questionsData.commentForQuestion,
-                categoryID = questionsData.categoryID,
+                categoryid = questionsData.categoryid,
                 origin = questionsData.origin,
-                categoryNewID = questionsData.categoryNewID,
+                categorynewid = questionsData.categorynewid,
                 isAnswered = questionsData.isAnswered,
                 images = questionsData.images,
                 briefCaseId = questionsData.briefCaseId
@@ -66,32 +50,53 @@ class Mapper {
 
         fun questionsMapDomainToData(questions: Questions): QuestionsData {
             return QuestionsData(
-                idQuestion = questions.idQuestion,
-                questionID = questions.questionID,
+                //       idQuestion = questions.idQuestion,
+                questionid = questions.questionid,
                 comment = questions.comment,
                 dateOfInspection = questions.dateOfInspection,
                 answer = questions.answer,
-                questionCode = questions.questionCode,
+                questioncode = questions.questioncode,
                 question = questions.question,
                 commentForQuestion = questions.commentForQuestion,
-                categoryID = questions.categoryID,
+                categoryid = questions.categoryid,
                 origin = questions.origin,
-                categoryNewID = questions.categoryNewID,
+                categorynewid = questions.categorynewid,
                 isAnswered = questions.isAnswered,
                 images = questions.images,
                 briefCaseId = questions.briefCaseId
             )
         }
 
-        fun answersMapDataToDomain (answersData: AnswersData): Answers {
+        fun answersMapDataToDomain(answersData: AnswersData): Answers {
             return Answers(
                 answerId = answersData.answerId,
-                answerValue = answersData.answerValue
+                answer = answersData.answer,
+                answerDate = answersData.answerData
             )
         }
+        fun answersMapDomainToData(answers: Answers): AnswersData {
+            return AnswersData (
+                answerId = answers.answerId,
+                answer = answers.answer,
+                answerData = answers.answerDate
+            )
+        }
+
+
     }
 
 
+}
 
-
+fun BriefCaseData.briefcaseMapDataToDomain(): BriefCase {
+    return BriefCase(
+        briefCaseId = briefCaseId,
+        dateOfCreation = dateOfCreation,
+        inspector = inspector,
+        port = port,
+        inspectorName = inspectorName,
+        inspectorType = inspectorType,
+        vessel = vessel,
+        category = category,
+        )
 }

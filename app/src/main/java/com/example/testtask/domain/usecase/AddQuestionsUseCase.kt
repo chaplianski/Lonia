@@ -5,7 +5,7 @@ import com.example.testtask.domain.repository.QuestionsRepository
 
 class AddQuestionsUseCase (private val questionRepository: QuestionsRepository) {
 
-    fun execute (questions: Questions){
-        questionRepository.addQuestions(questions)
-    }
+ //   fun execute (questions: Questions){
+ //       questionRepository.addQuestions(questions)
+ //   }
 }

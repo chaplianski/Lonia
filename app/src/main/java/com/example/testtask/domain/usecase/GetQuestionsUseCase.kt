@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetQuestionsUseCase @Inject constructor (private val questionRepository: QuestionsRepository) {
 
-    fun execute (): List<Questions>{
-        return questionRepository.getQuestions()
+    fun execute (briefcseId: Long): List<Questions>{
+        return questionRepository.getQuestions(briefcseId)
     }
 }

@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class AnswersRepositoryImpl @Inject constructor(private val answersStorage: AnswersStorageImpl): AnswersRepository {
 
-    override fun getAllAnswers(): List<Answers> {
-        val answersData = answersStorage.getAllAnswers()
+    override fun getAllAnswers(briefcaseId: Long): List<Answers> {
+        val answersData = answersStorage.getAllAnswers(briefcaseId)
         val allAnswers = mutableListOf<Answers>()
         for (i in answersData) {
             allAnswers.add(Mapper.answersMapDataToDomain(i))

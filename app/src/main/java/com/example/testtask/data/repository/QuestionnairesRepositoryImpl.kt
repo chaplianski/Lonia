@@ -1,6 +1,5 @@
 package com.example.testtask.data.repository
 
-import android.util.Log
 import com.example.testtask.data.storage.network.retrofit.QuestionnairesStorageImpl
 import com.example.testtask.domain.model.Questionnaires
 import com.example.testtask.domain.repository.QuestionnairesRepository
@@ -16,7 +15,7 @@ class QuestionnairesRepositoryImpl @Inject constructor(
         val questionnairesList = questionnairesStorage.getQuestionnaires()
         val list = mutableListOf<Questionnaires>()
         for (i in questionnairesList) {
-            list.add(Mapper.questionnairesЬapDataToDomain(i))
+            list.add(Mapper.questionnairesMapDataToDomain(i))
         }
 
      //   Log.d("MyLog", "Questionnaries Reposytory Impl $list")

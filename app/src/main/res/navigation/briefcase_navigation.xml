@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_answerFragment_to_datePickerFragment"
             app:destination="@id/datePickerFragment" />
+        <action
+            android:id="@+id/action_answerFragment_to_briefCaseFragment"
+            app:destination="@id/briefCaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/informationFragment"

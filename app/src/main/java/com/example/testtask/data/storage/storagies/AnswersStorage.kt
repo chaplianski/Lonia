@@ -4,5 +4,5 @@ import com.example.testtask.data.storage.model.AnswersData
 
 interface AnswersStorage {
 
-    fun getAllAnswers(): List<AnswersData>
+    fun getAllAnswers(briefcaseId: Long): List<AnswersData>
 }

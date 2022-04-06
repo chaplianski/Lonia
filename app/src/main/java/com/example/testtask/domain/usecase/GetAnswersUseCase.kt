@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetAnswersUseCase @Inject constructor(private val answersRepository: AnswersRepository) {
 
-    fun execute(): List<Answers>{
-        return answersRepository.getAllAnswers()
+    fun execute(briefcaseId: Long): List<Answers>{
+        return answersRepository.getAllAnswers(briefcaseId)
     }
 }

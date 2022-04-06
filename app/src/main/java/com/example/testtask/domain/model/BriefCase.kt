@@ -4,7 +4,7 @@ import androidx.room.PrimaryKey
 
 data class BriefCase(
     @PrimaryKey(autoGenerate = true)
-    val briefCaseId: Int,
+    val briefCaseId: Long,
     val dateOfCreation: Long,
     var inspector: String = "",
     var port: String,
@@ -12,6 +12,5 @@ data class BriefCase(
     var inspectorType: String,
     var vessel: String = "",
     var category: String = "",
-
 
 )
