@@ -3,7 +3,7 @@ package com.example.testtask.data.storage.database
 import com.example.testtask.data.storage.storagies.InspectionSourceStorage
 import javax.inject.Inject
 
-class InspectionSourceStorageImpl @Inject constructor(): InspectionSourceStorage {
+class InspectionSourceStorageImpl @Inject constructor() : InspectionSourceStorage {
 
     override fun getInspectorSource(): List<String> {
         return listOf(

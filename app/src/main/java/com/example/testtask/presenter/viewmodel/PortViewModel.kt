@@ -17,5 +17,4 @@ class PortViewModel @Inject constructor(
         val ports = getPortUseCase.execute()
         _portList.postValue(ports)
     }
-
 }

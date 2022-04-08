@@ -3,7 +3,7 @@ package com.example.testtask.data.storage.database
 import com.example.testtask.data.storage.storagies.PortStorage
 import javax.inject.Inject
 
-class PortStorageImpl @Inject constructor(): PortStorage {
+class PortStorageImpl @Inject constructor() : PortStorage {
 
     override fun getPortList(): List<String> {
         return listOf(

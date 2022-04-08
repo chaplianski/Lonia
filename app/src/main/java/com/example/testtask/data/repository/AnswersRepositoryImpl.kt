@@ -2,25 +2,25 @@ package com.example.testtask.data.repository
 
 import com.example.testtask.data.storage.database.AnswersStorageImpl
 import com.example.testtask.domain.model.Answers
+import com.example.testtask.domain.model.Questions
 import com.example.testtask.domain.repository.AnswersRepository
 import javax.inject.Inject
 
-class AnswersRepositoryImpl @Inject constructor(private val answersStorage: AnswersStorageImpl): AnswersRepository {
+class AnswersRepositoryImpl @Inject constructor(private val answersStorage: AnswersStorageImpl) :
+    AnswersRepository {
 
-    override fun getAllAnswers(briefcaseId: Long): List<Answers> {
-        val answersData = answersStorage.getAllAnswers(briefcaseId)
-        val allAnswers = mutableListOf<Answers>()
-        for (i in answersData) {
-            allAnswers.add(Mapper.answersMapDataToDomain(i))
-        }
-        return allAnswers.toList()
+    override fun getAnsweredQuestions(briefcaseId: Long): List<Questions> {
+        return answersStorage.getAnsweredQuestions(briefcaseId)
+            .map { it.questionsMapDataToDomain() }
     }
 
-    override fun getAnswer(id: Int): Answers {
-        TODO("Not yet implemented")
+    override fun getAnswer(answerId: Long): Answers {
+        val answerData = answersStorage.getAnswer(answerId)
+        return answerData.answersMapDataToDomain()
     }
 
-    override fun addAnswer(answers: Answers) {
-        TODO("Not yet implemented")
+    override fun updateAnswer(answers: Answers) {
+        val answerData = answers.answersMapDomainToData()
+        answersStorage.updatedAnswer(answerData)
     }
 }

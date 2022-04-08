@@ -14,25 +14,4 @@ import com.example.testtask.data.storage.model.QuestionsData
 abstract class BriefCaseDB: RoomDatabase()  {
 
     abstract fun BriefCaseDao(): BriefcaseDao
-
-    companion object{
-        @Volatile
-        private var INSTANCE: BriefCaseDB? = null
-
-        fun getDatabase(context: Context): BriefCaseDB {
-            val tempInstance = INSTANCE
-            if (tempInstance != null){
-                return tempInstance
-            }
-            synchronized(this){
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    BriefCaseDB::class.java,
-                    "briefcase_db"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-    }
 }

@@ -9,16 +9,8 @@ class QuestionnairesRepositoryImpl @Inject constructor(
     private val questionnairesStorage: QuestionnairesStorageImpl
 ) : QuestionnairesRepository {
 
-
     override suspend fun getQuestionnaires(): List<Questionnaires> {
+        return questionnairesStorage.getQuestionnaires().map { it.questionnairesMapDataToDomain() }
 
-        val questionnairesList = questionnairesStorage.getQuestionnaires()
-        val list = mutableListOf<Questionnaires>()
-        for (i in questionnairesList) {
-            list.add(Mapper.questionnairesMapDataToDomain(i))
-        }
-
-     //   Log.d("MyLog", "Questionnaries Reposytory Impl $list")
-        return list
     }
 }

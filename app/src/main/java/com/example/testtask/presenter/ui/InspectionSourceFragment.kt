@@ -4,12 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
@@ -31,7 +28,6 @@ class InspectionSourceFragment : Fragment() {
     @Inject
     lateinit var inspectionSourceViewModelFactory: InspectionSourceViewModelFactory
     val inspectionSourceViewModel: InspectionSourceViewModel by viewModels { inspectionSourceViewModelFactory }
-    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
 
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
@@ -45,7 +41,7 @@ class InspectionSourceFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        activity?.title = "Inspection Source"
         return inflater.inflate(
             com.example.testtask.R.layout.fragment_inspection_source,
             container,
@@ -73,8 +69,6 @@ class InspectionSourceFragment : Fragment() {
                 val searchView: SearchView =
                     view.findViewById(com.example.testtask.R.id.sv_inspection_source_search)
                 var searchFilter = mutableListOf<String>()
-                //   val searchEditText = searchView as AutoCompleteTextView
-
 
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -113,6 +107,7 @@ class InspectionSourceFragment : Fragment() {
         inspectionSourceAdapter.shortOnClickListener =
             object : InspectionSourceAdapter.ShortOnClickListener {
                 override fun ShortClick(item: String) {
+                    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
 
                     val builder = AlertDialog.Builder(context)
                     with(builder) {
@@ -120,7 +115,7 @@ class InspectionSourceFragment : Fragment() {
                         setCancelable(true)
                         setMessage("You check inspection source $item")
                         setPositiveButton(
-                            "Yes",
+                            "Continue",
                             DialogInterface.OnClickListener { dialog, id ->
                                 sharedPref?.edit()?.putString(
                                     Constants.CURRENT_INSPECTION_SOURCE,

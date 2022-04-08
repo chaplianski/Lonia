@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".presenter.ui.PortFragment">
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/sv_port_search"
         android:background="@drawable/border"
         android:layout_width="match_parent"

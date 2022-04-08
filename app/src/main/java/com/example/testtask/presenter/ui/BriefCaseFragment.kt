@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -21,6 +22,7 @@ import com.example.testtask.presenter.adapter.BriefCaseAdapter
 import com.example.testtask.presenter.adapter.PortAdapter
 import com.example.testtask.presenter.factories.BriefcaseViewModelFactory
 import com.example.testtask.presenter.viewmodel.BriefCaseViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
@@ -30,7 +32,7 @@ class BriefCaseFragment : Fragment() {
 
     @Inject
     lateinit var briefcaseViewModelFactory: BriefcaseViewModelFactory
-    val briefcaseViewModel: BriefCaseViewModel by viewModels {briefcaseViewModelFactory}
+    val briefcaseViewModel: BriefCaseViewModel by viewModels { briefcaseViewModelFactory }
 
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
@@ -44,6 +46,7 @@ class BriefCaseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.title = "Briefcases"
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_briefcase, container, false)
     }
@@ -57,52 +60,57 @@ class BriefCaseFragment : Fragment() {
 
         briefcaseViewModel.getBriefCaseList()
 
-        briefcaseViewModel.briefCase.observe(this.viewLifecycleOwner, {
-
-        //    Log.d("MyLog", "it : $it")
-            if (!it.isEmpty()){
-                val briefcaseAdapter = BriefCaseAdapter(it)
-                val briefcaseRV = view.findViewById<RecyclerView>(R.id.rv_briefcase)
-                briefcaseRV.layoutManager = LinearLayoutManager(context)
-                briefcaseRV.adapter = briefcaseAdapter
-
-                briefcaseAdapter.shortOnClickListener = object : BriefCaseAdapter.ShortOnClickListener{
-
-                    override fun ShortClick(briefCase: BriefCase) {
-
-                        sharedPref?.edit()?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)?.apply()
-                        navController.navigate(R.id.action_briefCaseFragment_to_questionsFragment)
-                    }
-                }
-            }
-
-
-        })
-
-
-        addNewBriefCaseButton.setOnClickListener {
-
-            navController.navigate(R.id.action_briefCaseFragment_to_vesselsFragment)
-        }
-
         val bottomNavigation: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.page_briefcase -> {
-                    Log.d("MyLog", "Click Briefcase")
+                    addNewBriefCaseButton.visibility = View.VISIBLE
                     true
                 }
                 R.id.page_answer -> {
-                    navController.navigate(R.id.action_briefCaseFragment_to_answersFragment)
-                    Log.d("MyLog", "Click Answer")
+                    addNewBriefCaseButton.visibility = View.INVISIBLE
                     true
                 }
                 else -> false
             }
         }
 
+        val briefcaseButton = view.findViewById<BottomNavigationItemView>(R.id.page_briefcase)
+        val answersButton = view.findViewById<BottomNavigationItemView>(R.id.page_answer)
+
+        briefcaseViewModel.briefCase.observe(this.viewLifecycleOwner, {
+
+            if (!it.isEmpty()) {
+                val briefcaseAdapter = BriefCaseAdapter(it)
+                val briefcaseRV = view.findViewById<RecyclerView>(R.id.rv_briefcase)
+                briefcaseRV.layoutManager = LinearLayoutManager(context)
+                briefcaseRV.adapter = briefcaseAdapter
+
+                briefcaseAdapter.shortOnClickListener =
+                    object : BriefCaseAdapter.ShortOnClickListener {
+
+                        override fun ShortClick(briefCase: BriefCase) {
+
+                            if (briefcaseButton.isSelected) {
+                                sharedPref?.edit()
+                                    ?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)
+                                    ?.apply()
+                                navController.navigate(R.id.action_briefCaseFragment_to_questionsFragment)
+                            }
+                            if (answersButton.isSelected) {
+                                sharedPref?.edit()
+                                    ?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)
+                                    ?.apply()
+                                navController.navigate(R.id.action_briefCaseFragment_to_answersFragment)
+                            }
+                        }
+                    }
+            }
+        })
+
+        addNewBriefCaseButton.setOnClickListener {
+            navController.navigate(R.id.action_briefCaseFragment_to_vesselsFragment)
+        }
     }
-
-
 }

@@ -7,11 +7,11 @@ import com.example.testtask.presenter.viewmodel.VesselsViewModel
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class VesselViewModelFactory @Inject constructor(private val getVasselsUseCase: GetVesselsUseCase):
+class VesselViewModelFactory @Inject constructor(private val getVasselsUseCase: GetVesselsUseCase) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return VesselsViewModel (getVasselsUseCase) as T
+        return VesselsViewModel(getVasselsUseCase) as T
     }
 
 }

@@ -7,9 +7,10 @@ import com.example.testtask.presenter.viewmodel.InspectionTypeViewModel
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class InspectionTypeViewModelFactory @Inject constructor(private val getInspectionTypeUseCase: GetInspectionTypeUseCase): ViewModelProvider.Factory {
+class InspectionTypeViewModelFactory @Inject constructor(private val getInspectionTypeUseCase: GetInspectionTypeUseCase) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return InspectionTypeViewModel (getInspectionTypeUseCase) as T
+        return InspectionTypeViewModel(getInspectionTypeUseCase) as T
     }
 
 

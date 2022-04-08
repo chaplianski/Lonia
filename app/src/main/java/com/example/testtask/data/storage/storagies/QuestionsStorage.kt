@@ -8,5 +8,4 @@ interface QuestionsStorage {
     fun getQuestionsList(briefcaseId: Long): List<QuestionsData>
 
     fun updateQuestions(questionsData: QuestionsData, answersData: AnswersData)
-
 }

@@ -10,15 +10,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class QuestionsViewModel @Inject constructor(private val getQuestionsUseCase: GetQuestionsUseCase): ViewModel() {
+class QuestionsViewModel @Inject constructor(private val getQuestionsUseCase: GetQuestionsUseCase) :
+    ViewModel() {
 
     val _questionsList = MutableLiveData<List<Questions>>()
     val questionList: LiveData<List<Questions>> get() = _questionsList
 
-    fun getQuestionList (briefcaseId: Long){
+    fun getQuestionList(briefcaseId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-        val list = getQuestionsUseCase.execute(briefcaseId)
-        _questionsList.postValue(list)
+            val list = getQuestionsUseCase.execute(briefcaseId)
+            _questionsList.postValue(list)
         }
     }
 }

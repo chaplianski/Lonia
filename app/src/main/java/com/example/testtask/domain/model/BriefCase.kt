@@ -7,10 +7,9 @@ data class BriefCase(
     val briefCaseId: Long,
     val dateOfCreation: Long,
     var inspector: String = "",
-    var port: String,
+    var port: String ="",
     var inspectorName: String = "",
-    var inspectorType: String,
+    var inspectorType: String = "",
     var vessel: String = "",
-    var category: String = "",
-
+    var category: String = ""
 )

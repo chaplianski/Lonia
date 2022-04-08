@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 
-class PortAdapter (private val ports: List<String>) : RecyclerView.Adapter<PortAdapter.ViewHolder>() {
+class PortAdapter(private val ports: List<String>) :
+    RecyclerView.Adapter<PortAdapter.ViewHolder>() {
 
-    interface ShortOnClickListener{
-        fun ShortClick (item: String)
+    interface ShortOnClickListener {
+        fun ShortClick(item: String)
     }
 
     var shortOnClickListener: ShortOnClickListener? = null
@@ -31,10 +32,8 @@ class PortAdapter (private val ports: List<String>) : RecyclerView.Adapter<PortA
         return ports.size
     }
 
-    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val itemPort: TextView = itemView.findViewById(R.id.tv_port_name)
-
     }
-
 }

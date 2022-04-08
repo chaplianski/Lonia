@@ -26,7 +26,7 @@ class VesselsFragment : Fragment() {
 
     @Inject
     lateinit var vesselViewModelFactory: VesselViewModelFactory
-    val vesselViewModel: VesselsViewModel by viewModels {vesselViewModelFactory}
+    val vesselViewModel: VesselsViewModel by viewModels { vesselViewModelFactory }
 
     override fun onAttach(context: Context) {
         DaggerAppComponent
@@ -41,6 +41,7 @@ class VesselsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.title = "Vessels"
         return inflater.inflate(R.layout.fragment_vessels, container, false)
     }
 
@@ -49,43 +50,39 @@ class VesselsFragment : Fragment() {
 
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
 
-
         vesselViewModel.getListVassels()
 
-        vesselViewModel.vassels.observe(this.viewLifecycleOwner,{vesselsList ->
+        vesselViewModel.vassels.observe(this.viewLifecycleOwner, { vesselsList ->
 
             val vasselAdapter = VesselAdapter(vesselsList)
             val vesselsRV: RecyclerView = view.findViewById(R.id.rv_vessels)
             vesselsRV.layoutManager = LinearLayoutManager(context)
             vesselsRV.adapter = vasselAdapter
 
-            vasselAdapter.shortOnClickListener = object : VesselAdapter.ShortOnClickListener{
+            vasselAdapter.shortOnClickListener = object : VesselAdapter.ShortOnClickListener {
                 override fun ShortClick(item: String) {
 
                     val builder = AlertDialog.Builder(context)
-                    with(builder){
+                    with(builder) {
                         setTitle("Are your sure?")
                         setCancelable(true)
                         setMessage("You check vessel $item")
-                        setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, id ->
-                            sharedPref?.edit()?.putString(Constants.CURRENT_VESSEL, item)?.apply()
-                            val navController = Navigation.findNavController(view)
-                            navController.navigate(R.id.action_vesselsFragment_to_portFragment)
-                        })
+                        setPositiveButton(
+                            "Continue",
+                            DialogInterface.OnClickListener { dialog, id ->
+                                sharedPref?.edit()?.putString(Constants.CURRENT_VESSEL, item)
+                                    ?.apply()
+                                val navController = Navigation.findNavController(view)
+                                navController.navigate(R.id.action_vesselsFragment_to_portFragment)
+                            })
                         setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, i ->
                             dialog.cancel()
                         })
-
                     }
                     val alertDialog = builder.create()
                     alertDialog.show()
                 }
             }
         })
-
-
-
     }
-
-
 }

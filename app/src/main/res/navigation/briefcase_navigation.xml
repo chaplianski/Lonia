@@ -12,13 +12,25 @@
         tools:layout="@layout/fragment_briefcase" >
         <action
             android:id="@+id/action_briefCaseFragment_to_questionsFragment"
-            app:destination="@id/questionsFragment" />
+            app:destination="@id/questionsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_briefCaseFragment_to_answersFragment"
-            app:destination="@id/answersFragment" />
+            app:destination="@id/answersFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_briefCaseFragment_to_vesselsFragment"
-            app:destination="@id/vesselsFragment" />
+            app:destination="@id/vesselsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/questionsFragment"
@@ -27,7 +39,19 @@
         tools:layout="@layout/fragment_questions" >
         <action
             android:id="@+id/action_questionsFragment_to_answerFragment"
-            app:destination="@id/answerFragment" />
+            app:destination="@id/answerFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
+        <action
+            android:id="@+id/action_questionsFragment_pop"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/questionsFragment"
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/answerFragment"
@@ -36,16 +60,25 @@
         tools:layout="@layout/fragment_answer" >
         <action
             android:id="@+id/action_answerFragment_to_informationFragment"
-            app:destination="@id/informationFragment" />
+            app:destination="@id/informationFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_answerFragment_to_questionsFragment"
-            app:destination="@id/questionsFragment" />
-        <action
-            android:id="@+id/action_answerFragment_to_datePickerFragment"
-            app:destination="@id/datePickerFragment" />
+            app:destination="@id/questionsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_answerFragment_to_briefCaseFragment"
-            app:destination="@id/briefCaseFragment" />
+            app:destination="@id/briefCaseFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/informationFragment"
@@ -54,7 +87,11 @@
         tools:layout="@layout/fragment_information" >
         <action
             android:id="@+id/action_informationFragment_to_answerFragment"
-            app:destination="@id/answerFragment" />
+            app:destination="@id/answerFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/answersFragment"
@@ -63,7 +100,11 @@
         tools:layout="@layout/fragment_answers" >
         <action
             android:id="@+id/action_answersFragment_to_answerFragment"
-            app:destination="@id/answerFragment" />
+            app:destination="@id/answerFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_answersFragment_to_briefCaseFragment"
             app:destination="@id/briefCaseFragment" />
@@ -75,7 +116,11 @@
         tools:layout="@layout/fragment_vessels" >
         <action
             android:id="@+id/action_vesselsFragment_to_portFragment"
-            app:destination="@id/portFragment" />
+            app:destination="@id/portFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/portFragment"
@@ -84,7 +129,11 @@
         tools:layout="@layout/fragment_port" >
         <action
             android:id="@+id/action_portFragment_to_inspectionTypeFragment"
-            app:destination="@id/inspectionTypeFragment" />
+            app:destination="@id/inspectionTypeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/inspectionTypeFragment"
@@ -93,7 +142,11 @@
         tools:layout="@layout/fragment_inspection_type" >
         <action
             android:id="@+id/action_inspectionTypeFragment_to_inspectionSourceFragment"
-            app:destination="@id/inspectionSourceFragment" />
+            app:destination="@id/inspectionSourceFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/inspectionSourceFragment"
@@ -102,7 +155,11 @@
         tools:layout="@layout/fragment_inspection_source" >
         <action
             android:id="@+id/action_inspectionSourceFragment_to_inspectorNameFragment"
-            app:destination="@id/inspectorNameFragment" />
+            app:destination="@id/inspectorNameFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/inspectorNameFragment"
@@ -111,7 +168,11 @@
         tools:layout="@layout/fragment_inspector_name" >
         <action
             android:id="@+id/action_inspectorNameFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -120,10 +181,10 @@
         tools:layout="@layout/fragment_category" >
         <action
             android:id="@+id/action_categoryFragment_to_briefCaseFragment"
-            app:destination="@id/briefCaseFragment" />
+            app:destination="@id/briefCaseFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
-    <dialog
-        android:id="@+id/datePickerFragment"
-        android:name="com.example.testtask.presenter.ui.DatePickerFragment"
-        android:label="DatePickerFragment" />
 </navigation>

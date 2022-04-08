@@ -2,8 +2,7 @@ package com.example.testtask.presenter.ui
 
 class Constants {
 
-    companion object{
-
+    companion object {
         val CURRENT_VESSEL = "vessel"
         val CURRENT_PORT = "port"
         val CURRENT_INSPECTION_TYPE = "inspection type"
@@ -13,5 +12,6 @@ class Constants {
         val CURRENT_QUESTION = "current question"
         val CURRENR_QUESTION_ID = "current question id"
         val CURRENT_COMMENT = "current comment"
+        val CURRENT_ANSWER_ID = "current answer id"
     }
 }

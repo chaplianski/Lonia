@@ -6,10 +6,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
-import okhttp3.logging.HttpLoggingInterceptor
 
 
 @Module
@@ -21,7 +21,7 @@ class ApiModule {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
-       return moshi
+        return moshi
     }
 
     @Provides
@@ -32,7 +32,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideOkhttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient{
+    fun provideOkhttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         val okkHttpclient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .addNetworkInterceptor(interceptor)
@@ -42,7 +42,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun  provideRetrofit(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit{
+    fun provideRetrofit(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .baseUrl(NetParameters.BASE_URL)
             .client(okHttpClient)
@@ -50,6 +50,4 @@ class ApiModule {
             .build()
         return retrofit
     }
-
-
 }

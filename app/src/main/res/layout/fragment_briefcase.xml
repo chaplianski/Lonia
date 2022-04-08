@@ -28,6 +28,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
+        android:visibility="visible"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/rv_briefcase"
@@ -48,6 +49,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.994"
-        app:menu="@menu/bottum_navigation_menu" />
+        app:menu="@menu/bottum_navigation_menu"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

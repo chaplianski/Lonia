@@ -11,12 +11,12 @@ import org.json.JSONObject
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class NetQuestionsRepository @Inject constructor(){
+class NetQuestionsRepository @Inject constructor() {
 
     @Inject
     lateinit var questionnairesRetrofit: Retrofit
 
-    suspend fun getQuestions(qidcode: Int): List<QuestionsData>{
+    suspend fun getQuestions(qidcode: Int): List<QuestionsData> {
         val retrofit = questionnairesRetrofit.create(QuestionsApiService::class.java)
 
         val json = JSONObject()
@@ -26,7 +26,5 @@ class NetQuestionsRepository @Inject constructor(){
         val response = retrofit.fetchQuestions("Bearer ${NetParameters.TOKEN}", sendData)
 
         return response.body()!!
-
     }
-
 }

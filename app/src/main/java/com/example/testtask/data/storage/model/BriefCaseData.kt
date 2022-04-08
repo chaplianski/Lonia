@@ -21,8 +21,6 @@ data class BriefCaseData(
     @ColumnInfo(name = "vessel")
     var vessel: String,
     @ColumnInfo(name = "category")
-    var category: String,
-
-
+    var category: String
 )
 

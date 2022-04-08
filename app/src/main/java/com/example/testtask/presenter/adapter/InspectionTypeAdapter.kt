@@ -7,17 +7,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 
-class InspectionTypeAdapter (private val inspectionType: List<String>):
-    RecyclerView.Adapter<InspectionTypeAdapter.ViewHolder>(){
+class InspectionTypeAdapter(private val inspectionType: List<String>) :
+    RecyclerView.Adapter<InspectionTypeAdapter.ViewHolder>() {
 
-    interface ShortOnClickListener{
-        fun ShortClick (item: String)
+    interface ShortOnClickListener {
+        fun ShortClick(item: String)
     }
 
     var shortOnClickListener: ShortOnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.inspection_type_item, parent, false)
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.inspection_type_item, parent, false)
         return ViewHolder(v)
     }
 
@@ -32,7 +33,7 @@ class InspectionTypeAdapter (private val inspectionType: List<String>):
         return inspectionType.size
     }
 
-    class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val inspectionTypeItem: TextView = itemView.findViewById(R.id.tv_inspection_type_name)
 

@@ -15,6 +15,10 @@ class QuestionnairesViewModelFactory @Inject constructor(
     private val fetchQuestionsUseCase: FetchQuestionsUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return QuestionnairesViewModel(getQuestionnairesUseCase, addBriefCaseUseCase, fetchQuestionsUseCase) as T
+        return QuestionnairesViewModel(
+            getQuestionnairesUseCase,
+            addBriefCaseUseCase,
+            fetchQuestionsUseCase
+        ) as T
     }
 }

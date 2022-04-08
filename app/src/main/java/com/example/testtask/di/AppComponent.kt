@@ -20,9 +20,6 @@ interface AppComponent {
      fun questionsFragmentInject(questionsFragment: QuestionsFragment)
      fun answersFragmentInject(answersFragment: AnswersFragment)
      fun answerFragmentInject(answerFragment: AnswerFragment)
-     fun datePickerFragmentInject(datePickerFragment: DatePickerFragment)
-
-
 
     @Component.Builder
     interface Builder{

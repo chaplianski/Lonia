@@ -10,8 +10,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +25,8 @@ import com.example.testtask.domain.model.Questions
 import com.example.testtask.presenter.adapter.QuestionnairesAdapter
 import com.example.testtask.presenter.factories.QuestionnairesViewModelFactory
 import com.example.testtask.presenter.viewmodel.QuestionnairesViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
@@ -31,9 +36,7 @@ class QuestionnairesFragment : Fragment() {
 
     @Inject
     lateinit var questionnairesViewModelFactory: QuestionnairesViewModelFactory
-    val questionnairesViewModel: QuestionnairesViewModel by viewModels {questionnairesViewModelFactory}
-
-
+    val questionnairesViewModel: QuestionnairesViewModel by viewModels { questionnairesViewModelFactory }
 
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
@@ -47,7 +50,7 @@ class QuestionnairesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        activity?.title = "Questionnairs"
         return inflater.inflate(R.layout.fragment_category, container, false)
     }
 
@@ -59,16 +62,12 @@ class QuestionnairesFragment : Fragment() {
             questionnairesViewModel.getQuestionnairesList()
         }
 
-
-        questionnairesViewModel.questionnaires.observe(this.viewLifecycleOwner, {questinnaries ->
-            Log.d("MyLog", "GetList QuestionnariesFragment: $questinnaries")
+        questionnairesViewModel.questionnaires.observe(this.viewLifecycleOwner, { questinnaries ->
 
             val questionnairesAdapter = QuestionnairesAdapter(questinnaries)
             val questionnairesRV = view.findViewById<RecyclerView>(R.id.rv_category)
             questionnairesRV.layoutManager = LinearLayoutManager(context)
             questionnairesRV.adapter = questionnairesAdapter
-
-
 
             questionnairesAdapter.shortOnClickListener =
                 object : QuestionnairesAdapter.ShortOnClickListener {
@@ -79,25 +78,52 @@ class QuestionnairesFragment : Fragment() {
                             setTitle("Are your sure?")
                             setCancelable(true)
                             setMessage("You check questionnaire $title")
-                            setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, id ->
+                            setPositiveButton(
+                                "Continue",
+                                DialogInterface.OnClickListener { dialog, id ->
 
-                                val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-                                val vessel = sharedPref?.getString(Constants.CURRENT_VESSEL, "").toString()
-                                val inspectorType = sharedPref?.getString(Constants.CURRENT_INSPECTION_TYPE, "").toString()
-                                val inspectorName = sharedPref?.getString(Constants.CURRENT_INSPECTOR_NAME, "").toString()
-                                val inspector = sharedPref?.getString(Constants.CURRENT_INSPECTION_SOURCE, "").toString()
-                                val category = title
-                                val port = sharedPref?.getString(Constants.CURRENT_PORT, "").toString()
+                                    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+                                    val vessel =
+                                        sharedPref?.getString(Constants.CURRENT_VESSEL, "")
+                                            .toString()
+                                    val inspectorType =
+                                        sharedPref?.getString(Constants.CURRENT_INSPECTION_TYPE, "")
+                                            .toString()
+                                    val inspectorName =
+                                        sharedPref?.getString(Constants.CURRENT_INSPECTOR_NAME, "")
+                                            .toString()
+                                    val inspector =
+                                        sharedPref?.getString(
+                                            Constants.CURRENT_INSPECTION_SOURCE, "").toString()
+                                    val category = title
+                                    val port =
+                                        sharedPref?.getString(Constants.CURRENT_PORT, "").toString()
+                                    questionnairesViewModel.saveBriefcase(
+                                        vessel,
+                                        inspectorType,
+                                        inspectorName,
+                                        inspector,
+                                        category,
+                                        port,
+                                        qid
+                                    )
+                                    val progressBar =
+                                        view.findViewById<ProgressBar>(R.id.progressBar)
 
-                                questionnairesViewModel.saveBriefcase(
-                                    vessel, inspectorType, inspectorName, inspector, category, port, qid
-                                )
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                            questionnairesViewModel.screenState.collect {
+                                                when (it) {
+                                                    is QuestionnairesViewModel.State.Work ->
 
-
-                                navigateToNext()
-
-
-                            })
+                                                        progressBar.visibility = View.VISIBLE
+                                                    is QuestionnairesViewModel.State.DownWork ->
+                                                        navigateToNext()
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
                             setNegativeButton(
                                 "Cancel",
                                 DialogInterface.OnClickListener { dialog, i ->
@@ -110,14 +136,11 @@ class QuestionnairesFragment : Fragment() {
                     }
                 }
         })
-
     }
 
-    private fun navigateToNext (){
+    private fun navigateToNext() {
 
         val navController = view?.let { Navigation.findNavController(it) }
         navController?.navigate(R.id.action_categoryFragment_to_briefCaseFragment)
     }
-
-
 }

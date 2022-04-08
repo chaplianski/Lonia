@@ -8,11 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 import com.example.testtask.domain.model.Answers
+import com.example.testtask.domain.model.Questions
 
-class AnswersAdapter (private val answers: List<Answers>): RecyclerView.Adapter<AnswersAdapter.ViewHolder>() {
+class AnswersAdapter (private val questions: List<Questions>): RecyclerView.Adapter<AnswersAdapter.ViewHolder>() {
 
     interface ShortOnClickListener {
-        fun ShortClick(answer: String, answerId: Long, answerDate: Long)
+        fun ShortClick(answer: Int)
     }
 
     var shortOnClickListener: ShortOnClickListener? = null
@@ -23,25 +24,21 @@ class AnswersAdapter (private val answers: List<Answers>): RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.answerItem.text = answers[position].answer
-        Log.d("My Log", "questionId in Adapter: ${answers[position].answerId}")
-
-        holder.answerItem.setOnClickListener {
+        holder.questionItem.text = questions[position].question
+        holder.questionItem.setOnClickListener {
             shortOnClickListener?.ShortClick(
-                answers[position].answer,
-                answers[position].answerId,
-                answers[position].answerDate
+                questions[position].answer
             )
         }
     }
 
     override fun getItemCount(): Int {
-        return answers.size
+        return questions.size
     }
 
     class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
 
-        val answerItem: TextView = itemView.findViewById(R.id.tv_answer_item_content)
+        val questionItem: TextView = itemView.findViewById(R.id.tv_answer_item_content)
     }
 
 }

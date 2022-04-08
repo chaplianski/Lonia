@@ -7,7 +7,8 @@ import com.example.testtask.domain.model.BriefCase
 import com.example.testtask.domain.usecase.GetVesselsUseCase
 import javax.inject.Inject
 
-class VesselsViewModel @Inject constructor(private val getVasselsUseCase: GetVesselsUseCase): ViewModel() {
+class VesselsViewModel @Inject constructor(private val getVasselsUseCase: GetVesselsUseCase) :
+    ViewModel() {
 
     val _vassels = MutableLiveData<List<String>>()
     val vassels: LiveData<List<String>> get() = _vassels
@@ -16,5 +17,4 @@ class VesselsViewModel @Inject constructor(private val getVasselsUseCase: GetVes
         val vasselsList = getVasselsUseCase.execute()
         _vassels.postValue(vasselsList)
     }
-
 }

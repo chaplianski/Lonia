@@ -23,7 +23,7 @@ class QuestionsFragment : Fragment() {
 
     @Inject
     lateinit var questionsViewModelFactory: QuestionsViewModelFactory
-    val questionViewModel: QuestionsViewModel by viewModels {questionsViewModelFactory}
+    val questionViewModel: QuestionsViewModel by viewModels { questionsViewModelFactory }
 
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
@@ -37,7 +37,7 @@ class QuestionsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        activity?.title = "Questions"
         return inflater.inflate(R.layout.fragment_questions, container, false)
     }
 
@@ -53,7 +53,6 @@ class QuestionsFragment : Fragment() {
         }
 
         questionViewModel.questionList.observe(this.viewLifecycleOwner, {
-       //     Log.d("My log", "list questions = $it")
 
             val questionsAdapter = QuestionsAdapter(it)
             val questionsRV = view.findViewById<RecyclerView>(R.id.rv_questions)
@@ -61,20 +60,22 @@ class QuestionsFragment : Fragment() {
             questionsRV.adapter = questionsAdapter
 
             questionsAdapter.shortOnClickListener =
-                object : QuestionsAdapter.ShortOnClickListener{
-                    override fun ShortClick(question: String, comment: String, questionId: String) {
-                        Log.d("My Log", "questionId in QuestionsFrsgment: $questionId")
-                        sharedPref?.edit()?.putString(Constants.CURRENR_QUESTION_ID, questionId)?.apply()
+                object : QuestionsAdapter.ShortOnClickListener {
+                    override fun ShortClick(
+                        question: String,
+                        comment: String,
+                        questionId: String,
+                        answer: Int
+                    ) {
+                        sharedPref?.edit()?.putString(Constants.CURRENR_QUESTION_ID, questionId)
+                            ?.apply()
                         sharedPref?.edit()?.putString(Constants.CURRENT_QUESTION, question)?.apply()
                         sharedPref?.edit()?.putString(Constants.CURRENT_COMMENT, comment)?.apply()
-
+                        sharedPref?.edit()?.putInt(Constants.CURRENT_ANSWER_ID, answer)
+                            ?.apply()
                         navController.navigate(R.id.action_questionsFragment_to_answerFragment)
                     }
-
                 }
         })
     }
-
-
-
 }

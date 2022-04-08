@@ -14,36 +14,16 @@ class QuestionsRepositoryImpl @Inject constructor(
 ) : QuestionsRepository {
 
     override fun getQuestions(briefcaseId: Long): List<Questions> {
-        val questionsList = questionsStorage.getQuestionsList(briefcaseId)
-        Log.d("My log", "QuestionsRepository  questionslist = $questionsList")
-
-        val list = mutableListOf<Questions>()
-        for (i in questionsList) {
-            list.add(Mapper.questionsMapDataToDomain(i))
-        }
-        Log.d("My log", "QuestionsRepository list = $list")
-        return list
+        return questionsStorage.getQuestionsList(briefcaseId).map { it.questionsMapDataToDomain() }
     }
 
     override suspend fun fetchQuestions(qid: Int): List<Questions> {
-        val questionsLDataList = netQuestionsRepository.getQuestions(qid)
-        val questionsList = mutableListOf<Questions>()
-        for (i in questionsLDataList) {
-            questionsList.add(Mapper.questionsMapDataToDomain(i))
-        }
-        return questionsList.toList()
+        return netQuestionsRepository.getQuestions(qid).map { it.questionsMapDataToDomain() }
     }
 
     override fun updateQuestions(questions: Questions, answers: Answers) {
-       val questionsData = Mapper.questionsMapDomainToData(questions)
-       val answersData = Mapper.answersMapDomainToData(answers)
-        questionsStorage.updateQuestions(questionsData,answersData)
-
-        Log.d("My Log", "questionId in Dao: ${questions.questionid}")
+        val questionsData = questions.questionsMapDomainToData()
+        val answersData = answers.answersMapDomainToData()
+        questionsStorage.updateQuestions(questionsData, answersData)
     }
-
-    //  override fun addQuestions(question: Questions) {
-    //      val questionsData = Mapper.questionsMapDomainToData(question)
-    //      questionsStorage.addAllQuestions(questionsData)
-    //   }
 }

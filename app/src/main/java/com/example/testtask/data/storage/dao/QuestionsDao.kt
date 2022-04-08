@@ -9,8 +9,8 @@ import com.example.testtask.data.storage.model.QuestionsData
 @Dao
 interface QuestionsDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertQuestions(questionsData: QuestionsData)
+ //   @Insert(onConflict = OnConflictStrategy.IGNORE)
+ //   fun insertQuestions(questionsData: QuestionsData)
 
 //    @Query("SELECT * FROM questionsData")
  //   fun getAllQuestions(): List<QuestionsData>

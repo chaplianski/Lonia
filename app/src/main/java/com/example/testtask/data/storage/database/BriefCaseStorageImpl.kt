@@ -1,29 +1,28 @@
 package com.example.testtask.data.storage.database
 
-import android.content.Context
+import com.example.testtask.data.storage.dao.BriefcaseDao
 import com.example.testtask.data.storage.storagies.BriefCaseStorage
 import com.example.testtask.data.storage.model.BriefCaseData
-import com.example.testtask.data.storage.model.BriefcaseWithQuestions
 import com.example.testtask.data.storage.model.QuestionsData
 import javax.inject.Inject
 
-class BriefCaseStorageImpl @Inject constructor (context: Context) : BriefCaseStorage {
+class BriefCaseStorageImpl @Inject constructor() : BriefCaseStorage {
 
-
-    val briefCaseDatabase = BriefCaseDB.getDatabase(context)
+    @Inject
+    lateinit var briefcaseDao: BriefcaseDao
 
     override fun addBriefCaseData(
         briefCaseData: BriefCaseData,
         listQuestionsData: List<QuestionsData>
     ) {
-        briefCaseDatabase.BriefCaseDao().insert(briefCaseData, listQuestionsData)
+        briefcaseDao.insert(briefCaseData, listQuestionsData)
     }
 
     override fun getBriefCase(briefCaseId: Long): BriefCaseData {
-        return briefCaseDatabase.BriefCaseDao().getBriefCase(briefCaseId)
+        return briefcaseDao.getBriefCase(briefCaseId)
     }
 
     override fun getAllBriefCase(): List<BriefCaseData> {
-        return briefCaseDatabase.BriefCaseDao().getAllBriefCases()
+        return briefcaseDao.getAllBriefCases()
     }
 }

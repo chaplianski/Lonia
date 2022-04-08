@@ -17,5 +17,5 @@ import retrofit2.http.Query
 interface QuestionnairesApiService {
 
     @GET("question")
-    suspend fun fetchQuestionnaires(@Header("Authorization") token: String) : Response<List<QuestionnairesData>>
+    suspend fun fetchQuestionnaires(@Header("Authorization") token: String): Response<List<QuestionnairesData>>
 }

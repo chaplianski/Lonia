@@ -34,7 +34,8 @@ class QuestionnairesViewModel @Inject constructor(
     val questionnaires: LiveData<List<Questionnaires>> get() = _qestionnaires
 
     private val screenStateData = MutableStateFlow<State>(
-        State.Progress)
+        State.Work
+    )
     val screenState = screenStateData.asStateFlow()
 
 
@@ -44,12 +45,6 @@ class QuestionnairesViewModel @Inject constructor(
     suspend fun getQuestionnairesList() {
         val list = getQuestionnairesUseCase.execute()
         _qestionnaires.postValue(list)
-    }
-
-    fun addBriefcase(briefcase: BriefCase, questionsList: List<Questions>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            addBriefCaseUseCase.execute(briefcase, questionsList)
-        }
     }
 
     fun saveBriefcase(
@@ -63,14 +58,10 @@ class QuestionnairesViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
 
-            screenStateData.value = State.Progress
+            screenStateData.value = State.Work
 
             val list = fetchQuestionsUseCase.execute(qid)
 
-
-
-
-       //     Log.d("My log", "Fetch list questions = $list")
             val briefCase = BriefCase(
                 vessel = vessel,
                 inspectorType = inspectorType,
@@ -82,19 +73,18 @@ class QuestionnairesViewModel @Inject constructor(
                 briefCaseId = 0L,
             )
             addBriefCaseUseCase.execute(briefCase, list)
+
+            screenStateData.value = State.DownWork
         }
-
-
     }
 
     override fun onCleared() {
         viewModelScope.cancel()
     }
 
-    sealed class State (){
-        object Progress: State()
-        class Loaded(val isProgress: Boolean) : State()
-        class Data: State()
+    sealed class State() {
+        object Work : State()
+        object DownWork : State()
     }
 
 }

@@ -21,8 +21,5 @@ class BriefCaseViewModel @Inject constructor(
            val briefCaseList = getAllBriefCasesUseCase.execute()
            _briefCase.postValue(briefCaseList)
        }
-
     }
-
-
 }

@@ -8,10 +8,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 
-class VesselAdapter(private val vessels: List<String>): RecyclerView.Adapter<VesselAdapter.ViewHolder>() {
+class VesselAdapter(private val vessels: List<String>) :
+    RecyclerView.Adapter<VesselAdapter.ViewHolder>() {
 
-    interface ShortOnClickListener{
-        fun ShortClick (item: String)
+    interface ShortOnClickListener {
+        fun ShortClick(item: String)
     }
 
     var shortOnClickListener: ShortOnClickListener? = null
@@ -30,10 +31,10 @@ class VesselAdapter(private val vessels: List<String>): RecyclerView.Adapter<Ves
     }
 
     override fun getItemCount(): Int {
-       return vessels.size
+        return vessels.size
     }
 
-    class ViewHolder (itemView: View):  RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val vesseItem: TextView = itemView.findViewById(R.id.tv_vessel_name)
     }

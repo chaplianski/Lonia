@@ -5,7 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Questions(
- //   val idQuestion: Int = 0,
     var questionid: String,
     val comment: String,
     val dateOfInspection: String = "",
@@ -19,4 +18,4 @@ data class Questions(
     val isAnswered: Boolean = false,
     val images: Int? = null,
     val briefCaseId: Long
-    )
+)

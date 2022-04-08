@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "questions")
 data class QuestionsData(
     @PrimaryKey(autoGenerate = false)
-//    val idQuestion: Int = 0,
     var questionid: String = "",
     val comment: String = "",
     val dateOfInspection: String = "",
@@ -21,6 +20,5 @@ data class QuestionsData(
     val isAnswered: Boolean = false,
     val images: Int? = null,
     var briefCaseId: Long = 0L
-){
+)
 
-}

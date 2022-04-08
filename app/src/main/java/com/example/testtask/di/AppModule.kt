@@ -9,6 +9,7 @@ import com.example.testtask.data.storage.storagies.*
 import com.example.testtask.domain.repository.*
 import dagger.Module
 import dagger.Provides
+import javax.inject.Inject
 import javax.inject.Singleton
 
 
@@ -63,9 +64,6 @@ class AppModule() {
     @Provides
     fun provideQuestionnairesRepository(impl: QuestionnairesRepositoryImpl): QuestionnairesRepository =
         impl
-
-    @Provides
-    fun provideQuestionnairesStorage (impl: QuestionnairesStorageImpl): QuestionnairesStorage = impl
 
     @Provides
     fun provideQuestionsRepository(impl: QuestionsRepositoryImpl): QuestionsRepository =

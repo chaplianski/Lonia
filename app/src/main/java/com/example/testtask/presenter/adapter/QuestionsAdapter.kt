@@ -12,30 +12,33 @@ import com.example.testtask.domain.model.Questions
 class QuestionsAdapter(private val questions: List<Questions>) :
     RecyclerView.Adapter<QuestionsAdapter.ViewHolder>() {
 
+
     interface ShortOnClickListener {
-        fun ShortClick(question: String, comment: String, questionId: String)
+        fun ShortClick(question: String, comment: String, questionId: String, answer: Int)
     }
 
     var shortOnClickListener: ShortOnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.question_item, parent, false)
+        Log.d("My Log", "Answers adapter - questions: $questions")
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.questionValue.text = questions[position].question
-        Log.d("My Log", "questionId in QuestionsAdapter: ${questions[position].questionid}")
         holder.itemView.setOnClickListener {
             shortOnClickListener?.ShortClick(
                 questions[position].question,
                 questions[position].comment,
-                questions[position].questionid
+                questions[position].questionid,
+                questions[position].answer
             )
         }
     }
 
     override fun getItemCount(): Int {
+     //   Log.d("My Log", "Answers adapter - questions list size: $questions.size")
         return questions.size
     }
 

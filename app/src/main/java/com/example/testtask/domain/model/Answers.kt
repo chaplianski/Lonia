@@ -4,5 +4,4 @@ data class Answers(
     val answerId: Long,
     val answer: String,
     val answerDate: Long,
-
 )

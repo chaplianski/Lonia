@@ -24,7 +24,7 @@ class InspectionTypeFragment : Fragment() {
 
     @Inject
     lateinit var inspectionTypeViewModelFactory: InspectionTypeViewModelFactory
-    val inspectionTypeViewModel: InspectionTypeViewModel by viewModels {inspectionTypeViewModelFactory}
+    val inspectionTypeViewModel: InspectionTypeViewModel by viewModels { inspectionTypeViewModelFactory }
 
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
@@ -38,7 +38,7 @@ class InspectionTypeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        activity?.title = "Inspection Type"
         return inflater.inflate(R.layout.fragment_inspection_type, container, false)
     }
 
@@ -56,32 +56,35 @@ class InspectionTypeFragment : Fragment() {
             inspectionTypeRV.layoutManager = LinearLayoutManager(context)
             inspectionTypeRV.adapter = inspectionTypeAdapter
 
-            inspectionTypeAdapter.shortOnClickListener = object : InspectionTypeAdapter.ShortOnClickListener{
-                override fun ShortClick(item: String) {
+            inspectionTypeAdapter.shortOnClickListener =
+                object : InspectionTypeAdapter.ShortOnClickListener {
+                    override fun ShortClick(item: String) {
 
-                    val builder = AlertDialog.Builder(context)
-                    with(builder){
-                        setTitle("Are your sure?")
-                        setCancelable(true)
-                        setMessage("You check inspection type $item")
-                        setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, id ->
-                            sharedPref?.edit()?.putString(Constants.CURRENT_INSPECTION_TYPE, item)?.apply()
-                            val navController = Navigation.findNavController(view)
-                            navController.navigate(R.id.action_inspectionTypeFragment_to_inspectionSourceFragment)
-                        })
-                        setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, i ->
-                            dialog.cancel()
-                        })
+                        val builder = AlertDialog.Builder(context)
+                        with(builder) {
+                            setTitle("Are your sure?")
+                            setCancelable(true)
+                            setMessage("You check inspection type $item")
+                            setPositiveButton(
+                                "Continue",
+                                DialogInterface.OnClickListener { dialog, id ->
+                                    sharedPref?.edit()
+                                        ?.putString(Constants.CURRENT_INSPECTION_TYPE, item)
+                                        ?.apply()
+                                    val navController = Navigation.findNavController(view)
+                                    navController.navigate(R.id.action_inspectionTypeFragment_to_inspectionSourceFragment)
+                                })
+                            setNegativeButton(
+                                "Cancel",
+                                DialogInterface.OnClickListener { dialog, i ->
+                                    dialog.cancel()
+                                })
 
+                        }
+                        val alertDialog = builder.create()
+                        alertDialog.show()
                     }
-                    val alertDialog = builder.create()
-                    alertDialog.show()
                 }
-            }
-
         })
-
     }
-
-
 }

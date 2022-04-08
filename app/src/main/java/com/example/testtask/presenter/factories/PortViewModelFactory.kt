@@ -11,6 +11,6 @@ class PortViewModelFactory @Inject constructor(private val getPortUseCase: GetPo
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return PortViewModel (getPortUseCase) as  T
+        return PortViewModel(getPortUseCase) as T
     }
 }

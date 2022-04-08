@@ -1,6 +1,5 @@
 package com.example.testtask.domain.usecase
 
-import com.example.testtask.data.storage.model.BriefcaseWithQuestions
 import com.example.testtask.domain.model.BriefCase
 import com.example.testtask.domain.model.Questions
 import com.example.testtask.domain.repository.BriefCaseRepository

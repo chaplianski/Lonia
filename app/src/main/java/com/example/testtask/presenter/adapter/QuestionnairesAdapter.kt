@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 import com.example.testtask.domain.model.Questionnaires
 
-class QuestionnairesAdapter (private val categories: List<Questionnaires>): RecyclerView.Adapter<QuestionnairesAdapter.ViewHolder>() {
+class QuestionnairesAdapter(private val categories: List<Questionnaires>) :
+    RecyclerView.Adapter<QuestionnairesAdapter.ViewHolder>() {
 
-    interface ShortOnClickListener{
-        fun ShortClick (title: String, qid: Int)
+    interface ShortOnClickListener {
+        fun ShortClick(title: String, qid: Int)
     }
 
     var shortOnClickListener: ShortOnClickListener? = null
@@ -32,7 +33,7 @@ class QuestionnairesAdapter (private val categories: List<Questionnaires>): Recy
         return categories.size
     }
 
-    class ViewHolder (itemView: View): RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val categoryItem: TextView = itemView.findViewById(R.id.tv_category_item_content)
 
     }
