@@ -16,7 +16,7 @@ abstract class BriefcaseDao {
     @Query("SELECT * FROM answers WHERE answerId= :answerId")
     abstract fun getAnswer(answerId: Long): AnswersData
 
-    @Query("SELECT * FROM questions, briefcase WHERE questions.briefCaseId = :briefcaseId AND questions.answer > 0 ")
+    @Query("SELECT * FROM questions WHERE questions.briefCaseId = :briefcaseId AND questions.isAnswered = 1 ")
     abstract fun getAnsweredQuestions(briefcaseId: Long): List<QuestionsData>
 
     @Query("SELECT * FROM briefcase")
