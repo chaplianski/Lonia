@@ -8,28 +8,33 @@
     tools:context=".presenter.ui.InspectorNameFragment">
 
 
-    <EditText
-        android:id="@+id/et_inspection_name"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@drawable/border"
-        android:ems="10"
-        android:gravity="center_horizontal|center_vertical"
-        android:hint="Inspection name"
-        android:inputType="textPersonName"
-        android:maxLength="40"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Inspector Name"
+        app:helperTextEnabled="true"
+        app:helperText="* required field"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.152">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inspector_name_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_inspection_name_continue"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:background="@drawable/border"
         android:text="Continue"
         android:textColor="@color/black"
@@ -37,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.259" />
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextField"
+        app:layout_constraintVertical_bias="0.063" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -59,13 +59,6 @@
         android:label="fragment_answer"
         tools:layout="@layout/fragment_answer" >
         <action
-            android:id="@+id/action_answerFragment_to_informationFragment"
-            app:destination="@id/informationFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left"
-            app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_left" />
-        <action
             android:id="@+id/action_answerFragment_to_questionsFragment"
             app:destination="@id/questionsFragment"
             app:enterAnim="@anim/enter_from_right"
@@ -74,24 +67,10 @@
             app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_answerFragment_to_briefCaseFragment"
-            app:destination="@id/briefCaseFragment"
-            app:enterAnim="@anim/enter_from_left"
-            app:exitAnim="@anim/exit_to_right"
-            app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_left" />
-    </fragment>
-    <fragment
-        android:id="@+id/informationFragment"
-        android:name="com.example.testtask.presenter.ui.InformationFragment"
-        android:label="fragment_information"
-        tools:layout="@layout/fragment_information" >
+            app:destination="@id/briefCaseFragment" />
         <action
-            android:id="@+id/action_informationFragment_to_answerFragment"
-            app:destination="@id/answerFragment"
-            app:enterAnim="@anim/enter_from_left"
-            app:exitAnim="@anim/exit_to_right"
-            app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/exit_to_right" />
+            android:id="@+id/action_answerFragment_to_myDialog"
+            app:destination="@id/myDialog" />
     </fragment>
     <fragment
         android:id="@+id/answersFragment"
@@ -187,4 +166,8 @@
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_left" />
     </fragment>
+    <dialog
+        android:id="@+id/myDialog"
+        android:name="com.example.testtask.presenter.ui.InformationFragment"
+        android:label="MyDialog" />
 </navigation>

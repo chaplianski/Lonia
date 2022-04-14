@@ -21,7 +21,7 @@ class QuestionsAdapter(private val questions: List<Questions>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.question_item, parent, false)
-        Log.d("My Log", "Answers adapter - questions: $questions")
+     //   Log.d("My Log", "Answers adapter - questions: $questions")
         return ViewHolder(v)
     }
 

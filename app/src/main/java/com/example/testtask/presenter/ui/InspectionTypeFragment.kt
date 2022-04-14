@@ -45,8 +45,6 @@ class InspectionTypeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-
         inspectionTypeViewModel.getInspectionTypeList()
 
         inspectionTypeViewModel.inspectionTypeList.observe(this.viewLifecycleOwner, {
@@ -60,31 +58,24 @@ class InspectionTypeFragment : Fragment() {
                 object : InspectionTypeAdapter.ShortOnClickListener {
                     override fun ShortClick(item: String) {
 
-                        val builder = AlertDialog.Builder(context)
-                        with(builder) {
-                            setTitle("Are your sure?")
-                            setCancelable(true)
-                            setMessage("You check inspection type $item")
-                            setPositiveButton(
-                                "Continue",
-                                DialogInterface.OnClickListener { dialog, id ->
-                                    sharedPref?.edit()
-                                        ?.putString(Constants.CURRENT_INSPECTION_TYPE, item)
-                                        ?.apply()
-                                    val navController = Navigation.findNavController(view)
-                                    navController.navigate(R.id.action_inspectionTypeFragment_to_inspectionSourceFragment)
-                                })
-                            setNegativeButton(
-                                "Cancel",
-                                DialogInterface.OnClickListener { dialog, i ->
-                                    dialog.cancel()
-                                })
+                        showDialog("inspection type", item)
 
-                        }
-                        val alertDialog = builder.create()
-                        alertDialog.show()
                     }
                 }
+            setupCustomDialog()
         })
+    }
+
+    fun showDialog(nameItem: String, item: String) {
+        SpecifyDialog.show(parentFragmentManager, nameItem, item)
+    }
+
+    fun setupCustomDialog() {
+        SpecifyDialog.setupListener(parentFragmentManager, this) {
+            val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+            sharedPref?.edit()?.putString(Constants.CURRENT_INSPECTION_TYPE, it)?.apply()
+            val navController = view?.let { Navigation.findNavController(it) }
+            navController?.navigate(R.id.action_inspectionTypeFragment_to_inspectionSourceFragment)
+        }
     }
 }

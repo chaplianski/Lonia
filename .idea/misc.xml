@@ -13,11 +13,16 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/answer_item.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/briefcase_item.xml" value="0.6267308850090307" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/category_item.xml" value="0.5421875" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/dialog_comment.xml" value="0.5421875" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/dialog_vessel.xml" value="0.3171875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_answer.xml" value="0.536" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_answer_new.xml" value="0.41822916666666665" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_answers.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_brief_case.xml" value="0.4" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_briefcase.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_category.xml" value="0.5421875" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_comment.xml" value="0.5421875" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_comment_new.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_information.xml" value="0.5421875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_inspection_source.xml" value="0.42604166666666665" />
         <entry key="..\:/Users/user/AndroidStudioProjects/TestTask/app/src/main/res/layout/fragment_inspection_type.xml" value="0.42604166666666665" />

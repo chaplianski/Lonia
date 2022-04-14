@@ -1,5 +1,6 @@
 package com.example.testtask.data.storage.network.retrofit
 
+import android.hardware.lights.Light
 import android.util.Log
 import com.example.testtask.data.storage.model.QuestionnairesData
 import com.example.testtask.data.storage.model.QuestionsData
@@ -10,6 +11,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import retrofit2.Retrofit
 import javax.inject.Inject
+import kotlin.reflect.jvm.internal.impl.types.ErrorUtils
 
 class NetQuestionsRepository @Inject constructor() {
 
@@ -28,3 +30,5 @@ class NetQuestionsRepository @Inject constructor() {
         return response.body()!!
     }
 }
+
+// internal typealias GetQuestinariousOrExeptionUseCase = (questinnariesList: List<QuestionnairesData>, exception: String) -> Unit

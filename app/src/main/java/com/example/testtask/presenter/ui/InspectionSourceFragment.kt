@@ -107,33 +107,24 @@ class InspectionSourceFragment : Fragment() {
         inspectionSourceAdapter.shortOnClickListener =
             object : InspectionSourceAdapter.ShortOnClickListener {
                 override fun ShortClick(item: String) {
-                    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
 
-                    val builder = AlertDialog.Builder(context)
-                    with(builder) {
-                        setTitle("Are your sure?")
-                        setCancelable(true)
-                        setMessage("You check inspection source $item")
-                        setPositiveButton(
-                            "Continue",
-                            DialogInterface.OnClickListener { dialog, id ->
-                                sharedPref?.edit()?.putString(
-                                    Constants.CURRENT_INSPECTION_SOURCE,
-                                    item
-                                )?.apply()
-                                val navController =
-                                    view?.let { Navigation.findNavController(it) }
-                                navController?.navigate(com.example.testtask.R.id.action_inspectionSourceFragment_to_inspectorNameFragment)
-                            })
-                        setNegativeButton(
-                            "Cancel",
-                            DialogInterface.OnClickListener { dialog, i ->
-                                dialog.cancel()
-                            })
-                    }
-                    val alertDialog = builder.create()
-                    alertDialog.show()
+                    showDialog("inspection sourse", item)
+
                 }
             }
+        setupCustomDialog()
+    }
+
+    fun showDialog(nameItem: String, item: String) {
+        SpecifyDialog.show(parentFragmentManager, nameItem, item)
+    }
+
+    fun setupCustomDialog() {
+        SpecifyDialog.setupListener(parentFragmentManager, this) {
+            val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+            sharedPref?.edit()?.putString(Constants.CURRENT_INSPECTION_SOURCE, it)?.apply()
+            val navController = view?.let { Navigation.findNavController(it) }
+            navController?.navigate(R.id.action_inspectionSourceFragment_to_inspectorNameFragment)
+        }
     }
 }

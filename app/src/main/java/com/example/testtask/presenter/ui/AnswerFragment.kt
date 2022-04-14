@@ -1,32 +1,29 @@
 package com.example.testtask.presenter.ui
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.room.Insert
-import com.example.testtask.R
 import com.example.testtask.databinding.FragmentAnswerBinding
 import com.example.testtask.di.DaggerAppComponent
 import com.example.testtask.domain.model.Answers
 import com.example.testtask.domain.model.Questions
 import com.example.testtask.presenter.factories.AnswerViewModelFactory
 import com.example.testtask.presenter.viewmodel.AnswerViewModel
-import kotlinx.coroutines.selects.select
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -58,6 +55,7 @@ class AnswerFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,7 +82,8 @@ class AnswerFragment : Fragment() {
         val formateDate = SimpleDateFormat("dd.MM.yyyy", Locale.US)
 
         informationButton.setOnClickListener {
-            navController.navigate(R.id.action_answerFragment_to_informationFragment)
+            navController.navigate(com.example.testtask.R.id.action_answerFragment_to_myDialog)
+
         }
 
         var answerDate: Long = 0
@@ -124,7 +123,6 @@ class AnswerFragment : Fragment() {
         })
 
         positiveButton.setOnClickListener {
-            Log.d("My Log", "In MS: ${answerDate}")
             val answerValue = answerTextVew.text.toString()
             val questions = Questions(
                 questionid = questionId,
@@ -153,12 +151,32 @@ class AnswerFragment : Fragment() {
                 answerViewModel.updateQuestionAndAddAnswer(questions, answer)
             }
 
-            navController.navigate(R.id.briefCaseFragment)
+            navController.navigate(com.example.testtask.R.id.briefCaseFragment)
         }
 
         negativeButton.setOnClickListener {
-            navController.navigate(R.id.action_answerFragment_to_questionsFragment)
+            navController.navigate(com.example.testtask.R.id.action_answerFragment_to_questionsFragment)
         }
     }
+
+    fun showCommentDialog(){
+        val commentDialog = CommentFragment()
+        commentDialog.show(parentFragmentManager, CommentFragment.COMMENT_TAG)
+    }
+
+    fun setupCommentDialogListener(){
+        parentFragmentManager.setFragmentResultListener(CommentFragment.REQUEST_KEY, this.viewLifecycleOwner, FragmentResultListener{
+            _, result ->
+            val which = result.getInt(CommentFragment.COMMENT_TAG)
+            if (which == DialogInterface.BUTTON_POSITIVE) Log.d("My Log", "Close comment")
+        })
+    }
+
+    companion object {
+        const val TAG = "ModalBottomSheet"
+    }
+
+
+
 }
 
