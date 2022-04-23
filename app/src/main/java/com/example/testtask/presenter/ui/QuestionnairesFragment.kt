@@ -102,6 +102,8 @@ class QuestionnairesFragment : Fragment() {
     private fun getErrorMessage(@StringRes message: Int) {
         val messageTextView = view?.findViewById<TextView>(R.id.tv_error_message)
         messageTextView?.setText(message)
+
+
     }
 
     private fun navigateToNext() {
