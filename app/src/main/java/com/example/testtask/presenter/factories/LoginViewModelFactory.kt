@@ -7,7 +7,7 @@ import com.example.testtask.presenter.viewmodel.LoginViewModel
 import javax.inject.Inject
 
 @Suppress ("UNCHECKED_CAST")
-class LoginViewModelFactory @Inject constructor(val getTokenUseCase: getTokenUseCase): ViewModelProvider.Factory {
+class LoginViewModelFactory @Inject constructor(private val getTokenUseCase: getTokenUseCase): ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return LoginViewModel(getTokenUseCase) as T

@@ -9,5 +9,5 @@ interface QuestionnairesRepository {
 
  //   suspend fun getQuestionnaires(): List<Questionnaires>
 
-    suspend fun getQuestionnaires(): QuestionnariesResponse
+    suspend fun getQuestionnaires(): List<Questionnaires>
 }

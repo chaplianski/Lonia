@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
@@ -98,9 +99,9 @@ class QuestionnairesFragment : Fragment() {
         }
     }
 
-    private fun getErrorMessage(message: String) {
+    private fun getErrorMessage(@StringRes message: Int) {
         val messageTextView = view?.findViewById<TextView>(R.id.tv_error_message)
-        messageTextView?.text = message
+        messageTextView?.setText(message)
     }
 
     private fun navigateToNext() {

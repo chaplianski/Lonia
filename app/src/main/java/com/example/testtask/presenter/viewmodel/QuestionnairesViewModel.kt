@@ -1,7 +1,11 @@
 package com.example.testtask.presenter.viewmodel
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.testtask.R
+import com.example.testtask.domain.exceptions.InternetConnectionException
+import com.example.testtask.domain.exceptions.NetworkException
 import com.example.testtask.domain.model.BriefCase
 import com.example.testtask.domain.model.Questionnaires
 import com.example.testtask.domain.usecase.AddBriefCaseUseCase
@@ -28,16 +32,16 @@ class QuestionnairesViewModel @Inject constructor(
 
     suspend fun getQuestionnairesList() {
 
-        val questionnairesResponse = getQuestionnairesUseCase.execute()
-        val questionnairesList = questionnairesResponse.response
+        getQuestionnairesUseCase.execute().fold({
+           screenStateData.emit(State.Success(it))
+        }, {
+            when (it) {
+                is NetworkException -> {screenStateData.emit(State.Error(it.errorMessage))}
+                is InternetConnectionException -> {}
+                else -> {}
+            }
+        })
 
-        if (!questionnairesList.isNullOrEmpty()){
-           val list = questionnairesResponse.response
-           screenStateData.emit(State.Success(questionnairesList))
-        }else{
-           screenStateData.value = State.Error(questionnairesResponse.status)
-
-        }
     }
 
     fun saveBriefcase(
@@ -71,7 +75,7 @@ class QuestionnairesViewModel @Inject constructor(
 
                 screenStateData.value = State.DownWork
             }else{
-                screenStateData.value = State.Error(questionsResponse.status)
+                screenStateData.value = State.Error(R.string.server_error)
             }
 
 
@@ -84,7 +88,7 @@ class QuestionnairesViewModel @Inject constructor(
 
     sealed class State() {
         object DownWork : State()
-        data class Error(val exception: String) : State()
+        data class Error(@StringRes val exception: Int) : State()
         data class Success (val questionarries: List<Questionnaires>): State()
         object Loading : State()
     }

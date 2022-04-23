@@ -17,13 +17,8 @@ class QuestionnairesRepositoryImpl @Inject constructor(
  //      return questionnairesStorage.getQuestionnaires().map { it.questionnairesMapDataToDomain() }
  //   }
 
-    override suspend fun getQuestionnaires(): QuestionnariesResponse {
-        val questionnariesResponse = questionnairesApiHelper.getQuestionnaires()
-        return QuestionnariesResponse(
-            questionnariesResponse.response?.map {it.questionnairesMapDataToDomain()},
-            questionnariesResponse.status
-        )
-
+    override suspend fun getQuestionnaires(): List<Questionnaires> {
+        return questionnairesApiHelper.getQuestionnaires().map {it.questionnairesMapDataToDomain()}
     }
 
 }

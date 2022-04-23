@@ -20,6 +20,7 @@ interface AppComponent {
      fun questionsFragmentInject(questionsFragment: QuestionsFragment)
      fun answersFragmentInject(answersFragment: AnswersFragment)
      fun answerFragmentInject(answerFragment: AnswerFragment)
+     fun loginFragmentInject(loginFragment: LoginFragment)
 
     @Component.Builder
     interface Builder{

@@ -2,4 +2,7 @@
     <string name="app_name">TestTask</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="client_error">Empty client message</string>
+    <string name="server_error">Empty server message</string>
+    <string name="redirect_error">Empty redirect message</string>
 </resources>

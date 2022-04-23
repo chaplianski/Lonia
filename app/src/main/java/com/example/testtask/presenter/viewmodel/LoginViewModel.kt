@@ -1,5 +1,6 @@
 package com.example.testtask.presenter.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(val getTokenUseCase: getTokenUseCase): ViewModel() {
+class LoginViewModel @Inject constructor(private val getTokenUseCase: getTokenUseCase): ViewModel() {
 
 
     val _loginResponse = MutableLiveData<LoginResponse>()
@@ -20,7 +21,9 @@ class LoginViewModel @Inject constructor(val getTokenUseCase: getTokenUseCase): 
     fun getToken (loginRequest: LoginRequest){
        viewModelScope.launch(Dispatchers.IO) {
            val response = getTokenUseCase.execute(loginRequest)
-           _loginResponse.postValue(response)
+           Log.d("My Log", "Login viewModel Token^ $response")
+
+       //    _loginResponse.postValue(response)
        }
 
     }

@@ -77,4 +77,7 @@ class AppModule() {
     @Provides
     fun provideAnswersStorage (impl: AnswersStorageImpl): AnswersStorage = impl
 
+    @Provides
+    fun provideLoginRepository (impl: AuthorizationRepositoryImpl): AuthorizationRepository = impl
+
 }
