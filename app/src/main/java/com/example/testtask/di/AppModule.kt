@@ -4,12 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.example.testtask.data.repository.*
 import com.example.testtask.data.storage.database.*
-import com.example.testtask.data.storage.network.retrofit.QuestionnairesStorageImpl
 import com.example.testtask.data.storage.storagies.*
 import com.example.testtask.domain.repository.*
 import dagger.Module
 import dagger.Provides
-import javax.inject.Inject
 import javax.inject.Singleton
 
 

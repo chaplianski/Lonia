@@ -1,34 +1,74 @@
 package com.example.testtask.data.storage.network.retrofit
 
-import android.hardware.lights.Light
-import android.util.Log
-import com.example.testtask.data.storage.model.QuestionnairesData
-import com.example.testtask.data.storage.model.QuestionsData
-import com.example.testtask.data.storage.network.service.QuestionnairesApiService
+import com.example.testtask.data.repository.questionsMapDataToDomain
+import com.example.testtask.data.storage.model.QuestionsDataResponse
 import com.example.testtask.data.storage.network.service.QuestionsApiService
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import retrofit2.Retrofit
+import java.io.IOException
+import java.net.ConnectException
+import java.net.UnknownHostException
 import javax.inject.Inject
-import kotlin.reflect.jvm.internal.impl.types.ErrorUtils
 
 class NetQuestionsRepository @Inject constructor() {
 
     @Inject
     lateinit var questionnairesRetrofit: Retrofit
 
-    suspend fun getQuestions(qidcode: Int): List<QuestionsData> {
+    suspend fun getQuestions(qidcode: Int): QuestionsDataResponse {
         val retrofit = questionnairesRetrofit.create(QuestionsApiService::class.java)
+        var questionsDataResponse = QuestionsDataResponse()
 
         val json = JSONObject()
         json.put("qid", qidcode)
         val sendData = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
-        val response = retrofit.fetchQuestions("Bearer ${NetParameters.TOKEN}", sendData)
+        try {
+            val responseQuestions =
+                retrofit.fetchQuestions("Bearer ${NetParameters.TOKEN}", sendData)
+            when (responseQuestions.code()) {
+                in 200..299 -> {
 
-        return response.body()!!
+      //              val questionnairesList =
+      //                  responseQuestions.body()?.map { it.questionsMapDataToDomain() }
+
+                    val questionnairesList = responseQuestions.body()
+
+                    questionsDataResponse =
+                        questionnairesList.let {
+                            QuestionsDataResponse(
+                                response = it,
+                                status = "Success"
+                            )
+                        }
+                }
+                in 300..399 -> {
+                    questionsDataResponse =
+                        QuestionsDataResponse(status = "Redirects. Code: ${responseQuestions.code()}")
+                }
+                in 400..499 -> {
+                    questionsDataResponse =
+                        QuestionsDataResponse(status = "Client Error. Code: ${responseQuestions.code()}")
+                }
+                in 500..599 -> {
+                    questionsDataResponse =
+                        QuestionsDataResponse(status = "Server Error. Code: ${responseQuestions.code()}")
+                }
+            }
+        } catch (e: IOException) {
+            questionsDataResponse = QuestionsDataResponse(status = "Check your Internet connection")
+        } catch (e: UnknownHostException) {
+            questionsDataResponse = QuestionsDataResponse(status = "Check your Internet connection")
+        } catch (e: ConnectException) {
+            questionsDataResponse = QuestionsDataResponse(status = "Check your Internet connection")
+        } catch (e: Exception) {
+            questionsDataResponse =
+                QuestionsDataResponse(status = "Unknown Error. Restart the app.")
+        }
+
+        return questionsDataResponse
     }
 }
 
-// internal typealias GetQuestinariousOrExeptionUseCase = (questinnariesList: List<QuestionnairesData>, exception: String) -> Unit

@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface QuestionsApiService {
     @Headers("Content-Type: application/json")
-    @POST("question")
+    @POST("api/question")
     suspend fun fetchQuestions(
         @Header("Authorization") token: String,
         @Body qid: RequestBody

@@ -1,10 +1,7 @@
 package com.example.testtask.data.repository
 
 import com.example.testtask.data.storage.model.*
-import com.example.testtask.domain.model.Answers
-import com.example.testtask.domain.model.BriefCase
-import com.example.testtask.domain.model.Questionnaires
-import com.example.testtask.domain.model.Questions
+import com.example.testtask.domain.model.*
 
 class Mapper {
 
@@ -91,5 +88,18 @@ fun Answers.answersMapDomainToData(): AnswersData {
         answerId = answerId,
         answer = answer,
         answerData = answerDate
+    )
+}
+
+fun LoginRequest.loginMapDomainToData(): LoginRequestData {
+    return LoginRequestData(
+        email = email,
+        password = password
+    )
+}
+
+fun LoginResponseData.loginResponseDataToDomain(): LoginResponse{
+    return LoginResponse(
+        token = token
     )
 }

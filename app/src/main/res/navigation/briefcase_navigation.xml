@@ -170,4 +170,9 @@
         android:id="@+id/myDialog"
         android:name="com.example.testtask.presenter.ui.InformationFragment"
         android:label="MyDialog" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.testtask.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

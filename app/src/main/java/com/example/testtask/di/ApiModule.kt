@@ -30,6 +30,8 @@ class ApiModule {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
+
+
     @Provides
     @Singleton
     fun provideOkhttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {

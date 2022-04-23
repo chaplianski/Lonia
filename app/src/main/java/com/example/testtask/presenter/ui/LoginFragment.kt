@@ -1,0 +1,52 @@
+package com.example.testtask.presenter.ui
+
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.fragment.app.viewModels
+import com.example.testtask.R
+import com.example.testtask.presenter.factories.QuestionsViewModelFactory
+import com.example.testtask.presenter.viewmodel.LoginViewModel
+import javax.inject.Inject
+
+
+class LoginFragment : Fragment() {
+
+    @Inject
+    lateinit var loginViewModelFactory: QuestionsViewModelFactory
+    val loginViewModel: LoginViewModel by viewModels { loginViewModelFactory }
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val loginField = view.findViewById<EditText>(R.id.et_login_login_fragment)
+        val passwordField = view.findViewById<EditText>(R.id.et_password_login_fragment)
+        val signInButton = view.findViewById<Button>(R.id.bt_sign_in_login_fragment)
+
+        signInButton.setOnClickListener {
+            if (loginField.text.isBlank() && passwordField.text.isBlank()){
+                passwordField.error = "Please enter login and password"
+            } else {
+
+
+                Log.d("My Log", "Login and password are entered")
+            }
+        }
+    }
+
+
+}

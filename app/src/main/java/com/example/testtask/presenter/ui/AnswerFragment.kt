@@ -13,10 +13,12 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.example.testtask.R
 import com.example.testtask.databinding.FragmentAnswerBinding
 import com.example.testtask.di.DaggerAppComponent
 import com.example.testtask.domain.model.Answers
@@ -72,6 +74,9 @@ class AnswerFragment : Fragment() {
         val question = sharedPref?.getString(Constants.CURRENT_QUESTION, "").toString()
         val questionId = sharedPref?.getString(Constants.CURRENR_QUESTION_ID, "").toString()
         val answerId = sharedPref?.getInt(Constants.CURRENT_ANSWER_ID, 0)
+
+
+
         questionTextView.text = question
 
         if (answerId != null) {

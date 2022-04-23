@@ -1,21 +1,12 @@
 package com.example.testtask.presenter.viewmodel
 
-import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.Navigation
-import com.example.testtask.R
 import com.example.testtask.domain.model.BriefCase
 import com.example.testtask.domain.model.Questionnaires
-import com.example.testtask.domain.model.Questions
 import com.example.testtask.domain.usecase.AddBriefCaseUseCase
 import com.example.testtask.domain.usecase.FetchQuestionsUseCase
 import com.example.testtask.domain.usecase.GetQuestionnairesUseCase
-import com.example.testtask.presenter.ui.Constants
-import com.example.testtask.presenter.ui.QuestionnairesFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,21 +21,23 @@ class QuestionnairesViewModel @Inject constructor(
     private val fetchQuestionsUseCase: FetchQuestionsUseCase
 ) : ViewModel() {
 
-    val _qestionnaires = MutableLiveData<List<Questionnaires>>()
-    val questionnaires: LiveData<List<Questionnaires>> get() = _qestionnaires
-
     private val screenStateData = MutableStateFlow<State>(
-        State.Work
+        State.Loading
     )
     val screenState = screenStateData.asStateFlow()
 
-
-    val _qestions = MutableLiveData<List<Questions>>()
-    val questions: LiveData<List<Questions>> get() = _qestions
-
     suspend fun getQuestionnairesList() {
-        val list = getQuestionnairesUseCase.execute()
-        _qestionnaires.postValue(list)
+
+        val questionnairesResponse = getQuestionnairesUseCase.execute()
+        val questionnairesList = questionnairesResponse.response
+
+        if (!questionnairesList.isNullOrEmpty()){
+           val list = questionnairesResponse.response
+           screenStateData.emit(State.Success(questionnairesList))
+        }else{
+           screenStateData.value = State.Error(questionnairesResponse.status)
+
+        }
     }
 
     fun saveBriefcase(
@@ -58,23 +51,30 @@ class QuestionnairesViewModel @Inject constructor(
     ) {
         viewModelScope.launch(Dispatchers.IO) {
 
-            screenStateData.value = State.Work
+            screenStateData.value = State.Loading
 
-            val list = fetchQuestionsUseCase.execute(qid)
+            val questionsResponse = fetchQuestionsUseCase.execute(qid)
+            val listResponse = questionsResponse.response
+            if (!listResponse.isNullOrEmpty()){
+                val briefCase = BriefCase(
+                    vessel = vessel,
+                    inspectorType = inspectorType,
+                    inspectorName = inspectorName,
+                    inspector = inspector,
+                    category = category,
+                    dateOfCreation = Date().time,
+                    port = port,
+                    briefCaseId = 0L,
+                )
 
-            val briefCase = BriefCase(
-                vessel = vessel,
-                inspectorType = inspectorType,
-                inspectorName = inspectorName,
-                inspector = inspector,
-                category = category,
-                dateOfCreation = Date().time,
-                port = port,
-                briefCaseId = 0L,
-            )
-            addBriefCaseUseCase.execute(briefCase, list)
+                addBriefCaseUseCase.execute(briefCase, listResponse)
 
-            screenStateData.value = State.DownWork
+                screenStateData.value = State.DownWork
+            }else{
+                screenStateData.value = State.Error(questionsResponse.status)
+            }
+
+
         }
     }
 
@@ -83,8 +83,12 @@ class QuestionnairesViewModel @Inject constructor(
     }
 
     sealed class State() {
-        object Work : State()
         object DownWork : State()
+        data class Error(val exception: String) : State()
+        data class Success (val questionarries: List<Questionnaires>): State()
+        object Loading : State()
     }
+
+
 
 }
