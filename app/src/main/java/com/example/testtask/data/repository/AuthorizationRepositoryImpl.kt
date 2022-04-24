@@ -9,6 +9,8 @@ import javax.inject.Inject
 class AuthorizationRepositoryImpl @Inject constructor(val loginRequestApiHelper: LoginRequestApiHelper): AuthorizationRepository {
 
     override suspend fun getToken(loginRequest: LoginRequest): LoginResponse {
-        return loginRequestApiHelper.fetchToken(loginRequest.loginMapDomainToData()).loginResponseDataToDomain()
+        return LoginResponse(
+            token = loginRequestApiHelper.fetchToken(loginRequest.loginMapDomainToData()).token
+        )
     }
 }

@@ -2,16 +2,16 @@ package com.example.testtask.presenter.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.navigation.Navigation
 import com.example.testtask.R
+import com.google.android.material.textfield.TextInputLayout
 
 
 class InspectorNameFragment : Fragment() {
@@ -29,21 +29,24 @@ class InspectorNameFragment : Fragment() {
 
         val navController = Navigation.findNavController(view)
         val continueButton: Button = view.findViewById(R.id.bt_inspection_name_continue)
-        val inspectorNameField = view.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.outlinedTextField)
-        val inspectorNameValue = inspectorNameField.editText?.text.toString()
+        val inspectorNameField = view.findViewById<TextInputLayout>(R.id.outlinedTextField)
+        var inspectorNameValue = ""
         val inspectorNameText = view.findViewById<EditText>(R.id.inspector_name_fragment)
 
+        inspectorNameText.doOnTextChanged { inputText, _, _, _ ->
+            if (inputText?.length!! > 0) {
+                inspectorNameField.error = null
+            }
+            inspectorNameValue = inputText.toString()
+        }
 
         continueButton.setOnClickListener {
-            if (inspectorNameText.text.isBlank()){
+            if (inspectorNameText.text.isBlank()) {
                 inspectorNameField.error = "Your do not enter name"
-                Toast.makeText(context, "Please, enter inspector name", Toast.LENGTH_SHORT).show()
-
             } else {
-                val inspectorName = inspectorNameValue
                 val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-                sharedPref?.edit()?.putString(Constants.CURRENT_INSPECTOR_NAME, inspectorName)?.apply()
-
+                sharedPref?.edit()?.putString(Constants.CURRENT_INSPECTOR_NAME, inspectorNameValue)
+                    ?.apply()
                 navController.navigate(R.id.action_inspectorNameFragment_to_categoryFragment)
             }
         }

@@ -1,5 +1,6 @@
 package com.example.testtask.data.storage.network.retrofit
 
+import android.content.Context
 import android.util.Log
 import com.example.testtask.R
 import com.example.testtask.data.repository.questionnairesMapDataToDomain
@@ -17,15 +18,18 @@ class QuestionnairesApiHelper @Inject constructor() {
 
     @Inject
     lateinit var questionnairesRetrofit: Retrofit
-
-    //   suspend fun getQuestionnaires(): List<QuestionnairesData>{
+    @Inject
+    lateinit var context: Context
 
     suspend fun getQuestionnaires(): List<QuestionnairesData> {
 
         val retrofit = questionnairesRetrofit.create(QuestionnairesApiService::class.java)
         var listQuestionnairesData: List<QuestionnairesData> = emptyList()
 
-        val responseQuestionnaires = retrofit.fetchQuestionnaires("Bearer ${NetParameters.TOKEN}")
+        val sharedPref = context.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
+        val token = sharedPref?.getString(NetParameters.TOKEN1, "")
+
+        val responseQuestionnaires = retrofit.fetchQuestionnaires("Bearer $token")
         when (responseQuestionnaires.code()) {
             in 200..299 -> {
                 listQuestionnairesData = responseQuestionnaires.body() ?: emptyList()

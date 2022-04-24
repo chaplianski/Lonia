@@ -1,14 +1,17 @@
 package com.example.testtask.data.storage.network.service
 
 import com.example.testtask.data.storage.model.LoginResponseData
+import com.example.testtask.data.storage.model.QuestionsData
+import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface AuthorizationApiService {
 
-    @FormUrlEncoded
-    @POST("login")
-    suspend fun fetchToken (@Field("email") email: String, @Field("password") password: String) : Response<LoginResponseData>
+    @Headers("Content-Type: application/json")
+    @POST("/login")
+    suspend fun fetchToken(
+        @Body login: RequestBody
+    ): Response<LoginResponseData>
+
 }

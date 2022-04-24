@@ -25,6 +25,9 @@ class NetQuestionsRepository @Inject constructor() {
         json.put("qid", qidcode)
         val sendData = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
 
+
+
+
         try {
             val responseQuestions =
                 retrofit.fetchQuestions("Bearer ${NetParameters.TOKEN}", sendData)
