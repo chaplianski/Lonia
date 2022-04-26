@@ -1,15 +1,11 @@
 package com.example.testtask.presenter.ui
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +14,7 @@ import com.example.testtask.R
 import com.example.testtask.di.DaggerAppComponent
 import com.example.testtask.presenter.adapter.VesselAdapter
 import com.example.testtask.presenter.factories.VesselViewModelFactory
-import com.example.testtask.presenter.ui.SpecifyDialog.Companion.REQUEST_KEY
+import com.example.testtask.presenter.ui.dialogs.SpecifyDialog
 import com.example.testtask.presenter.viewmodel.VesselsViewModel
 import javax.inject.Inject
 

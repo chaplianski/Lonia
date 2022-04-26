@@ -1,18 +1,13 @@
-package com.example.testtask.presenter.ui
+package com.example.testtask.presenter.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.Navigation
-import com.example.testtask.R
 
 
 class SpecifyDialog : DialogFragment() {

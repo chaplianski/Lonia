@@ -71,6 +71,9 @@
         <action
             android:id="@+id/action_answerFragment_to_myDialog"
             app:destination="@id/myDialog" />
+        <action
+            android:id="@+id/action_answerFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/answersFragment"
@@ -178,5 +181,13 @@
         <action
             android:id="@+id/action_loginFragment_to_briefCaseFragment"
             app:destination="@id/briefCaseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.testtask.presenter.ui.CameraFragment"
+        android:label="CameraFragment" >
+        <action
+            android:id="@+id/action_cameraFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
     </fragment>
 </navigation>

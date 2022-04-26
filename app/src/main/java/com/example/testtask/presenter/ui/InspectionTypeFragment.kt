@@ -1,8 +1,6 @@
 package com.example.testtask.presenter.ui
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +14,7 @@ import com.example.testtask.R
 import com.example.testtask.di.DaggerAppComponent
 import com.example.testtask.presenter.adapter.InspectionTypeAdapter
 import com.example.testtask.presenter.factories.InspectionTypeViewModelFactory
+import com.example.testtask.presenter.ui.dialogs.SpecifyDialog
 import com.example.testtask.presenter.viewmodel.InspectionTypeViewModel
 import javax.inject.Inject
 

@@ -7,10 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 import com.example.testtask.domain.model.BriefCase
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BriefCaseAdapter(briefCases: List<BriefCase>): RecyclerView.Adapter<BriefCaseAdapter.ViewHolder>() {
 
     private val briefCases = briefCases as MutableList<BriefCase>
+
 
     interface ShortOnClickListener{
         fun ShortClick (briefCase: BriefCase)
@@ -39,13 +42,18 @@ class BriefCaseAdapter(briefCases: List<BriefCase>): RecyclerView.Adapter<BriefC
         val itemPort: TextView = itemView.findViewById(R.id.tv_briefcase_item_port)
         val itemInspectionSource: TextView = itemView.findViewById(R.id.tv_briefcase_item_inspection_source)
         val itemQuestionnaires: TextView = itemView.findViewById(R.id.tv_briefcase_item_questionnaries)
+        val itemDate: TextView = itemView.findViewById(R.id.tv_briefcase_item_date)
+        val itemInspectionType: TextView = itemView.findViewById(R.id.tv_briefcase_item_inspection_type)
 
 
     fun onBind(briefCase: BriefCase){
+        val formateDate = SimpleDateFormat("dd.MM.yyyy", Locale.US)
         itemVessel.text = briefCase.vessel
         itemPort.text = briefCase.port
         itemInspectionSource.text = briefCase.inspector
         itemQuestionnaires.text = briefCase.category
+        itemDate.text = formateDate.format(briefCase.dateOfCreation)
+        itemInspectionType.text = briefCase.inspectorType
 
 
     }

@@ -70,6 +70,7 @@ class QuestionsFragment : Fragment() {
                         sharedPref?.edit()?.putString(Constants.CURRENR_QUESTION_ID, questionId)
                             ?.apply()
                         sharedPref?.edit()?.putString(Constants.CURRENT_QUESTION, question)?.apply()
+                        Log.d("My Log", "Questions Fragment question: $question")
                         sharedPref?.edit()?.putString(Constants.CURRENT_COMMENT, comment)?.apply()
                         sharedPref?.edit()?.putInt(Constants.CURRENT_ANSWER_ID, answer)
                             ?.apply()

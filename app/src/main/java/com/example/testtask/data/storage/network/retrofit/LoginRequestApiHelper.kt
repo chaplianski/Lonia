@@ -32,7 +32,7 @@ class LoginRequestApiHelper @Inject constructor() {
         val responseToken = retrofit.fetchToken(sendData)
 
         val sharedPref = context.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
-        sharedPref?.edit()?.putString(NetParameters.TOKEN1, responseToken.body()?.token)?.apply()
+        sharedPref?.edit()?.putString(NetParameters.TOKEN, responseToken.body()?.token)?.apply()
 
         Log.d("My Log", "Token: ${responseToken.body()}")
         return responseToken.body()!!

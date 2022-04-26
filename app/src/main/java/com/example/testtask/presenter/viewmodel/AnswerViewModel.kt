@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtask.domain.model.Answers
+import com.example.testtask.domain.model.Photos
 import com.example.testtask.domain.model.Questions
-import com.example.testtask.domain.usecase.GetAnswerUseCase
-import com.example.testtask.domain.usecase.UpdateAnswerUseCase
-import com.example.testtask.domain.usecase.UpdateQuestionsUseCase
+import com.example.testtask.domain.usecase.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -17,11 +16,16 @@ import javax.inject.Inject
 class AnswerViewModel @Inject constructor(
     private val getAnswerUseCase: GetAnswerUseCase,
     private val updateQuestionsUseCase: UpdateQuestionsUseCase,
-    private val updateAnswerUseCase: UpdateAnswerUseCase
+    private val updateAnswerUseCase: UpdateAnswerUseCase,
+    private val getPhotosUseCase: GetPhotosUseCase,
+    private val updatePhotosUseCase: UpdatePhotosUseCase,
+    private val insertPhotoUseCase: InsertPhotoUseCase
 ) : ViewModel() {
 
     val _answer = MutableLiveData<Answers>()
     val answer: LiveData<Answers> get() = _answer
+    val _photos = MutableLiveData<List<Photos>>()
+    val photos: LiveData<List<Photos>> get() = _photos
 
     fun getAnswer(idAnswer: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -39,6 +43,25 @@ class AnswerViewModel @Inject constructor(
     fun updateQuestionAndAddAnswer(questions: Questions, answers: Answers) {
         viewModelScope.launch(Dispatchers.IO) {
             updateQuestionsUseCase.execute(questions, answers)
+        }
+    }
+
+    fun getPhotos(idAnswer: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val responsePhotos = getPhotosUseCase.execute(idAnswer)
+            _photos.postValue(responsePhotos)
+        }
+    }
+
+    fun updatePhotos(photos: Photos) {
+        viewModelScope.launch (Dispatchers.IO) {
+
+        }
+    }
+
+    fun insertPhoto(photo: Photos) {
+        viewModelScope.launch (Dispatchers.IO){
+            insertPhotoUseCase.execute(photo)
         }
     }
 

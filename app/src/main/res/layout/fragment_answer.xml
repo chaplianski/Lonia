@@ -30,27 +30,26 @@
         android:id="@+id/tv_answer_attach_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Attach a photo"
+        android:text="Add photos"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_answer_date"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintTop_toBottomOf="@+id/bt_answer_yes"
+        app:layout_constraintVertical_bias="0.043" />
 
     <TextView
         android:id="@+id/tv_answer_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Information"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_answer_date"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_answer_title" />
 
     <EditText
         android:id="@+id/et_answer_content"
@@ -58,7 +57,6 @@
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/border"
         android:ems="10"
@@ -70,8 +68,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_answer_attach_photo"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/bt_answer_date"
+        app:layout_constraintVertical_bias="0.019"
         app:rippleColor="@color/white" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -108,7 +106,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/border"
         android:text="Date of verification"
@@ -116,9 +114,51 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_answer_information"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_answer_attach_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add note"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_answer_attach_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_answer_attach_photo"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/bt_answer_save_botton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_answer_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_answer_photos"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_answer_attach_photo"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/photo_item"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

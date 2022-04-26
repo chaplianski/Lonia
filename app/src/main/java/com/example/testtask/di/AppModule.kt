@@ -80,4 +80,10 @@ class AppModule() {
     @Provides
     fun provideLoginRepository (impl: AuthorizationRepositoryImpl): AuthorizationRepository = impl
 
+    @Provides
+    fun providePhotosStorage (impl: PhotosStorageImpl): PhotosStorage = impl
+
+    @Provides
+    fun providePhotosRepository (impl: PhotosRepositoryImpl): PhotosRepository = impl
+
 }

@@ -2,9 +2,7 @@ package com.example.testtask.presenter.factories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.testtask.domain.usecase.GetAnswerUseCase
-import com.example.testtask.domain.usecase.UpdateAnswerUseCase
-import com.example.testtask.domain.usecase.UpdateQuestionsUseCase
+import com.example.testtask.domain.usecase.*
 import com.example.testtask.presenter.viewmodel.AnswerViewModel
 import javax.inject.Inject
 
@@ -12,10 +10,20 @@ import javax.inject.Inject
 class AnswerViewModelFactory @Inject constructor(
     private val getAnswerUseCase: GetAnswerUseCase,
     private val updateQuestionsUseCase: UpdateQuestionsUseCase,
-    private val updateAnswerUseCase: UpdateAnswerUseCase
+    private val updateAnswerUseCase: UpdateAnswerUseCase,
+    private val getPhotosUseCase: GetPhotosUseCase,
+    private val updatePhotosUseCase: UpdatePhotosUseCase,
+    private val insertPhotoUseCase: InsertPhotoUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return AnswerViewModel(getAnswerUseCase, updateQuestionsUseCase, updateAnswerUseCase) as T
+        return AnswerViewModel(
+            getAnswerUseCase,
+            updateQuestionsUseCase,
+            updateAnswerUseCase,
+            getPhotosUseCase,
+            updatePhotosUseCase,
+            insertPhotoUseCase
+        ) as T
     }
 
 }

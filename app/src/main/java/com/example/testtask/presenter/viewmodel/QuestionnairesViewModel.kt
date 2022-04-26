@@ -8,6 +8,7 @@ import com.example.testtask.domain.exceptions.InternetConnectionException
 import com.example.testtask.domain.exceptions.NetworkException
 import com.example.testtask.domain.model.BriefCase
 import com.example.testtask.domain.model.Questionnaires
+import com.example.testtask.domain.model.Questions
 import com.example.testtask.domain.usecase.AddBriefCaseUseCase
 import com.example.testtask.domain.usecase.FetchQuestionsUseCase
 import com.example.testtask.domain.usecase.GetQuestionnairesUseCase
@@ -56,9 +57,22 @@ class QuestionnairesViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
 
             screenStateData.value = State.Loading
+            var listResponse = emptyList<Questions>()
 
-            val questionsResponse = fetchQuestionsUseCase.execute(qid)
-            val listResponse = questionsResponse.response
+            val questionsResponse = fetchQuestionsUseCase.execute(qid).fold({
+                listResponse = it
+
+            }, {
+                when (it) {
+                    is NetworkException -> {screenStateData.emit(State.Error(it.errorMessage))}
+                    is InternetConnectionException -> {}
+                    else -> {}
+                }
+            }
+
+
+            )
+
             if (!listResponse.isNullOrEmpty()){
                 val briefCase = BriefCase(
                     vessel = vessel,

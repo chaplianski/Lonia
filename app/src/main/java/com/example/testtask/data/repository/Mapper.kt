@@ -80,14 +80,18 @@ fun AnswersData.answersMapDataToDomain(): Answers {
     return Answers(
         answerId = answerId,
         answer = answer,
-        answerDate = answerData
+        answerDate = answerData,
+        answerChoice = answerChoice,
+
     )
 }
 fun Answers.answersMapDomainToData(): AnswersData {
     return AnswersData (
         answerId = answerId,
         answer = answer,
-        answerData = answerDate
+        answerData = answerDate,
+        answerChoice = answerChoice,
+
     )
 }
 
@@ -98,8 +102,18 @@ fun LoginRequest.loginMapDomainToData(): LoginRequestData {
     )
 }
 
-fun LoginResponseData.loginResponseDataToDomain(): LoginResponse{
-    return LoginResponse(
-        token = token
+fun Photos.photosMapDomainToData(): PhotosData {
+    return PhotosData(
+        photoId = photoId,
+        answerId = answerId,
+        photoUri = photoUri
+    )
+}
+
+fun PhotosData.photosMapDataToDomain(): Photos {
+    return Photos(
+        photoId = photoId,
+        answerId = answerId,
+        photoUri = photoUri
     )
 }

@@ -1,11 +1,11 @@
 package com.example.testtask.data.storage.dao
 
-import androidx.room.*
-import com.example.testtask.data.storage.model.BriefCaseData
-import com.example.testtask.data.storage.model.QuestionsData
 import android.util.Log
+import androidx.room.*
 import com.example.testtask.data.storage.model.AnswersData
-
+import com.example.testtask.data.storage.model.BriefCaseData
+import com.example.testtask.data.storage.model.PhotosData
+import com.example.testtask.data.storage.model.QuestionsData
 
 @Dao
 abstract class BriefcaseDao {
@@ -25,6 +25,9 @@ abstract class BriefcaseDao {
     @Query("SELECT * FROM questions WHERE briefCaseId= :id")
     abstract fun getAllQuestions(id: Long): List<QuestionsData>
 
+    @Query("SELECT * FROM photos WHERE answerId = :answerId")
+    abstract fun getPhotos(answerId: Long): List<PhotosData>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertAllQuestions(questionsDataList: List<QuestionsData>)
 
@@ -33,6 +36,9 @@ abstract class BriefcaseDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertAnswer(answersData: AnswersData): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insertPhoto(photosData: PhotosData): Long
 
     fun insert(briefCaseData: BriefCaseData, questionsDataList: List<QuestionsData>) {
         val briefcaseId: Long = insertBriefcase(briefCaseData)
@@ -46,6 +52,9 @@ abstract class BriefcaseDao {
     @Update
     abstract fun updateAnswer(answersData: AnswersData)
 
+    @Update
+    abstract fun updatePhotos(photosData: PhotosData)
+
     @Query("UPDATE questions SET answer= :answerId, isAnswered= :isAnswered  WHERE questionid = :questionId")
     abstract fun updateQuestion(answerId: Long, isAnswered: Boolean, questionId: String)
 
@@ -53,7 +62,9 @@ abstract class BriefcaseDao {
         val answerId = insertAnswer(answersData)
         val isAnswered = true
         val questionId = questionsData.questionid
-        Log.d("My Log", "questionId in Dao: $questionId")
         updateQuestion(answerId, isAnswered, questionId)
     }
+
+
+
 }

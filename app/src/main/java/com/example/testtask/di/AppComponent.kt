@@ -21,6 +21,7 @@ interface AppComponent {
      fun answersFragmentInject(answersFragment: AnswersFragment)
      fun answerFragmentInject(answerFragment: AnswerFragment)
      fun loginFragmentInject(loginFragment: LoginFragment)
+     fun cameraFragmentInject(cameraFragment: CameraFragment)
 
     @Component.Builder
     interface Builder{
