@@ -1,6 +1,5 @@
 package com.example.testtask.presenter.ui
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues
@@ -9,17 +8,14 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.FileUtils
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
@@ -51,7 +47,6 @@ class AnswerFragment : Fragment() {
 
     private lateinit var photoPicker: PhotoPicker
 
-
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
             .context(context)
@@ -75,14 +70,14 @@ class AnswerFragment : Fragment() {
         photoPicker =
             PhotoPicker(context!!, requireActivity().activityResultRegistry) { uri ->
                 savePhotoToAnswer(uri)
-                Log.d ("My Log", "answer fragment uri: $uri")
+                Log.d("My Log", "answer fragment uri: $uri")
                 // if (uri == null) return@PhotoPicker
                 //  FileUtils.getBitmap(requireActivity().contentResolver,uri)
             }
 
         val informationButton = binding.tvAnswerInformation
         val dateAnswer = binding.btAnswerDate
-        val answerTextVew = binding.etAnswerContent
+        val answerTextVew = binding.etAnswerText
         val positiveButton = binding.btAnswerYes
         val negativeButton = binding.btAnswerNo
         val questionTextView = binding.tvAnswerTitle
@@ -95,7 +90,7 @@ class AnswerFragment : Fragment() {
         val questionId = sharedPref?.getString(Constants.CURRENR_QUESTION_ID, "").toString()
         val answerId = sharedPref?.getInt(Constants.CURRENT_ANSWER_ID, 0)
         val buttonSelectionError = binding.tvAnswerButtonError
-        val answerTextError = binding.tvAnswerTextError
+        val answerTextField = binding.etAnswerField
         val listQuestionsId = arguments?.getStringArray(Constants.LIST_QUESTIONS_ID)?.toList()
         var answerKeyPosition = 0
         var answerDate: Long = 0
@@ -112,16 +107,16 @@ class AnswerFragment : Fragment() {
 
         // ***** handling multiple questions *******
 
-        if (!listQuestionsId?.toList().isNullOrEmpty()){
-           questionTextView.text = "Answer to the question added to the list"
+        if (!listQuestionsId?.toList().isNullOrEmpty()) {
+            questionTextView.text = "Answer to the question added to the list"
         } else {
             questionTextView.text = question
         }
 
         // ***** update answer *****
 
-        if (answerId != null){
-            if (!answerId.equals(0)){
+        if (answerId != null) {
+            if (!answerId.equals(0)) {
                 answerId?.toLong()?.let { answerViewModel.getAnswer(it) }
             }
         }
@@ -157,8 +152,6 @@ class AnswerFragment : Fragment() {
             dataPicker.show()
         }
 
-
-
         val isFromNotes = arguments?.getInt("from notes")
         if (isFromNotes == 1) {
 
@@ -166,7 +159,7 @@ class AnswerFragment : Fragment() {
             val answer = arguments?.getString("answer text")
             answerTextVew.setText("$answer \n$noteText")
             val date = arguments?.getLong("answer date")
-            if (date == 0L){
+            if (date == 0L) {
                 dateAnswer.text = "DATE OF VERIFICATION"
             } else {
                 dateAnswer.text = formateDate.format(date)
@@ -200,8 +193,6 @@ class AnswerFragment : Fragment() {
 
         answerViewModel.answer.observe(this.viewLifecycleOwner, { answer ->
 
-
-
             // Condition not empty views of answer *****
 
             if (!answer.answerDate.equals(0) && !answer.answerDate.equals(null)) {
@@ -212,20 +203,6 @@ class AnswerFragment : Fragment() {
                 dateAnswer.text = formateDate.format(data)
                 answerViewModel.getPhotos(answer.answerId)
             }
-
-            // Condition return from notes fragment *****
-
-
-
-
-
-
-
-           //     Log.d("My Log", "Answer fragment answerDate: $answerDate, answerText: $answer, keyPosition: $noteText")
-
-
-
-
         })
 
         // ****** Observe photos list *****
@@ -237,28 +214,26 @@ class AnswerFragment : Fragment() {
             }
         })
 
-
-
         saveBotton.setOnClickListener {
 
             // ****** Check no empty required field ******
 
             // Check answer data
-            if (answerDate == 0L){
+            if (answerDate == 0L) {
                 dateAnswer.text = "Please enter the date"
                 dateAnswer.setTextColor(Color.RED)
 
-            // Check answer text
-            } else if (answerTextVew.text.isEmpty()){
-                answerTextError.visibility = View.VISIBLE
+                // Check answer text
+            } else if (answerTextVew.text?.isBlank() == true) {
+                answerTextField.error = "Please enter email"
 
-            // Check button select
-            } else if (!positiveButton.isSelected && !negativeButton.isSelected){
+                // Check button select
+            } else if (!positiveButton.isSelected && !negativeButton.isSelected) {
                 buttonSelectionError.visibility = View.VISIBLE
 
-            // ***** Save data if answer for multiple list questions *****
+                // ***** Save data if answer for multiple list questions *****
 
-            } else if (!listQuestionsId?.toList().isNullOrEmpty()){
+            } else if (!listQuestionsId?.toList().isNullOrEmpty()) {
                 val listId = listQuestionsId?.toList()
                 val answerValue = answerTextVew.text.toString()
                 val answer = Answers(
@@ -266,13 +241,13 @@ class AnswerFragment : Fragment() {
                     answerDate = answerDate,
                     answerId = currentAnswerId,
                     answerChoice = true,
-                    )
+                )
                 if (listId != null) {
                     answerViewModel.updateListQuestionsAndAddAnswer(listId, answer)
                 }
                 navController.navigate(R.id.briefCaseFragment)
 
-            // ***** Save data if answer for one question
+                // ***** Save data if answer for one question
 
             } else {
                 val answerValue = answerTextVew.text.toString()
@@ -296,7 +271,7 @@ class AnswerFragment : Fragment() {
                     answerDate = answerDate,
                     answerId = currentAnswerId,
                     answerChoice = true,
-                    )
+                )
 
                 // ***** Check existing answer *****
 
@@ -307,7 +282,6 @@ class AnswerFragment : Fragment() {
                 }
                 navController.navigate(R.id.briefCaseFragment)
             }
-
         }
 
         //***** Select button (Yes / No) *****
@@ -341,24 +315,21 @@ class AnswerFragment : Fragment() {
         noteTextVeiw.setOnClickListener {
 
             val answerText = answerTextVew.text.toString()
-
-
             val bundle = Bundle()
             bundle.putInt("answer fragment", 1)
-            if (answerTextVew.text.isEmpty()){
-                bundle.putString("answer text", "")
-            } else {
-                bundle.putString("answer text", answerTextVew.text.toString())
-            }
-
-            Log.d("My Log", "fron answer fragment: answerData: $answerDate, answerText: $answerText, answerKey: $answerKeyPosition")
-
+            bundle.putString("answer text", answerTextVew.text.toString())
             bundle.putInt("answer key position", answerKeyPosition)
             bundle.putLong("answer date", answerDate)
 
             val navController = Navigation.findNavController(view)
             navController.navigate(R.id.action_answerFragment_to_notesFragment, bundle)
 
+        }
+
+        answerTextVew.doOnTextChanged { inputText, _, _, _ ->
+            if (inputText?.length!! > 0) {
+                answerTextField.error = null
+            }
         }
     }
 
@@ -369,18 +340,18 @@ class AnswerFragment : Fragment() {
             LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         photoRecyclerView.adapter = photoAdapter
 
-        photoAdapter.shortOnClickListener = object : PhotoAdapter.ShortOnClickListener{
+        photoAdapter.shortOnClickListener = object : PhotoAdapter.ShortOnClickListener {
             override fun shortClick(photo: Photos) {
-    //            Log.d("My Log", "answer fragment shot click")
-    //            val bundle = Bundle()
-   //             bundle.putString("photoUri", photo.photoUri)
-   //             Log.d("My Log", "answer fragment shot click, photoUri: ${photo.photoUri}")
-   //             val navController = Navigation.findNavController(view)
-   //             navController.navigate(R.id.action_answerFragment_to_photoViewDialog, bundle)
+                //            Log.d("My Log", "answer fragment shot click")
+                //            val bundle = Bundle()
+                //             bundle.putString("photoUri", photo.photoUri)
+                //             Log.d("My Log", "answer fragment shot click, photoUri: ${photo.photoUri}")
+                //             val navController = Navigation.findNavController(view)
+                //             navController.navigate(R.id.action_answerFragment_to_photoViewDialog, bundle)
             }
         }
 
-        photoAdapter.longOnClickListener = object : PhotoAdapter.LongOnClickListener{
+        photoAdapter.longOnClickListener = object : PhotoAdapter.LongOnClickListener {
             override fun longClick(photo: Photos) {
 
                 val builder = AlertDialog.Builder(context)
@@ -393,13 +364,12 @@ class AnswerFragment : Fragment() {
                 builder.show()
             }
         }
-
-
     }
 
-    val getPhotoGallary = registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
-        savePhotoToAnswer(imageUri)
-    }
+    val getPhotoGallary =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
+            savePhotoToAnswer(imageUri)
+        }
 
     private fun savePhotoToAnswer(imageUri: Uri?) {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
@@ -413,30 +383,32 @@ class AnswerFragment : Fragment() {
             )
         }
 
-  //      Log.d("My Log", "answer fragment new photo: $newPhoto")
+        //      Log.d("My Log", "answer fragment new photo: $newPhoto")
         if (newPhoto != null) {
             answerViewModel.insertPhoto(newPhoto)
             answerViewModel.getPhotos(answerId.toLong())
-    //        Log.d("My Log", "answer fragment insert photo")
+            //        Log.d("My Log", "answer fragment insert photo")
         }
     }
 
-    var resultUri :Uri? = null
+    var resultUri: Uri? = null
 
-    private val getPhotoCapture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+    private val getPhotoCapture =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
 
-        savePhotoToAnswer(resultUri)
+            savePhotoToAnswer(resultUri)
 
 
-        Log.d("My Log", "answer fragment result photo capture: $success")
+            Log.d("My Log", "answer fragment result photo capture: $success")
 
-    }
+        }
 
     private fun addChoosePhotoDirectionDialog() {
         val photoDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
-            resultUri = activity!!.contentResolver.insert(
+        resultUri = activity!!.contentResolver.insert(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            ContentValues())
+            ContentValues()
+        )
         Log.d("My Log", "answer fragment uri: $resultUri")
         val builder = AlertDialog.Builder(context)
 

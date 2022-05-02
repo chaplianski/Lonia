@@ -28,7 +28,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/button_selector"
                     android:text="Yes"
                     android:textColor="@color/black"
@@ -36,7 +36,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_answer_text_error"
+                    app:layout_constraintTop_toBottomOf="@+id/et_answer_field"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
@@ -54,27 +54,36 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_answer_button_error"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <EditText
-                    android:id="@+id/et_answer_content"
-                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox.Dense"
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/et_answer_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/border"
-                    android:ems="10"
-                    android:gravity="left|top"
                     android:hint="Answer"
-                    android:inputType="textMultiLine"
-                    android:textSize="14sp"
+                    app:errorEnabled="true"
+                    app:helperTextEnabled="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/bt_answer_date"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:rippleColor="@color/white" />
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_answer_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:inputType="textMultiLine"
+                        android:gravity="left|top"
+                        android:textColor="@color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_answer_photos"
@@ -203,25 +212,6 @@
                     app:layout_constraintHorizontal_bias="0.407"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/bt_answer_yes"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/tv_answer_text_error"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center_horizontal"
-                    android:text='Please enter text answer"'
-                    android:textColor="#D50000"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.407"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_answer_content"
                     app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

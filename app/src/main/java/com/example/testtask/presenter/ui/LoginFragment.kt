@@ -18,7 +18,6 @@ import com.example.testtask.R
 import com.example.testtask.di.DaggerAppComponent
 import com.example.testtask.domain.model.LoginRequest
 import com.example.testtask.presenter.factories.LoginViewModelFactory
-import com.example.testtask.presenter.factories.QuestionsViewModelFactory
 import com.example.testtask.presenter.viewmodel.LoginViewModel
 import com.google.android.material.textfield.TextInputLayout
 import javax.inject.Inject
@@ -52,7 +51,7 @@ class LoginFragment : Fragment() {
 
         val loginField = view.findViewById<TextInputLayout>(R.id.login_field)
         val passwordField = view.findViewById<TextInputLayout>(R.id.password_field)
-        val loginText = view.findViewById<EditText>(R.id.et_login_login_fragment)
+        val loginText = view.findViewById<EditText>(R.id.et_answer_answer_fragment)
         var tokenRequest = LoginRequest("","")
         val passwordText = view.findViewById<EditText>(R.id.et_password_login_fragment)
         val loginErrorTextView = view.findViewById<TextView>(R.id.tv_login_error_message)

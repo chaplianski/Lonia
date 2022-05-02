@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.25">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_login_login_fragment"
+            android:id="@+id/et_answer_answer_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress" />

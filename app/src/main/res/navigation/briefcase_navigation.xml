@@ -33,6 +33,8 @@
             app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_briefCaseFragment_to_questionsNotesFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
             app:destination="@id/questionsNotesFragment" />
     </fragment>
     <fragment
@@ -197,6 +199,8 @@
         android:label="CameraFragment" >
         <action
             android:id="@+id/action_cameraFragment_to_answerFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
             app:destination="@id/answerFragment" />
     </fragment>
     <dialog
@@ -210,6 +214,8 @@
         android:label="QuestionsNotesFragment" >
         <action
             android:id="@+id/action_questionsNotesFragment_to_answerFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
             app:destination="@id/answerFragment" />
         <action
             android:id="@+id/action_questionsNotesFragment_to_noteFragment"
@@ -222,6 +228,8 @@
         tools:layout="@layout/fragment_note" >
         <action
             android:id="@+id/action_noteFragment_to_questionsNotesFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
             app:destination="@id/questionsNotesFragment" />
     </fragment>
     <fragment
@@ -231,6 +239,8 @@
         tools:layout="@layout/fragment_notes" >
         <action
             android:id="@+id/action_notesFragment_to_answerFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
             app:destination="@id/answerFragment" />
     </fragment>
 </navigation>

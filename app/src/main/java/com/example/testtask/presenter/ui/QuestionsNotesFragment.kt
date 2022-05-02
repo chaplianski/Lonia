@@ -33,11 +33,7 @@ class QuestionsNotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
-
-
-
+        activity?.title = "Briefcases"
         return inflater.inflate(R.layout.fragment_questions_notes, container, false)
     }
 
