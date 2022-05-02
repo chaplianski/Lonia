@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -54,6 +55,7 @@ class LoginFragment : Fragment() {
         val loginText = view.findViewById<EditText>(R.id.et_login_login_fragment)
         var tokenRequest = LoginRequest("","")
         val passwordText = view.findViewById<EditText>(R.id.et_password_login_fragment)
+        val loginErrorTextView = view.findViewById<TextView>(R.id.tv_login_error_message)
         var loginValue = ""
         var passwordValue = ""
 
@@ -74,8 +76,7 @@ class LoginFragment : Fragment() {
         val signInButton = view.findViewById<Button>(R.id.bt_sign_in_login_fragment)
 
         signInButton.setOnClickListener {
-            Log.d("My Log", "LoginField: $loginField, loginText: $loginText")
-
+            loginErrorTextView.visibility = View.GONE
             if (loginText.text.isBlank()) {
                 loginField.error = "Please enter email"
                 Log.d("My Log", "Login Fragment ${passwordField.error}")
@@ -88,8 +89,19 @@ class LoginFragment : Fragment() {
                     password = passwordValue
                 )
                 loginViewModel.getToken(tokenRequest)
-                val navController = Navigation.findNavController(view)
-                navController.navigate(R.id.action_loginFragment_to_briefCaseFragment)
+
+                loginViewModel.loginErrorMessage.observe(this.viewLifecycleOwner, {
+
+                    if (it == "access is allowed") {
+
+                        val navController = Navigation.findNavController(view)
+                        navController.navigate(R.id.briefCaseFragment)
+                    }
+
+                    loginErrorTextView.text = it
+                    loginErrorTextView.visibility = View.VISIBLE
+                })
+
                 Log.d("My Log", "Login Fragment Login: ${tokenRequest.email} and password: ${tokenRequest.password}")
             }
         }

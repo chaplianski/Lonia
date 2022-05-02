@@ -86,4 +86,11 @@ class AppModule() {
     @Provides
     fun providePhotosRepository (impl: PhotosRepositoryImpl): PhotosRepository = impl
 
+    @Provides
+    fun provideNotesStorage (impl: NoteStorageImpl): NoteStorage = impl
+
+    @Provides
+    fun provideNotesRepository (impl: NoteRepositoryImpl): NoteRepository = impl
+
+
 }

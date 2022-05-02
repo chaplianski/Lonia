@@ -31,6 +31,9 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_left" />
+        <action
+            android:id="@+id/action_briefCaseFragment_to_questionsNotesFragment"
+            app:destination="@id/questionsNotesFragment" />
     </fragment>
     <fragment
         android:id="@+id/questionsFragment"
@@ -74,6 +77,12 @@
         <action
             android:id="@+id/action_answerFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_answerFragment_to_photoViewDialog"
+            app:destination="@id/photoViewDialog" />
+        <action
+            android:id="@+id/action_answerFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
     </fragment>
     <fragment
         android:id="@+id/answersFragment"
@@ -188,6 +197,40 @@
         android:label="CameraFragment" >
         <action
             android:id="@+id/action_cameraFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/photoViewDialog"
+        android:name="com.example.testtask.presenter.ui.dialogs.PhotoViewDialog"
+        android:label="dialog_photo"
+        tools:layout="@layout/dialog_photo" />
+    <fragment
+        android:id="@+id/questionsNotesFragment"
+        android:name="com.example.testtask.presenter.ui.QuestionsNotesFragment"
+        android:label="QuestionsNotesFragment" >
+        <action
+            android:id="@+id/action_questionsNotesFragment_to_answerFragment"
+            app:destination="@id/answerFragment" />
+        <action
+            android:id="@+id/action_questionsNotesFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="com.example.testtask.presenter.ui.NoteFragment"
+        android:label="fragment_note"
+        tools:layout="@layout/fragment_note" >
+        <action
+            android:id="@+id/action_noteFragment_to_questionsNotesFragment"
+            app:destination="@id/questionsNotesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notesFragment"
+        android:name="com.example.testtask.presenter.ui.NotesFragment"
+        android:label="fragment_notes"
+        tools:layout="@layout/fragment_notes" >
+        <action
+            android:id="@+id/action_notesFragment_to_answerFragment"
             app:destination="@id/answerFragment" />
     </fragment>
 </navigation>

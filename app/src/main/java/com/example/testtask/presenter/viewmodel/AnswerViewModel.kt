@@ -19,7 +19,9 @@ class AnswerViewModel @Inject constructor(
     private val updateAnswerUseCase: UpdateAnswerUseCase,
     private val getPhotosUseCase: GetPhotosUseCase,
     private val updatePhotosUseCase: UpdatePhotosUseCase,
-    private val insertPhotoUseCase: InsertPhotoUseCase
+    private val insertPhotoUseCase: InsertPhotoUseCase,
+    private val deletePhotoUseCase: DeletePhotoUseCase,
+    private val updateListQuestionsUseCase: UpdateListQuestionsUseCase
 ) : ViewModel() {
 
     val _answer = MutableLiveData<Answers>()
@@ -46,6 +48,13 @@ class AnswerViewModel @Inject constructor(
         }
     }
 
+    fun updateListQuestionsAndAddAnswer(questionsIdList: List<String>, answers: Answers){
+        viewModelScope.launch(Dispatchers.IO) {
+            updateListQuestionsUseCase.execute(questionsIdList, answers)
+        }
+
+    }
+
     fun getPhotos(idAnswer: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val responsePhotos = getPhotosUseCase.execute(idAnswer)
@@ -62,6 +71,12 @@ class AnswerViewModel @Inject constructor(
     fun insertPhoto(photo: Photos) {
         viewModelScope.launch (Dispatchers.IO){
             insertPhotoUseCase.execute(photo)
+        }
+    }
+
+    fun delitePhoto(photo: Photos) {
+        viewModelScope.launch (Dispatchers.IO){
+            deletePhotoUseCase.execute(photo)
         }
     }
 

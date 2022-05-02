@@ -20,4 +20,8 @@ class PhotosRepositoryImpl @Inject constructor(private val photosStorage: Photos
         val photosData = photos.photosMapDomainToData()
         photosStorage.insertPhoto(photosData)
     }
+
+    override fun deletePhotos(photos: Photos) {
+        photosStorage.deletePhoto(photos.photosMapDomainToData())
+    }
 }

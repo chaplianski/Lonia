@@ -21,4 +21,8 @@ class PhotosStorageImpl @Inject constructor(): PhotosStorage {
     override fun insertPhoto(photosData: PhotosData) {
         briefcaseDao.insertPhoto(photosData)
     }
+
+    override fun deletePhoto(photosData: PhotosData) {
+        briefcaseDao.deletePhotos(photosData)
+    }
 }

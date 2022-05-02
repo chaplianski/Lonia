@@ -12,7 +12,17 @@ import com.example.testtask.domain.model.Photos
 
 class PhotoAdapter(photoList: List<Photos>): RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
 
-    var listPhoto: MutableList<Photos> = photoList as MutableList<Photos>
+    var listPhoto: List<Photos> = photoList
+
+    interface ShortOnClickListener {
+        fun shortClick(photo: Photos)
+    }
+    interface LongOnClickListener {
+        fun longClick(photo: Photos)
+    }
+
+    var shortOnClickListener: ShortOnClickListener? = null
+    var longOnClickListener: LongOnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.photo_item, parent, false)
@@ -21,6 +31,13 @@ class PhotoAdapter(photoList: List<Photos>): RecyclerView.Adapter<PhotoAdapter.V
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(listPhoto[position].photoUri)
+        holder.itemView.setOnClickListener {
+            shortOnClickListener?.shortClick(listPhoto[position])
+        }
+        holder.itemView.setOnLongClickListener {
+            longOnClickListener?.longClick(listPhoto[position])
+            true
+        }
     }
 
     override fun getItemCount(): Int {
@@ -31,10 +48,8 @@ class PhotoAdapter(photoList: List<Photos>): RecyclerView.Adapter<PhotoAdapter.V
 
         val diffCallback = ViewHolder.PhotoDiffCallback(listPhoto, list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        //    tracks = list
         listPhoto = list as MutableList<Photos>
         diffResult.dispatchUpdatesTo(this)
-       //    notifyDataSetChanged()
     }
 
 

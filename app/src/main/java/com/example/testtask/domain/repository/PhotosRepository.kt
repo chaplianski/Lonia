@@ -9,4 +9,6 @@ interface PhotosRepository {
     fun updatePhotos(photos: Photos)
 
     fun insertPhotos(photos: Photos)
+
+    fun deletePhotos(photos: Photos)
 }

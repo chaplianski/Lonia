@@ -30,7 +30,7 @@ fun BriefCaseData.briefcaseMapDataToDomain(): BriefCase {
         inspectorType = inspectorType,
         vessel = vessel,
         category = category,
-        )
+    )
 }
 
 fun QuestionnairesData.questionnairesMapDataToDomain(): Questionnaires {
@@ -83,16 +83,17 @@ fun AnswersData.answersMapDataToDomain(): Answers {
         answerDate = answerData,
         answerChoice = answerChoice,
 
-    )
+        )
 }
+
 fun Answers.answersMapDomainToData(): AnswersData {
-    return AnswersData (
+    return AnswersData(
         answerId = answerId,
         answer = answer,
         answerData = answerDate,
         answerChoice = answerChoice,
 
-    )
+        )
 }
 
 fun LoginRequest.loginMapDomainToData(): LoginRequestData {
@@ -115,5 +116,23 @@ fun PhotosData.photosMapDataToDomain(): Photos {
         photoId = photoId,
         answerId = answerId,
         photoUri = photoUri
+    )
+}
+
+fun Notes.notesMapDomainToData(): NotesData {
+    return NotesData(
+        noteId = noteId,
+        noteValue = noteValue,
+        briefcaseId = briefcaseId,
+        noteName = noteName
+    )
+}
+
+fun NotesData.notesMapDataToDomain(): Notes {
+    return Notes(
+        noteId = noteId,
+        noteValue = noteValue,
+        briefcaseId = briefcaseId,
+        noteName = noteName
     )
 }

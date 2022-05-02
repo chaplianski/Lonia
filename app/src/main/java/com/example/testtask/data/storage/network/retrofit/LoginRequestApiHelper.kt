@@ -2,9 +2,11 @@ package com.example.testtask.data.storage.network.retrofit
 
 import android.content.Context
 import android.util.Log
+import com.example.testtask.R
 import com.example.testtask.data.storage.model.LoginRequestData
 import com.example.testtask.data.storage.model.LoginResponseData
 import com.example.testtask.data.storage.network.service.AuthorizationApiService
+import com.example.testtask.domain.exceptions.NetworkException
 import com.example.testtask.presenter.ui.Constants
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -19,10 +21,11 @@ class LoginRequestApiHelper @Inject constructor() {
     @Inject
     lateinit var context: Context
 
-    suspend fun fetchToken(loginRequestData: LoginRequestData): LoginResponseData{
+    suspend fun fetchToken(loginRequestData: LoginRequestData): Int{
 
         val retrofit = loginRequestretrofit.create(AuthorizationApiService::class.java)
-        Log.d("My Log", "Login Helper - email: ${loginRequestData.email}, password: ${loginRequestData.password}")
+        var token = ""
+
 
         val json = JSONObject()
         json.put("email", loginRequestData.email)
@@ -31,11 +34,29 @@ class LoginRequestApiHelper @Inject constructor() {
 
         val responseToken = retrofit.fetchToken(sendData)
 
-        val sharedPref = context.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
-        sharedPref?.edit()?.putString(NetParameters.TOKEN, responseToken.body()?.token)?.apply()
+        var isSuccess = 0
 
-        Log.d("My Log", "Token: ${responseToken.body()}")
-        return responseToken.body()!!
+        when (responseToken.code()) {
+            in 200..299 -> {
+                token = responseToken.body()?.token ?: ""
+                val sharedPref = context.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
+                sharedPref?.edit()?.putString(NetParameters.TOKEN, responseToken.body()?.token)?.apply()
+                isSuccess = 1
+                return isSuccess
+
+            }
+            in 300..399 -> {
+                throw NetworkException(R.string.redirect_error)
+            }
+            in 400..499 -> {
+                throw NetworkException(R.string.client_error)
+            }
+            in 500..599 -> {
+                throw NetworkException(R.string.server_error)
+            }
+        }
+
+        return isSuccess
     }
 
 

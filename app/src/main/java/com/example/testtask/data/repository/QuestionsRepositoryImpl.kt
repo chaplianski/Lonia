@@ -25,4 +25,12 @@ class QuestionsRepositoryImpl @Inject constructor(
         val answersData = answers.answersMapDomainToData()
         questionsStorage.updateQuestions(questionsData, answersData)
     }
+
+    override fun getNotAnsweredQuestions(briefcaseId: Long): List<Questions> {
+        return questionsStorage.getNotAnsweredQuestionsList(briefcaseId).map { it.questionsMapDataToDomain() }
+    }
+
+    override fun updateListQuestions(questionsListId: List<String>, answers: Answers) {
+        questionsStorage.updateQuestionsListAddAnswer(questionsListId, answers.answersMapDomainToData())
+    }
 }

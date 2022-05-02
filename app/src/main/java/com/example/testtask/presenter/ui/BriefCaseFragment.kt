@@ -1,25 +1,21 @@
 package com.example.testtask.presenter.ui
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 import com.example.testtask.di.DaggerAppComponent
-import com.example.testtask.domain.model.BriefCase
+import com.example.testtask.domain.model.BriefcasesAndQuestions
 import com.example.testtask.presenter.adapter.BriefCaseAdapter
-import com.example.testtask.presenter.adapter.PortAdapter
 import com.example.testtask.presenter.factories.BriefcaseViewModelFactory
 import com.example.testtask.presenter.viewmodel.BriefCaseViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
@@ -47,7 +43,6 @@ class BriefCaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         activity?.title = "Briefcases"
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_briefcase, container, false)
     }
 
@@ -62,55 +57,96 @@ class BriefCaseFragment : Fragment() {
 
         val bottomNavigation: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.page_briefcase -> {
-                    addNewBriefCaseButton.visibility = View.VISIBLE
-                    true
-                }
-                R.id.page_answer -> {
-                    addNewBriefCaseButton.visibility = View.INVISIBLE
-                    true
-                }
-                else -> false
-            }
-        }
 
         val briefcaseButton = view.findViewById<BottomNavigationItemView>(R.id.page_briefcase)
         val answersButton = view.findViewById<BottomNavigationItemView>(R.id.page_answer)
 
         briefcaseViewModel.briefCase.observe(this.viewLifecycleOwner, {
 
-            if (!it.isEmpty()) {
-                val briefcaseAdapter = BriefCaseAdapter(it)
-                val briefcaseRV = view.findViewById<RecyclerView>(R.id.rv_briefcase)
-                briefcaseRV.layoutManager = LinearLayoutManager(context)
-                briefcaseRV.adapter = briefcaseAdapter
+            showBriefcases(
+                it,
+                view,
+                briefcaseButton,
+                sharedPref,
+                navController,
+                answersButton,
+                false
+            )
 
-                briefcaseAdapter.shortOnClickListener =
-                    object : BriefCaseAdapter.ShortOnClickListener {
+            bottomNavigation.setOnItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.page_briefcase -> {
+                        addNewBriefCaseButton.visibility = View.VISIBLE
 
-                        override fun ShortClick(briefCase: BriefCase) {
+                        showBriefcases(
+                            it,
+                            view,
+                            briefcaseButton,
+                            sharedPref,
+                            navController,
+                            answersButton,
+                            false
+                        )
 
-                            if (briefcaseButton.isSelected) {
-                                sharedPref?.edit()
-                                    ?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)
-                                    ?.apply()
-                                navController.navigate(R.id.action_briefCaseFragment_to_questionsFragment)
-                            }
-                            if (answersButton.isSelected) {
-                                sharedPref?.edit()
-                                    ?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)
-                                    ?.apply()
-                                navController.navigate(R.id.action_briefCaseFragment_to_answersFragment)
-                            }
-                        }
+                        true
                     }
+                    R.id.page_answer -> {
+                        addNewBriefCaseButton.visibility = View.INVISIBLE
+
+                        showBriefcases(
+                            it,
+                            view,
+                            briefcaseButton,
+                            sharedPref,
+                            navController,
+                            answersButton,
+                            true
+                        )
+
+                        true
+                    }
+                    else -> false
+                }
             }
         })
 
         addNewBriefCaseButton.setOnClickListener {
             navController.navigate(R.id.action_briefCaseFragment_to_vesselsFragment)
         }
+    }
+
+    private fun showBriefcases(
+        it: List<BriefcasesAndQuestions>,
+        view: View,
+        briefcaseButton: BottomNavigationItemView,
+        sharedPref: SharedPreferences?,
+        navController: NavController,
+        answersButton: BottomNavigationItemView,
+        isAnswered: Boolean
+    ) {
+        val briefcaseAdapter = BriefCaseAdapter(it, isAnswered)
+        val briefcaseRV = view.findViewById<RecyclerView>(R.id.rv_briefcase)
+        briefcaseRV.layoutManager = LinearLayoutManager(context)
+        briefcaseRV.adapter = briefcaseAdapter
+
+        briefcaseAdapter.shortOnClickListener =
+            object : BriefCaseAdapter.ShortOnClickListener {
+
+                override fun ShortClick(briefCase: BriefcasesAndQuestions) {
+
+                    if (briefcaseButton.isSelected) {
+                        sharedPref?.edit()
+                            ?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)
+                            ?.apply()
+                        navController.navigate(R.id.action_briefCaseFragment_to_questionsNotesFragment)
+                    }
+                    if (answersButton.isSelected) {
+                        sharedPref?.edit()
+                            ?.putLong(Constants.CURRENT_BRIEFCASE, briefCase.briefCaseId)
+                            ?.apply()
+                        navController.navigate(R.id.action_briefCaseFragment_to_answersFragment)
+                    }
+                }
+            }
     }
 }

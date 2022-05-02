@@ -5,5 +5,5 @@ import com.example.testtask.domain.model.LoginResponse
 
 interface AuthorizationRepository {
 
-    suspend fun getToken (loginRequest: LoginRequest): LoginResponse
+    suspend fun getToken (loginRequest: LoginRequest): Int
 }

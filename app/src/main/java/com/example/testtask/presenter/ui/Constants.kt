@@ -13,5 +13,6 @@ class Constants {
         val CURRENR_QUESTION_ID = "current question id"
         val CURRENT_COMMENT = "current comment"
         val CURRENT_ANSWER_ID = "current answer id"
+        val LIST_QUESTIONS_ID = "list questions id"
     }
 }

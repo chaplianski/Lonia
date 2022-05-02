@@ -9,4 +9,6 @@ interface PhotosStorage {
     fun updatePhotos(photosData: PhotosData)
 
     fun insertPhoto(photosData: PhotosData)
+
+    fun deletePhoto(photosData: PhotosData)
 }

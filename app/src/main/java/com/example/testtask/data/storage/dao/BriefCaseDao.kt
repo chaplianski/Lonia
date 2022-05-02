@@ -1,11 +1,7 @@
 package com.example.testtask.data.storage.dao
 
-import android.util.Log
 import androidx.room.*
-import com.example.testtask.data.storage.model.AnswersData
-import com.example.testtask.data.storage.model.BriefCaseData
-import com.example.testtask.data.storage.model.PhotosData
-import com.example.testtask.data.storage.model.QuestionsData
+import com.example.testtask.data.storage.model.*
 
 @Dao
 abstract class BriefcaseDao {
@@ -22,11 +18,17 @@ abstract class BriefcaseDao {
     @Query("SELECT * FROM briefcase")
     abstract fun getAllBriefCases(): List<BriefCaseData>
 
-    @Query("SELECT * FROM questions WHERE briefCaseId= :id")
+    @Query("SELECT * FROM questions WHERE briefCaseId= :id ")
     abstract fun getAllQuestions(id: Long): List<QuestionsData>
+
+    @Query("SELECT * FROM questions WHERE briefCaseId= :id AND questions.isAnswered = 0 ")
+    abstract fun getNotAnsweredQuestions(id: Long): List<QuestionsData>
 
     @Query("SELECT * FROM photos WHERE answerId = :answerId")
     abstract fun getPhotos(answerId: Long): List<PhotosData>
+
+    @Query("SELECT * FROM notes WHERE briefcaseId = :briefcaseId")
+    abstract fun getNotes(briefcaseId: Long): List<NotesData>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertAllQuestions(questionsDataList: List<QuestionsData>)
@@ -36,6 +38,9 @@ abstract class BriefcaseDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertAnswer(answersData: AnswersData): Long
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insertNote(notesData: NotesData)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertPhoto(photosData: PhotosData): Long
@@ -49,11 +54,17 @@ abstract class BriefcaseDao {
         insertAllQuestions(questions)
     }
 
+    @Delete
+    abstract fun deletePhotos(photosData: PhotosData)
+
     @Update
     abstract fun updateAnswer(answersData: AnswersData)
 
     @Update
     abstract fun updatePhotos(photosData: PhotosData)
+
+    @Update
+    abstract fun updateNotes(notesData: NotesData)
 
     @Query("UPDATE questions SET answer= :answerId, isAnswered= :isAnswered  WHERE questionid = :questionId")
     abstract fun updateQuestion(answerId: Long, isAnswered: Boolean, questionId: String)
@@ -63,6 +74,15 @@ abstract class BriefcaseDao {
         val isAnswered = true
         val questionId = questionsData.questionid
         updateQuestion(answerId, isAnswered, questionId)
+    }
+
+    fun updateQuestionsListAndInsertAnswer(questionsListId: List<String>, answersData: AnswersData) {
+        val answerId = insertAnswer(answersData)
+        val isAnswered = true
+        for (questionId in questionsListId){
+            updateQuestion(answerId, isAnswered, questionId)
+        }
+
     }
 
 
