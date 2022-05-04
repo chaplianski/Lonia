@@ -1,13 +1,10 @@
 package com.example.testtask.data.storage.network.retrofit
 
 import android.content.Context
-import android.util.Log
 import com.example.testtask.R
 import com.example.testtask.data.storage.model.LoginRequestData
-import com.example.testtask.data.storage.model.LoginResponseData
 import com.example.testtask.data.storage.network.service.AuthorizationApiService
 import com.example.testtask.domain.exceptions.NetworkException
-import com.example.testtask.presenter.ui.Constants
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -46,7 +43,7 @@ class LoginRequestApiHelper @Inject constructor() {
 
             }
             in 300..399 -> {
-                throw NetworkException(R.string.redirect_error)
+                throw NetworkException(R.string.internet_error)
             }
             in 400..499 -> {
                 throw NetworkException(R.string.client_error)

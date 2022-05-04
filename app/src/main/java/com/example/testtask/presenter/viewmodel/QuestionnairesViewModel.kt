@@ -38,7 +38,7 @@ class QuestionnairesViewModel @Inject constructor(
         }, {
             when (it) {
                 is NetworkException -> {screenStateData.emit(State.Error(it.errorMessage))}
-                is InternetConnectionException -> {}
+                is InternetConnectionException -> {screenStateData.emit(State.Error(it.errorMessage))}
                 else -> {}
             }
         })
@@ -64,8 +64,8 @@ class QuestionnairesViewModel @Inject constructor(
 
             }, {
                 when (it) {
-                    is NetworkException -> {screenStateData.emit(State.Error(it.errorMessage))}
-                    is InternetConnectionException -> {}
+                    is NetworkException -> {screenStateData.emit(State.Error(it.errorMessage))} //
+                    is InternetConnectionException -> {screenStateData.emit(State.Error(it.errorMessage))}
                     else -> {}
                 }
             }

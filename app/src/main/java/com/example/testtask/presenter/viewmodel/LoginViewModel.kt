@@ -1,6 +1,7 @@
 package com.example.testtask.presenter.viewmodel
 
 import android.util.Log
+import androidx.core.content.res.TypedArrayUtils.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,17 +35,14 @@ class LoginViewModel @Inject constructor(private val getTokenUseCase: getTokenUs
                    is NetworkException -> {
                        val netExeptionMessage = "Network error"
                        _loginErrorMessage.postValue(netExeptionMessage)
-
                    }
                    is InternetConnectionException -> {
                        val netExeptionMessage = "Internet connection error"
                        _loginErrorMessage.postValue(netExeptionMessage)
-
                    }
                    else -> {
                        val netExeptionMessage = "Unknown error"
                        _loginErrorMessage.postValue(netExeptionMessage)
-
                    }
                }
            }

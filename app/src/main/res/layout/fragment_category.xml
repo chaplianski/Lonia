@@ -6,11 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".presenter.ui.QuestionsFragment">
 
+    <Button
+        android:id="@+id/bt_questionnaries_fragment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to home screen"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_questionnaries_fragment_error_message"
+        app:layout_constraintVertical_bias="0.036" />
+
     <TextView
-        android:id="@+id/tv_error_message"
+        android:id="@+id/tv_questionnaries_fragment_error_message"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -1,4 +1,6 @@
 package com.example.testtask.domain.exceptions
 
-class InternetConnectionException (): Exception() {
+import androidx.annotation.StringRes
+
+class InternetConnectionException (@StringRes val errorMessage: Int): Exception() {
 }

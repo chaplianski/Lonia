@@ -37,7 +37,7 @@ class QuestionsApiHelper @Inject constructor() {
                 questionsDataResponse = responseQuestions.body() ?: emptyList()
             }
             in 300..399 -> {
-                throw NetworkException(R.string.redirect_error)
+                throw NetworkException(R.string.internet_error)
             }
             in 400..499 -> {
                 throw NetworkException(R.string.client_error)

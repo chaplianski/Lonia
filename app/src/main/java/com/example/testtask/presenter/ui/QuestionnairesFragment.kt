@@ -2,11 +2,13 @@ package com.example.testtask.presenter.ui
 
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.StringRes
@@ -35,6 +37,7 @@ class QuestionnairesFragment : Fragment() {
     lateinit var questionnairesViewModelFactory: QuestionnairesViewModelFactory
     val questionnairesViewModel: QuestionnairesViewModel by viewModels { questionnairesViewModelFactory }
 
+
     override fun onAttach(context: Context) {
         DaggerAppComponent.builder()
             .context(context)
@@ -60,6 +63,7 @@ class QuestionnairesFragment : Fragment() {
 
         val progressBar =
             view.findViewById<ProgressBar>(R.id.progressBar)
+        val errorButton: Button = view.findViewById(R.id.bt_questionnaries_fragment_button)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -92,18 +96,26 @@ class QuestionnairesFragment : Fragment() {
                             questionnairesRV.visibility = View.INVISIBLE
                             val message = it.exception
                             getErrorMessage(message)
+                            errorButton.visibility = View.VISIBLE
                         }
                     }
                 }
             }
         }
+
+        errorButton.setOnClickListener {
+            val navController = view.let { Navigation.findNavController(it) }
+            navController.navigate(R.id.loginFragment)
+        }
     }
 
+
+
     private fun getErrorMessage(@StringRes message: Int) {
-        val messageTextView = view?.findViewById<TextView>(R.id.tv_error_message)
+        val messageTextView = view?.findViewById<TextView>(R.id.tv_questionnaries_fragment_error_message)
         messageTextView?.setText(message)
-
-
+        messageTextView?.visibility = View.VISIBLE
+        messageTextView?.setTextColor(Color.RED)
     }
 
     private fun navigateToNext() {
