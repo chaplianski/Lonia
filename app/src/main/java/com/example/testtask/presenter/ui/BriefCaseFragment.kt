@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -42,7 +43,12 @@ class BriefCaseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.title = "Briefcases"
+
+        val activitySupport = activity as AppCompatActivity
+        activitySupport.title = "Briefcases"
+
+
+    //    activity?.title = "Briefcases"
         return inflater.inflate(R.layout.fragment_briefcase, container, false)
     }
 

@@ -6,7 +6,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -25,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.testtask.R
 import com.example.testtask.databinding.FragmentAnswerBinding
 import com.example.testtask.di.DaggerAppComponent
-import com.example.testtask.domain.model.Answers
 import com.example.testtask.domain.model.Photos
 import com.example.testtask.domain.model.Questions
 import com.example.testtask.presenter.adapter.PhotoAdapter
@@ -88,6 +90,7 @@ class AnswerFragment : Fragment() {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val question = sharedPref?.getString(Constants.CURRENT_QUESTION, "").toString()
         val questionId = sharedPref?.getString(Constants.CURRENR_QUESTION_ID, "").toString()
+        val briefcaseId = sharedPref?.getLong(Constants.CURRENT_BRIEFCASE, 0)
         val answerId = sharedPref?.getInt(Constants.CURRENT_ANSWER_ID, 0)
         val buttonSelectionError = binding.tvAnswerButtonError
         val answerTextField = binding.etAnswerField
@@ -189,12 +192,41 @@ class AnswerFragment : Fragment() {
         }
 
 
+        //***** Select button (Yes / No) *****
+
+        positiveButton.setOnClickListener {
+            answerKeyPosition = 1
+            positiveButton.isSelected = true
+            negativeButton.isSelected = false
+            buttonSelectionError.visibility = View.GONE
+            positiveButton.setTextColor(Color.WHITE)
+            negativeButton.setTextColor(Color.BLACK)
+        }
+
+        negativeButton.setOnClickListener {
+            answerKeyPosition = 2
+            negativeButton.isSelected = true
+            positiveButton.isSelected = false
+            negativeButton.setTextColor(Color.WHITE)
+            buttonSelectionError.visibility = View.GONE
+            positiveButton.setTextColor(Color.BLACK)
+        }
+
         // ***** Observe answer on layout *****
 
-        answerViewModel.answer.observe(this.viewLifecycleOwner, { answer ->
+        answerViewModel.question.observe(this.viewLifecycleOwner, { question ->
 
             // Condition not empty views of answer *****
+            if(question.isAnswered)
+                answerTextVew.setText(question.commentForQuestion)
+            answerDate = question.dateOfInspection.toLong()
+            val data = question.dateOfInspection.toLong()
+      //      currentAnswerId = answer.answerId
+            dateAnswer.text = formateDate.format(data)
+            answerViewModel.getPhotos(question.questionid)
 
+
+/*
             if (!answer.answerDate.equals(0) && !answer.answerDate.equals(null)) {
                 answerTextVew.setText(answer.answer)
                 answerDate = answer.answerDate
@@ -203,15 +235,22 @@ class AnswerFragment : Fragment() {
                 dateAnswer.text = formateDate.format(data)
                 answerViewModel.getPhotos(answer.answerId)
             }
+            */
+
         })
 
         // ****** Observe photos list *****
 
         answerViewModel.photos.observe(this.viewLifecycleOwner, {
 
-            if (answerId != null) {
-                getRecyclerView(it, view, answerId.toLong())
+            if(!questionId.equals("")){
+                getRecyclerView(it, view, questionId)
             }
+
+
+   //         if (answerId != null) {
+   //             getRecyclerView(it, view, answerId.toLong())
+   //         }
         })
 
         saveBotton.setOnClickListener {
@@ -236,15 +275,37 @@ class AnswerFragment : Fragment() {
             } else if (!listQuestionsId?.toList().isNullOrEmpty()) {
                 val listId = listQuestionsId?.toList()
                 val answerValue = answerTextVew.text.toString()
-                val answer = Answers(
-                    answer = answerValue,
-                    answerDate = answerDate,
-                    answerId = currentAnswerId,
-                    answerChoice = true,
-                )
                 if (listId != null) {
-                    answerViewModel.updateListQuestionsAndAddAnswer(listId, answer)
+                    for (questionId in listId){
+                        val questions = Questions(
+                            questionid = questionId,
+                            comment = "",
+                            dateOfInspection = answerDate.toString(),
+                            answer = answerKeyPosition,
+                            questioncode = "",
+                            question = "",
+                            commentForQuestion = answerValue,
+                            categoryid = "",
+                            origin = "",
+                            categorynewid = "",
+                            isAnswered = true,
+                            images = 0,
+                            briefCaseId = 0
+                        )
+                        answerViewModel.updateQuestion(questions)
+
+                    }
                 }
+
+ //               val answer = Answers(
+ //                   answer = answerValue,
+ //                   answerDate = answerDate,
+ //                   answerId = currentAnswerId,
+ //                   answerChoice = true,
+ //               )
+ //               if (listId != null) {
+ //                   answerViewModel.updateListQuestionsAndAddAnswer(listId, answer)
+ //               }
                 navController.navigate(R.id.briefCaseFragment)
 
                 // ***** Save data if answer for one question
@@ -254,55 +315,41 @@ class AnswerFragment : Fragment() {
                 val questions = Questions(
                     questionid = questionId,
                     comment = "",
-                    dateOfInspection = "",
-                    answer = 0,
+                    dateOfInspection = answerDate.toString(),
+                    answer = answerKeyPosition,
                     questioncode = "",
                     question = "",
-                    commentForQuestion = "",
+                    commentForQuestion = answerValue,
                     categoryid = "",
                     origin = "",
-                    categorynewid = "",
+                   categorynewid = "",
                     isAnswered = true,
                     images = 0,
                     briefCaseId = 0
                 )
-                val answer = Answers(
-                    answer = answerValue,
-                    answerDate = answerDate,
-                    answerId = currentAnswerId,
-                    answerChoice = true,
-                )
+    //            val answer = Answers(
+    //                answer = answerValue,
+    //                answerDate = answerDate,
+    //                answerId = currentAnswerId,
+    //                answerChoice = true,
+    //            )
 
                 // ***** Check existing answer *****
 
-                if (currentAnswerId != 0L) {
-                    answerViewModel.updateAnswer(answer)
-                } else {
-                    answerViewModel.updateQuestionAndAddAnswer(questions, answer)
-                }
+  //              if(questionId != ""){
+                    answerViewModel.updateQuestion(questions)
+  //              }
+
+  //              if (currentAnswerId != 0L) {
+  //                  answerViewModel.updateAnswer(answer)
+  //              } else {
+  //                  answerViewModel.updateQuestionAndAddAnswer(questions, answer)
+ //               }
                 navController.navigate(R.id.briefCaseFragment)
             }
         }
 
-        //***** Select button (Yes / No) *****
 
-        positiveButton.setOnClickListener {
-            answerKeyPosition = 1
-            positiveButton.isSelected = true
-            negativeButton.isSelected = false
-            buttonSelectionError.visibility = View.GONE
-            positiveButton.setTextColor(Color.WHITE)
-            negativeButton.setTextColor(Color.BLACK)
-        }
-
-        negativeButton.setOnClickListener {
-            answerKeyPosition = 2
-            negativeButton.isSelected = true
-            positiveButton.isSelected = false
-            negativeButton.setTextColor(Color.WHITE)
-            buttonSelectionError.visibility = View.GONE
-            positiveButton.setTextColor(Color.BLACK)
-        }
 
         // ***** Add photos to answer *****
 
@@ -314,15 +361,27 @@ class AnswerFragment : Fragment() {
 
         noteTextVeiw.setOnClickListener {
 
-            val answerText = answerTextVew.text.toString()
-            val bundle = Bundle()
-            bundle.putInt("answer fragment", 1)
-            bundle.putString("answer text", answerTextVew.text.toString())
-            bundle.putInt("answer key position", answerKeyPosition)
-            bundle.putLong("answer date", answerDate)
+            if (briefcaseId != null) {
+                answerViewModel.getNotes(briefcaseId)
+            }
+            answerViewModel.notes.observe(this.viewLifecycleOwner, {
 
-            val navController = Navigation.findNavController(view)
-            navController.navigate(R.id.action_answerFragment_to_notesFragment, bundle)
+                if(it.isEmpty()){
+                    Toast.makeText(context, "There are currently no notes", Toast.LENGTH_SHORT).show()
+                }else{
+                    val answerText = answerTextVew.text.toString()
+                    val bundle = Bundle()
+                    bundle.putInt("answer fragment", 1)
+                    bundle.putString("answer text", answerTextVew.text.toString())
+                    bundle.putInt("answer key position", answerKeyPosition)
+                    bundle.putLong("answer date", answerDate)
+
+                    val navController = Navigation.findNavController(view)
+                    navController.navigate(R.id.action_answerFragment_to_notesFragment, bundle)
+                }
+            })
+
+
 
         }
 
@@ -333,7 +392,7 @@ class AnswerFragment : Fragment() {
         }
     }
 
-    private fun getRecyclerView(photos: List<Photos>, view: View, answerId: Long) {
+    private fun getRecyclerView(photos: List<Photos>, view: View, questionId: String) {
         val photoAdapter = PhotoAdapter(photos)
         val photoRecyclerView = binding.rvAnswerPhotos
         photoRecyclerView.layoutManager =
@@ -357,8 +416,8 @@ class AnswerFragment : Fragment() {
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("Are you sure, that want delete image?")
                 builder.setPositiveButton("Yes") { dialog, id ->
-                    answerViewModel.delitePhoto(photo)
-                    answerViewModel.getPhotos(answerId)
+                    answerViewModel.deletePhoto(photo)
+                    answerViewModel.getPhotos(questionId)
                 }
                 builder.setNegativeButton("No", null)
                 builder.show()
@@ -371,24 +430,41 @@ class AnswerFragment : Fragment() {
             savePhotoToAnswer(imageUri)
         }
 
+
+
+
+
+
+
     private fun savePhotoToAnswer(imageUri: Uri?) {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-        val answerId = sharedPref?.getInt(Constants.CURRENT_ANSWER_ID, 0)
+        val questionId = sharedPref?.getString(Constants.CURRENR_QUESTION_ID, "")
 
-        val newPhoto = answerId?.toLong()?.let {
-            Photos(
-                photoId = 0,
-                answerId = it,
-                photoUri = imageUri.toString()
-            )
-        }
+ //       val newPhoto = questionId?.let {
+ //           Photos(
+ //               photoId = 0,
+ //               questionId = it,
+ //               photoUri = imageUri.toString()
+//            )
+ //       }
+        val contentResolver = context?.getContentResolver()
 
         //      Log.d("My Log", "answer fragment new photo: $newPhoto")
-        if (newPhoto != null) {
-            answerViewModel.insertPhoto(newPhoto)
-            answerViewModel.getPhotos(answerId.toLong())
-            //        Log.d("My Log", "answer fragment insert photo")
+ //       if (newPhoto != null) {
+ //           if (imageUri != null) {
+        if (imageUri != null) {
+            if (questionId != null) {
+                if (contentResolver != null) {
+                    answerViewModel.insertPhoto(imageUri, questionId, contentResolver)
+                }
+            }
         }
+ //           }
+ //       if (questionId != null) {
+ //           answerViewModel.getPhotos(questionId)
+  //      }
+            //        Log.d("My Log", "answer fragment insert photo")
+ //       }
     }
 
     var resultUri: Uri? = null
@@ -405,11 +481,11 @@ class AnswerFragment : Fragment() {
 
     private fun addChoosePhotoDirectionDialog() {
         val photoDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
-        resultUri = activity!!.contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            ContentValues()
-        )
-        Log.d("My Log", "answer fragment uri: $resultUri")
+    //    resultUri = activity!!.contentResolver.insert(
+    //        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+    //        ContentValues()
+    //    )
+    //    Log.d("My Log", "answer fragment uri: $resultUri")
         val builder = AlertDialog.Builder(context)
 
         builder.setTitle("Choose variant of adding photo")

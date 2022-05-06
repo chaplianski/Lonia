@@ -4,7 +4,7 @@ import com.example.testtask.domain.model.Photos
 
 interface PhotosRepository {
 
-    fun getPhotos (answerId: Long): List<Photos>
+    fun getPhotos (questionId: String): List<Photos>
 
     fun updatePhotos(photos: Photos)
 

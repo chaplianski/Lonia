@@ -1,22 +1,26 @@
 package com.example.testtask.presenter.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import com.example.testtask.R
 import com.example.testtask.di.DaggerAppComponent
 import com.example.testtask.presenter.adapter.QuestionsExpanbleAdapter
 import com.example.testtask.presenter.factories.QuestionsViewModelFactory
 import com.example.testtask.presenter.viewmodel.QuestionsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
+import android.R
+import android.util.Log
 
 
 class QuestionsFragment : Fragment() {
@@ -33,12 +37,15 @@ class QuestionsFragment : Fragment() {
         super.onAttach(context)
     }
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.title = "Questions"
-        return inflater.inflate(R.layout.fragment_questions, container, false)
+        val activitySupport = activity as AppCompatActivity
+        activitySupport.title = "Briefcases"
+
+        return inflater.inflate(com.example.testtask.R.layout.fragment_questions, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,8 +54,8 @@ class QuestionsFragment : Fragment() {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val briefcaseId = sharedPref?.getLong(Constants.CURRENT_BRIEFCASE, 0)
 
-        val checkItemsButton: FloatingActionButton = view.findViewById(R.id.bt_questions_check)
-        val answerItemsButton: FloatingActionButton = view.findViewById(R.id.bt_questions_answer)
+        val checkItemsButton: FloatingActionButton = view.findViewById(com.example.testtask.R.id.bt_questions_check)
+        val answerItemsButton: FloatingActionButton = view.findViewById(com.example.testtask.R.id.bt_questions_answer)
         var isCheck = false
 
 
@@ -59,7 +66,7 @@ class QuestionsFragment : Fragment() {
         questionViewModel.questionList.observe(this.viewLifecycleOwner, {
 
 
-            val expandableListView = view.findViewById<ExpandableListView>(R.id.elv_questions_expandable_list)
+            val expandableListView = view.findViewById<ExpandableListView>(com.example.testtask.R.id.elv_questions_expandable_list)
             val questionsAdapter = it
             expandableListView.setAdapter(questionsAdapter)
 
@@ -107,7 +114,7 @@ class QuestionsFragment : Fragment() {
                                 val bundle = Bundle()
                                 bundle.putStringArray(Constants.LIST_QUESTIONS_ID, arrayQuestions)
                                 val navController = Navigation.findNavController(view)
-                                navController.navigate(R.id.action_questionsNotesFragment_to_answerFragment, bundle)
+                                navController.navigate(com.example.testtask.R.id.action_questionsNotesFragment_to_answerFragment, bundle)
 
                             }
 
@@ -121,7 +128,7 @@ class QuestionsFragment : Fragment() {
                             sharedPref?.edit()?.putInt(Constants.CURRENT_ANSWER_ID, answer)
                                 ?.apply()
                             val navController = Navigation.findNavController(view)
-                            navController.navigate(R.id.action_questionsNotesFragment_to_answerFragment)
+                            navController.navigate(com.example.testtask.R.id.action_questionsNotesFragment_to_answerFragment)
 
                         }
 
@@ -130,6 +137,8 @@ class QuestionsFragment : Fragment() {
                 }
         })
     }
+
+
 
     companion object{
 

@@ -4,7 +4,7 @@ import com.example.testtask.data.storage.model.PhotosData
 
 interface PhotosStorage {
 
-    fun getPhotos(answerId: Long): List<PhotosData>
+    fun getPhotos(questionId: String): List<PhotosData>
 
     fun updatePhotos(photosData: PhotosData)
 

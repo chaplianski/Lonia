@@ -12,6 +12,9 @@ abstract class BriefcaseDao {
     @Query("SELECT * FROM answers WHERE answerId= :answerId")
     abstract fun getAnswer(answerId: Long): AnswersData
 
+    @Query("SELECT * FROM questions WHERE questionid= :questionId")
+    abstract fun getQuestion(questionId: String): QuestionsData
+
     @Query("SELECT * FROM questions WHERE questions.briefCaseId = :briefcaseId AND questions.isAnswered = 1 ")
     abstract fun getAnsweredQuestions(briefcaseId: Long): List<QuestionsData>
 
@@ -24,8 +27,8 @@ abstract class BriefcaseDao {
     @Query("SELECT * FROM questions WHERE briefCaseId= :id AND questions.isAnswered = 0 ")
     abstract fun getNotAnsweredQuestions(id: Long): List<QuestionsData>
 
-    @Query("SELECT * FROM photos WHERE answerId = :answerId")
-    abstract fun getPhotos(answerId: Long): List<PhotosData>
+    @Query("SELECT * FROM photos WHERE questionId = :questionId")
+    abstract fun getPhotos(questionId: String): List<PhotosData>
 
     @Query("SELECT * FROM notes WHERE briefcaseId = :briefcaseId")
     abstract fun getNotes(briefcaseId: Long): List<NotesData>
@@ -66,8 +69,26 @@ abstract class BriefcaseDao {
     @Update
     abstract fun updateNotes(notesData: NotesData)
 
+    @Query("UPDATE questions SET answer= :answer, isAnswered= :isAnswered, dateOfInspection= :dateOfInspection, commentForQuestion= :commentForQuestion  WHERE questionid = :questionId")
+    abstract fun updateQuestion1(
+        answer: Int,
+        dateOfInspection: String,
+        commentForQuestion: String,
+        isAnswered: Boolean,
+        questionId: String
+    )
+
     @Query("UPDATE questions SET answer= :answerId, isAnswered= :isAnswered  WHERE questionid = :questionId")
     abstract fun updateQuestion(answerId: Long, isAnswered: Boolean, questionId: String)
+
+    fun updateOneQuestion(questionData: QuestionsData) {
+        val answer = questionData.answer
+        val dateOfInspection = questionData.dateOfInspection
+        val commentForQuestion = questionData.commentForQuestion
+        val isAnswered = questionData.isAnswered
+        val questionId = questionData.questionid
+        updateQuestion1(answer, dateOfInspection, commentForQuestion, isAnswered, questionId)
+    }
 
     fun updateQuestionsAndInsertAnswer(questionsData: QuestionsData, answersData: AnswersData) {
         val answerId = insertAnswer(answersData)
@@ -76,15 +97,17 @@ abstract class BriefcaseDao {
         updateQuestion(answerId, isAnswered, questionId)
     }
 
-    fun updateQuestionsListAndInsertAnswer(questionsListId: List<String>, answersData: AnswersData) {
+    fun updateQuestionsListAndInsertAnswer(
+        questionsListId: List<String>,
+        answersData: AnswersData
+    ) {
         val answerId = insertAnswer(answersData)
         val isAnswered = true
-        for (questionId in questionsListId){
+        for (questionId in questionsListId) {
             updateQuestion(answerId, isAnswered, questionId)
         }
 
     }
-
 
 
 }

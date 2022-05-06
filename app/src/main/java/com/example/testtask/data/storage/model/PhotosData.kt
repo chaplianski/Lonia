@@ -1,5 +1,6 @@
 package com.example.testtask.data.storage.model
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,6 +8,6 @@ import androidx.room.PrimaryKey
 data class PhotosData(
     @PrimaryKey(autoGenerate = true)
     val photoId: Long,
-    val answerId: Long,
-    val photoUri: String
+    val questionId: String,
+    val photoUri: Bitmap
 )

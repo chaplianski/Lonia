@@ -15,7 +15,10 @@ class AnswerViewModelFactory @Inject constructor(
     private val updatePhotosUseCase: UpdatePhotosUseCase,
     private val insertPhotoUseCase: InsertPhotoUseCase,
     private val deletePhotoUseCase: DeletePhotoUseCase,
-    private val updateListQuestionsUseCase: UpdateListQuestionsUseCase
+    private val updateListQuestionsUseCase: UpdateListQuestionsUseCase,
+    private val updateQuestionUseCase: UpdateQuestionUseCase,
+    private val getQuestionUseCase: GetQuestionUseCase,
+    private val getNotesUseCase: GetNotesUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return AnswerViewModel(
@@ -26,7 +29,10 @@ class AnswerViewModelFactory @Inject constructor(
             updatePhotosUseCase,
             insertPhotoUseCase,
             deletePhotoUseCase,
-            updateListQuestionsUseCase
+            updateListQuestionsUseCase,
+            updateQuestionUseCase,
+            getQuestionUseCase,
+            getNotesUseCase
         ) as T
     }
 

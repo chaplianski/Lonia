@@ -10,8 +10,8 @@ class PhotosStorageImpl @Inject constructor(): PhotosStorage {
     @Inject
     lateinit var briefcaseDao: BriefcaseDao
 
-    override fun getPhotos(answerId: Long): List<PhotosData> {
-       return briefcaseDao.getPhotos(answerId)
+    override fun getPhotos(questionId: String): List<PhotosData> {
+       return briefcaseDao.getPhotos(questionId)
     }
 
     override fun updatePhotos(photosData: PhotosData) {

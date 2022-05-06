@@ -106,7 +106,7 @@ fun LoginRequest.loginMapDomainToData(): LoginRequestData {
 fun Photos.photosMapDomainToData(): PhotosData {
     return PhotosData(
         photoId = photoId,
-        answerId = answerId,
+        questionId = questionId,
         photoUri = photoUri
     )
 }
@@ -114,7 +114,7 @@ fun Photos.photosMapDomainToData(): PhotosData {
 fun PhotosData.photosMapDataToDomain(): Photos {
     return Photos(
         photoId = photoId,
-        answerId = answerId,
+        questionId = questionId,
         photoUri = photoUri
     )
 }

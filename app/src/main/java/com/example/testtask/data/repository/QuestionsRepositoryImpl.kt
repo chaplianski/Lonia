@@ -33,4 +33,12 @@ class QuestionsRepositoryImpl @Inject constructor(
     override fun updateListQuestions(questionsListId: List<String>, answers: Answers) {
         questionsStorage.updateQuestionsListAddAnswer(questionsListId, answers.answersMapDomainToData())
     }
+
+    override fun updateQuestion(question: Questions) {
+        questionsStorage.updateQuestion(question.questionsMapDomainToData())
+    }
+
+    override fun getQuestion(questionId: String): Questions {
+        return questionsStorage.getQuestion(questionId).questionsMapDataToDomain()
+    }
 }

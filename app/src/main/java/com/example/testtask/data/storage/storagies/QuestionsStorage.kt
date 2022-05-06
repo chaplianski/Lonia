@@ -12,4 +12,8 @@ interface QuestionsStorage {
     fun getNotAnsweredQuestionsList(briefcaseId: Long): List<QuestionsData>
 
     fun updateQuestionsListAddAnswer(questionsList: List<String>, answer: AnswersData)
+
+    fun updateQuestion(questionsData: QuestionsData)
+
+    fun getQuestion(questionId: String): QuestionsData
 }

@@ -80,7 +80,7 @@ class NoteFragment : Fragment() {
 
             if (idNote != 0L && idNote != null) {
                 val oldNote = Notes(
-                    noteId = idNote!!,
+                    noteId = idNote,
                     noteValue = content,
                     briefcaseId = briefcaseId!!,
                     noteName = nameNote!!

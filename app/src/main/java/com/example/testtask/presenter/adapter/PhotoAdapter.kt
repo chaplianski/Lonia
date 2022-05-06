@@ -1,5 +1,6 @@
 package com.example.testtask.presenter.adapter
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,21 +45,12 @@ class PhotoAdapter(photoList: List<Photos>): RecyclerView.Adapter<PhotoAdapter.V
         return listPhoto.size
     }
 
-    fun updateData(list: List<Photos>) {
-
-        val diffCallback = ViewHolder.PhotoDiffCallback(listPhoto, list)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        listPhoto = list as MutableList<Photos>
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val photoItem = itemView.findViewById<ImageView>(R.id.iv_photo_item)
 
-        fun onBind(photoUri: String){
-            Glide.with(itemView.context).load(photoUri)
+        fun onBind(bitmap: Bitmap){
+            Glide.with(itemView.context).load(bitmap)
        //         .error(R.drawable.ic_launcher_background)
                 .override(200, 200)
                 .centerCrop()
@@ -66,31 +58,7 @@ class PhotoAdapter(photoList: List<Photos>): RecyclerView.Adapter<PhotoAdapter.V
 
         }
 
-        class PhotoDiffCallback (val oldList: List<Photos>, val newList: List<Photos>): DiffUtil.Callback(){
-            override fun getOldListSize(): Int {
-                return oldList.size
-            }
 
-            override fun getNewListSize(): Int {
-                return newList.size
-            }
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldList[oldItemPosition].photoId == newList[newItemPosition].photoId
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                val (photoId, imageId, photoUri) = oldList[oldItemPosition]
-                val (photoId1, imageId1, photoUri1) = newList[newItemPosition]
-
-                return photoId == photoId1 && imageId == imageId1 && photoUri == photoUri1
-            }
-
-            override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-                return super.getChangePayload(oldItemPosition, newItemPosition)
-            }
-
-        }
 
     }
 }

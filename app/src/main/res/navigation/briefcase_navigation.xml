@@ -220,6 +220,9 @@
         <action
             android:id="@+id/action_questionsNotesFragment_to_noteFragment"
             app:destination="@id/noteFragment" />
+        <action
+            android:id="@+id/action_questionsNotesFragment_to_briefCaseFragment"
+            app:destination="@id/briefCaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/noteFragment"

@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class PhotosRepositoryImpl @Inject constructor(private val photosStorage: PhotosStorageImpl): PhotosRepository {
 
-    override fun getPhotos(answerId: Long): List<Photos> {
-        return photosStorage.getPhotos(answerId).map { it.photosMapDataToDomain() }
+    override fun getPhotos(questionId: String): List<Photos> {
+        return photosStorage.getPhotos(questionId).map { it.photosMapDataToDomain() }
     }
 
     override fun updatePhotos(photos: Photos) {

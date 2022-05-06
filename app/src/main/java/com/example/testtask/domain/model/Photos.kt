@@ -1,9 +1,11 @@
 package com.example.testtask.domain.model
 
+import android.graphics.Bitmap
+
 data class Photos(
     val photoId: Long,
-    val answerId: Long,
-    val photoUri: String
+    val questionId: String,
+    val photoUri: Bitmap
 )
 
 

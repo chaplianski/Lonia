@@ -27,4 +27,12 @@ class QuestionsStorageImpl @Inject constructor() : QuestionsStorage {
     override fun updateQuestionsListAddAnswer(questionsIdList: List<String>, answer: AnswersData) {
         briefcaseDao.updateQuestionsListAndInsertAnswer(questionsIdList, answer)
     }
+
+    override fun updateQuestion(questionsData: QuestionsData) {
+        briefcaseDao.updateOneQuestion(questionsData)
+    }
+
+    override fun getQuestion(questionId: String): QuestionsData {
+        return briefcaseDao.getQuestion(questionId)
+    }
 }

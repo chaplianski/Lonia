@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.testtask.R
@@ -24,7 +27,7 @@ class QuestionsNotesFragment : Fragment() {
         NotesFragment.getInstance()
     )
 
-    private val  titleList = listOf(
+    private val titleList = listOf(
         "Questions",
         "Notes"
     )
@@ -33,7 +36,10 @@ class QuestionsNotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.title = "Briefcases"
+        val activitySupport = activity as AppCompatActivity
+        activitySupport.title = "Briefcases"
+        activitySupport.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activitySupport.supportActionBar?.setDisplayShowHomeEnabled(true)
         return inflater.inflate(R.layout.fragment_questions_notes, container, false)
     }
 
@@ -41,35 +47,43 @@ class QuestionsNotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+
         val tableLayout: TabLayout = view.findViewById(R.id.tl_questions_notes_fragment)
         val pager: ViewPager2 = view.findViewById(R.id.vp_questions_notes_fragment)
-    //    val beginPosition = arguments?.getInt("note", 0)
+        val beginPosition = arguments?.getInt("note", 0)
 
+        pager.adapter = QuestionsNotesAdapter(this, fragList)
 
-        pager.adapter =QuestionsNotesAdapter(this, fragList)
+        if (beginPosition == 1){
+            pager.setCurrentItem(1, false)
+        }
 
-        TabLayoutMediator(tableLayout, pager){
-                tab, position ->
-                tab.text = titleList[position]
+        TabLayoutMediator(tableLayout, pager) { tab, position ->
+            tab.text = titleList[position]
         }.attach()
-
 
 
 
     }
 
-    class QuestionsNotesAdapter (fragment: Fragment, private val list: List<Fragment>): FragmentStateAdapter(fragment){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d("MyLog", "Click back")
+        if (item.itemId == android.R.id.home){
+            val navController = view?.let { Navigation.findNavController(it) }
+            navController?.navigate(R.id.action_questionsNotesFragment_to_briefCaseFragment)
+        }
+        return true
+    }
 
+    class QuestionsNotesAdapter(fragment: Fragment, private val list: List<Fragment>) :
+        FragmentStateAdapter(fragment) {
 
         override fun getItemCount(): Int {
-            return 2
+            return list.size
         }
 
         override fun createFragment(position: Int): Fragment {
-         //   Log.d("My Log", "position: ${beginPosition}")
-
             return list[position]
-
         }
 
 

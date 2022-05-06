@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetPhotosUseCase @Inject constructor(private val photosRepository: PhotosRepository){
 
-    fun execute(answerId: Long): List<Photos>{
-        return photosRepository.getPhotos(answerId)
+    fun execute(questionId: String): List<Photos>{
+        return photosRepository.getPhotos(questionId)
     }
 }

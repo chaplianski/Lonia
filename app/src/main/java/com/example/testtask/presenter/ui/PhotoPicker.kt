@@ -30,10 +30,10 @@ class PhotoPicker @Inject constructor(
         ActivityResultContracts.GetContent()
     ) { uri ->
 
-        Log.d ("My Log", "Photo picker uri: $uri")
-        Log.d ("My Log", "Photo picker uriPath: ${uri.path}")
-     val newUri = getTmpFileUri()
-        callback.invoke(newUri)
+   //     Log.d ("My Log", "Photo picker uri: $uri")
+  //     Log.d ("My Log", "Photo picker uriPath: ${uri.path}")
+   //  val newUri = getTmpFileUri()
+        callback.invoke(uri)
 
     // val galleryUri = Uri.parse(uri.path.toString())
      //   Log.d ("My Log", "Photo picker newUri: $newUri, galleryUri: $galleryUri")
