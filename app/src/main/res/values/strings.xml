@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestTask</string>
+    <string name="app_name">Lonia</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="client_error">Authorization error</string>

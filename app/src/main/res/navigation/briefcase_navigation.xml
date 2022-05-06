@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/briefCaseFragment"
-        android:name="com.example.testtask.presenter.ui.BriefCaseFragment"
+        android:name="com.example.lonia.presenter.ui.BriefCaseFragment"
         android:label="fragment_brief_case"
         tools:layout="@layout/fragment_briefcase" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/questionsFragment"
-        android:name="com.example.testtask.presenter.ui.QuestionsFragment"
+        android:name="com.example.lonia.presenter.ui.QuestionsFragment"
         android:label="fragment_questions"
         tools:layout="@layout/fragment_questions" >
         <action
@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/answerFragment"
-        android:name="com.example.testtask.presenter.ui.AnswerFragment"
+        android:name="com.example.lonia.presenter.ui.AnswerFragment"
         android:label="fragment_answer"
         tools:layout="@layout/fragment_answer" >
         <action
@@ -88,7 +88,7 @@
     </fragment>
     <fragment
         android:id="@+id/answersFragment"
-        android:name="com.example.testtask.presenter.ui.AnswersFragment"
+        android:name="com.example.lonia.presenter.ui.AnswersFragment"
         android:label="fragment_answers"
         tools:layout="@layout/fragment_answers" >
         <action
@@ -104,7 +104,7 @@
     </fragment>
     <fragment
         android:id="@+id/vesselsFragment"
-        android:name="com.example.testtask.presenter.ui.VesselsFragment"
+        android:name="com.example.lonia.presenter.ui.VesselsFragment"
         android:label="fragment_vessels"
         tools:layout="@layout/fragment_vessels" >
         <action
@@ -117,7 +117,7 @@
     </fragment>
     <fragment
         android:id="@+id/portFragment"
-        android:name="com.example.testtask.presenter.ui.PortFragment"
+        android:name="com.example.lonia.presenter.ui.PortFragment"
         android:label="fragment_port"
         tools:layout="@layout/fragment_port" >
         <action
@@ -130,7 +130,7 @@
     </fragment>
     <fragment
         android:id="@+id/inspectionTypeFragment"
-        android:name="com.example.testtask.presenter.ui.InspectionTypeFragment"
+        android:name="com.example.lonia.presenter.ui.InspectionTypeFragment"
         android:label="fragment_inspection_type"
         tools:layout="@layout/fragment_inspection_type" >
         <action
@@ -143,7 +143,7 @@
     </fragment>
     <fragment
         android:id="@+id/inspectionSourceFragment"
-        android:name="com.example.testtask.presenter.ui.InspectionSourceFragment"
+        android:name="com.example.lonia.presenter.ui.InspectionSourceFragment"
         android:label="fragment_inspection_source"
         tools:layout="@layout/fragment_inspection_source" >
         <action
@@ -156,7 +156,7 @@
     </fragment>
     <fragment
         android:id="@+id/inspectorNameFragment"
-        android:name="com.example.testtask.presenter.ui.InspectorNameFragment"
+        android:name="com.example.lonia.presenter.ui.InspectorNameFragment"
         android:label="fragment_inspector_name"
         tools:layout="@layout/fragment_inspector_name" >
         <action
@@ -169,7 +169,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.example.testtask.presenter.ui.QuestionnairesFragment"
+        android:name="com.example.lonia.presenter.ui.QuestionnairesFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" >
         <action
@@ -182,11 +182,11 @@
     </fragment>
     <dialog
         android:id="@+id/myDialog"
-        android:name="com.example.testtask.presenter.ui.InformationFragment"
+        android:name="com.example.lonia.presenter.ui.InformationFragment"
         android:label="MyDialog" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.testtask.presenter.ui.LoginFragment"
+        android:name="com.example.lonia.presenter.ui.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -195,7 +195,7 @@
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="com.example.testtask.presenter.ui.CameraFragment"
+        android:name="com.example.lonia.presenter.ui.CameraFragment"
         android:label="CameraFragment" >
         <action
             android:id="@+id/action_cameraFragment_to_answerFragment"
@@ -205,12 +205,12 @@
     </fragment>
     <dialog
         android:id="@+id/photoViewDialog"
-        android:name="com.example.testtask.presenter.ui.dialogs.PhotoViewDialog"
+        android:name="com.example.lonia.presenter.ui.dialogs.PhotoViewDialog"
         android:label="dialog_photo"
         tools:layout="@layout/dialog_photo" />
     <fragment
         android:id="@+id/questionsNotesFragment"
-        android:name="com.example.testtask.presenter.ui.QuestionsNotesFragment"
+        android:name="com.example.lonia.presenter.ui.QuestionsNotesFragment"
         android:label="QuestionsNotesFragment" >
         <action
             android:id="@+id/action_questionsNotesFragment_to_answerFragment"
@@ -226,7 +226,7 @@
     </fragment>
     <fragment
         android:id="@+id/noteFragment"
-        android:name="com.example.testtask.presenter.ui.NoteFragment"
+        android:name="com.example.lonia.presenter.ui.NoteFragment"
         android:label="fragment_note"
         tools:layout="@layout/fragment_note" >
         <action
@@ -237,7 +237,7 @@
     </fragment>
     <fragment
         android:id="@+id/notesFragment"
-        android:name="com.example.testtask.presenter.ui.NotesFragment"
+        android:name="com.example.lonia.presenter.ui.NotesFragment"
         android:label="fragment_notes"
         tools:layout="@layout/fragment_notes" >
         <action
