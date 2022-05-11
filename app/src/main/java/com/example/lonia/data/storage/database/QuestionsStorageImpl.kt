@@ -1,5 +1,6 @@
 package com.example.lonia.data.storage.database
 
+import android.util.Log
 import com.example.lonia.data.storage.dao.BriefcaseDao
 import com.example.lonia.data.storage.model.AnswersData
 import com.example.lonia.data.storage.model.QuestionsData
@@ -28,6 +29,7 @@ class QuestionsStorageImpl @Inject constructor() : QuestionsStorage {
     }
 
     override fun updateQuestion(questionsData: QuestionsData) {
+        Log.d("MyLog", "question storageImpl questionData: $questionsData")
         briefcaseDao.updateOneQuestion(questionsData)
     }
 

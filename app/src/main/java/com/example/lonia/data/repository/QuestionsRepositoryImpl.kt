@@ -1,5 +1,6 @@
 package com.example.lonia.data.repository
 
+import android.util.Log
 import com.example.lonia.data.storage.database.QuestionsStorageImpl
 import com.example.lonia.data.storage.network.retrofit.QuestionsApiHelper
 import com.example.lonia.domain.model.Answers
@@ -20,11 +21,11 @@ class QuestionsRepositoryImpl @Inject constructor(
         return questionsApiHelper.getQuestions(qid).map { it.questionsMapDataToDomain() }
     }
 
-    override fun updateQuestions(questions: Questions, answers: Answers) {
-        val questionsData = questions.questionsMapDomainToData()
-        val answersData = answers.answersMapDomainToData()
-        questionsStorage.updateQuestions(questionsData, answersData)
-    }
+//    override fun updateQuestions(questions: Questions, answers: Answers) {
+//        val questionsData = questions.questionsMapDomainToData()
+//        val answersData = answers.answersMapDomainToData()
+//        questionsStorage.updateQuestions(questionsData, answersData)
+//    }
 
     override fun getNotAnsweredQuestions(briefcaseId: Long): List<Questions> {
         return questionsStorage.getNotAnsweredQuestionsList(briefcaseId).map { it.questionsMapDataToDomain() }
@@ -35,10 +36,13 @@ class QuestionsRepositoryImpl @Inject constructor(
     }
 
     override fun updateQuestion(question: Questions) {
+        Log.d("MyLog", "question repositoryImpl update question: ${question}")
         questionsStorage.updateQuestion(question.questionsMapDomainToData())
     }
 
     override fun getQuestion(questionId: String): Questions {
+        Log.d("MyLog", "question repositoryImpl question: ${questionsStorage.getQuestion(questionId).questionsMapDataToDomain()}")
+
         return questionsStorage.getQuestion(questionId).questionsMapDataToDomain()
     }
 }

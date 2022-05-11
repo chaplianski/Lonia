@@ -54,6 +54,7 @@ class NotesFragment : Fragment() {
         val answerDate = arguments?.getLong("answer date")
         val answerText = arguments?.getString("answer text")
         val answerKeyPosition = arguments?.getInt("answer key position")
+        val significanceLevel = arguments?.getString("significance")
 
         Log.d("My Log","notes fragment answerDate: $answerDate, answerText: $answerText, answerKeyPosition: $answerKeyPosition")
 
@@ -85,6 +86,7 @@ class NotesFragment : Fragment() {
                         if (answerKeyPosition != null) {
                             bundle.putInt("answer key position", answerKeyPosition)
                         }
+                        bundle.putString("significance", significanceLevel)
                         val navController = Navigation.findNavController(view)
                         navController.navigate(R.id.answerFragment, bundle)
                     } else {

@@ -101,7 +101,6 @@ class LoginFragment : Fragment() {
                     loginErrorTextView.visibility = View.VISIBLE
                 })
 
-                Log.d("My Log", "Login Fragment Login: ${tokenRequest.email} and password: ${tokenRequest.password}")
             }
         }
     }

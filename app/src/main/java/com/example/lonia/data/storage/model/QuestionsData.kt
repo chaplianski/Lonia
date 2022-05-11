@@ -19,6 +19,7 @@ data class QuestionsData(
     val categorynewid: String = "",
     val isAnswered: Boolean = false,
     val images: Int? = null,
-    var briefCaseId: Long = 0L
+    var briefCaseId: Long = 0L,
+    val significance: String
 )
 

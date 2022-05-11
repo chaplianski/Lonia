@@ -12,40 +12,37 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(private val getTokenUseCase: getTokenUseCase): ViewModel() {
+class LoginViewModel @Inject constructor(private val getTokenUseCase: getTokenUseCase) :
+    ViewModel() {
 
 
     val _loginErrorMessage = MutableLiveData<String>()
     val loginErrorMessage: LiveData<String> get() = _loginErrorMessage
 
-    fun getToken (loginRequest: LoginRequest) {
-       viewModelScope.launch(Dispatchers.IO) {
-       //    val response = getTokenUseCase.execute(loginRequest)
-       //    Log.d("My Log", "Login viewModel Token^ $response")
+    fun getToken(loginRequest: LoginRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
 
-           getTokenUseCase.execute(loginRequest).fold({
-               val netExeptionMessage = "access is allowed"
-               _loginErrorMessage.postValue(netExeptionMessage)
+            getTokenUseCase.execute(loginRequest).fold({
+                val netExeptionMessage = "access is allowed"
+                _loginErrorMessage.postValue(netExeptionMessage)
 
-           }, {
-               when (it) {
-                   is NetworkException -> {
-                       val netExeptionMessage = "Network error"
-                       _loginErrorMessage.postValue(netExeptionMessage)
-                   }
-                   is InternetConnectionException -> {
-                       val netExeptionMessage = "Internet connection error"
-                       _loginErrorMessage.postValue(netExeptionMessage)
-                   }
-                   else -> {
-                       val netExeptionMessage = "Unknown error"
-                       _loginErrorMessage.postValue(netExeptionMessage)
-                   }
-               }
-           }
-           )
-       //    _loginResponse.postValue(response)
-       }
-
+            }, {
+                when (it) {
+                    is NetworkException -> {
+                        val netExeptionMessage = "Network error"
+                        _loginErrorMessage.postValue(netExeptionMessage)
+                    }
+                    is InternetConnectionException -> {
+                        val netExeptionMessage = "Internet connection error"
+                        _loginErrorMessage.postValue(netExeptionMessage)
+                    }
+                    else -> {
+                        val netExeptionMessage = "Unknown error"
+                        _loginErrorMessage.postValue(netExeptionMessage)
+                    }
+                }
+            }
+            )
+        }
     }
 }

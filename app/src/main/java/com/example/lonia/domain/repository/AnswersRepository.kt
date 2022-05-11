@@ -7,7 +7,7 @@ interface AnswersRepository {
 
     fun getAnsweredQuestions(briefcaseId: Long): List<Questions>
 
-    fun getAnswer (idAnswer: Long): Answers
-
-    fun updateAnswer (answers: Answers)
+//    fun getAnswer (idAnswer: Long): Answers
+//
+//    fun updateAnswer (answers: Answers)
 }

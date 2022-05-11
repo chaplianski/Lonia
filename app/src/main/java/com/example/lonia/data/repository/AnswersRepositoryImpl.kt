@@ -14,13 +14,13 @@ class AnswersRepositoryImpl @Inject constructor(private val answersStorage: Answ
             .map { it.questionsMapDataToDomain() }
     }
 
-    override fun getAnswer(answerId: Long): Answers {
-        val answerData = answersStorage.getAnswer(answerId)
-        return answerData.answersMapDataToDomain()
-    }
-
-    override fun updateAnswer(answers: Answers) {
-        val answerData = answers.answersMapDomainToData()
-        answersStorage.updatedAnswer(answerData)
-    }
+//    override fun getAnswer(answerId: Long): Answers {
+//        val answerData = answersStorage.getAnswer(answerId)
+//        return answerData.answersMapDataToDomain()
+//    }
+//
+//    override fun updateAnswer(answers: Answers) {
+//        val answerData = answers.answersMapDomainToData()
+//        answersStorage.updatedAnswer(answerData)
+//    }
 }

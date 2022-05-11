@@ -54,7 +54,8 @@ fun QuestionsData.questionsMapDataToDomain(): Questions {
         categorynewid = categorynewid,
         isAnswered = isAnswered,
         images = images,
-        briefCaseId = briefCaseId
+        briefCaseId = briefCaseId,
+        significance = significance
     )
 }
 
@@ -72,7 +73,8 @@ fun Questions.questionsMapDomainToData(): QuestionsData {
         categorynewid = categorynewid,
         isAnswered = isAnswered,
         images = images,
-        briefCaseId = briefCaseId
+        briefCaseId = briefCaseId,
+        significance = significance
     )
 }
 

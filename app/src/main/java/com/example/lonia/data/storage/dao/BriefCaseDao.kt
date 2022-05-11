@@ -69,13 +69,14 @@ abstract class BriefcaseDao {
     @Update
     abstract fun updateNotes(notesData: NotesData)
 
-    @Query("UPDATE questions SET answer= :answer, isAnswered= :isAnswered, dateOfInspection= :dateOfInspection, commentForQuestion= :commentForQuestion  WHERE questionid = :questionId")
+    @Query("UPDATE questions SET answer= :answer, isAnswered= :isAnswered, dateOfInspection= :dateOfInspection, commentForQuestion= :commentForQuestion, significance= :significance  WHERE questionid = :questionId")
     abstract fun updateQuestion1(
         answer: Int,
         dateOfInspection: String,
         commentForQuestion: String,
         isAnswered: Boolean,
-        questionId: String
+        questionId: String,
+        significance: String
     )
 
     @Query("UPDATE questions SET answer= :answerId, isAnswered= :isAnswered  WHERE questionid = :questionId")
@@ -87,7 +88,8 @@ abstract class BriefcaseDao {
         val commentForQuestion = questionData.commentForQuestion
         val isAnswered = questionData.isAnswered
         val questionId = questionData.questionid
-        updateQuestion1(answer, dateOfInspection, commentForQuestion, isAnswered, questionId)
+        val significance = questionData.significance
+        updateQuestion1(answer, dateOfInspection, commentForQuestion, isAnswered, questionId, significance)
     }
 
     fun updateQuestionsAndInsertAnswer(questionsData: QuestionsData, answersData: AnswersData) {

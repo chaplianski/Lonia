@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UpdateQuestionsUseCase @Inject constructor(private val questionsRepository: QuestionsRepository){
 
-    fun execute(questions: Questions, answers: Answers){
-        questionsRepository.updateQuestions(questions,answers)
-    }
+//    fun execute(questions: Questions, answers: Answers){
+//        questionsRepository.updateQuestions(questions,answers)
+//    }
 }

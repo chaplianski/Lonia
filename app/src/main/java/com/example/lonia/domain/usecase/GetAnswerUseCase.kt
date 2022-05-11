@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetAnswerUseCase @Inject constructor(private val answersRepository: AnswersRepository){
 
-    fun execute (idAnswer: Long): Answers {
-        return answersRepository.getAnswer(idAnswer)
-    }
+//    fun execute (idAnswer: Long): Answers {
+//        return answersRepository.getAnswer(idAnswer)
+//    }
 }

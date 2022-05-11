@@ -9,7 +9,7 @@ interface QuestionsRepository {
 
     suspend fun fetchQuestions (qid: Int): List<Questions>
 
-    fun updateQuestions(questions: Questions, answers: Answers)
+//    fun updateQuestions(questions: Questions, answers: Answers)
 
     fun getNotAnsweredQuestions(briefcaseId: Long): List<Questions>
 

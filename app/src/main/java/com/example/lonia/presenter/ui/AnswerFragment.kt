@@ -2,36 +2,31 @@ package com.example.lonia.presenter.ui
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.ContentValues
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lonia.R
 import com.example.lonia.databinding.FragmentAnswerBinding
 import com.example.lonia.di.DaggerAppComponent
+import com.example.lonia.domain.model.Photos
 import com.example.lonia.domain.model.Questions
 import com.example.lonia.presenter.adapter.PhotoAdapter
 import com.example.lonia.presenter.factories.AnswerViewModelFactory
 import com.example.lonia.presenter.viewmodel.AnswerViewModel
-import com.example.lonia.domain.model.Photos
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -60,7 +55,7 @@ class AnswerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-    //    activity?.title = "Answer"
+
         val activitySupport = activity as AppCompatActivity
         activitySupport.title = "Answer"
         activitySupport.supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -76,9 +71,6 @@ class AnswerFragment : Fragment() {
         photoPicker =
             PhotoPicker(context!!, requireActivity().activityResultRegistry) { uri ->
                 savePhotoToAnswer(uri)
-                Log.d("My Log", "answer fragment uri: $uri")
-                // if (uri == null) return@PhotoPicker
-                //  FileUtils.getBitmap(requireActivity().contentResolver,uri)
             }
 
         val informationButton = binding.tvAnswerInformation
@@ -90,6 +82,9 @@ class AnswerFragment : Fragment() {
         val photoTextView = binding.tvAnswerAttachPhoto
         val noteTextVeiw = binding.tvAnswerAttachNote
         val saveBotton = binding.btAnswerSaveBotton
+        val lowButton = binding.btAnswerFragmentLow
+        val mediumButton = binding.btAnswerFragmentMedium
+        val hightButton = binding.btAnswerFragmentHight
         val navController = Navigation.findNavController(view)
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val question = sharedPref?.getString(Constants.CURRENT_QUESTION, "").toString()
@@ -101,7 +96,7 @@ class AnswerFragment : Fragment() {
         val listQuestionsId = arguments?.getStringArray(Constants.LIST_QUESTIONS_ID)?.toList()
         var answerKeyPosition = 0
         var answerDate: Long = 0
-        var currentAnswerId = 0L
+        var significanceLevel = ""
         val isFromNotes = arguments?.getInt("from notes")
 
 
@@ -124,17 +119,16 @@ class AnswerFragment : Fragment() {
 
         // ***** update answer *****
 
-        Log.d("My Log","from answer fragment: isAnswered: $isAnswered")
+        Log.d("My Log", "from answer fragment: isAnswered: $isAnswered")
 
-        if (isAnswered == true && isFromNotes !=1) {
+        if (isAnswered == true && isFromNotes != 1) {
             answerViewModel.getQuestion(questionId)
 
             Log.d(
                 "My Log",
                 "from answer fragment: isAnswered: $isAnswered isFromNotes: $isFromNotes"
             )
-            }
-
+        }
 
         // ***** Get comment *****
 
@@ -183,12 +177,17 @@ class AnswerFragment : Fragment() {
                 dateAnswer.text = formateDate.format(date)
             }
             val keyPosition = arguments?.getInt("answer key position")
+            val significanceValue = arguments?.getString("significance")
             if (date != null) {
                 answerDate = date
             }
             if (keyPosition != null) {
                 answerKeyPosition = keyPosition
             }
+            if (significanceValue != null){
+                significanceLevel = significanceValue
+            }
+
             when (keyPosition) {
                 1 -> {
                     positiveButton.isSelected = true
@@ -204,6 +203,32 @@ class AnswerFragment : Fragment() {
                 else -> {
                     positiveButton.isSelected = false
                     negativeButton.isSelected = false
+                }
+            }
+
+            when (significanceValue){
+                "Low" -> {
+                    lowButton.isSelected = true
+                    mediumButton.isSelected = false
+                    hightButton.isSelected = false
+                    lowButton.setTextColor(Color.WHITE)
+                }
+                "Medium" -> {
+                    lowButton.isSelected = false
+                    mediumButton.isSelected = true
+                    hightButton.isSelected = false
+                    mediumButton.setTextColor(Color.WHITE)
+                }
+                "Hight" -> {
+                    lowButton.isSelected = false
+                    mediumButton.isSelected = false
+                    hightButton.isSelected = true
+                    hightButton.setTextColor(Color.WHITE)
+                }
+                else -> {
+                    lowButton.isSelected = false
+                    mediumButton.isSelected = false
+                    hightButton.isSelected = false
                 }
             }
 
@@ -231,53 +256,98 @@ class AnswerFragment : Fragment() {
             positiveButton.setTextColor(Color.BLACK)
         }
 
+        // ***** Select significance level button ******
+
+        lowButton.setOnClickListener {
+            significanceLevel = "Low"
+            lowButton.isSelected = true
+            mediumButton.isSelected = false
+            hightButton.isSelected = false
+            lowButton.setTextColor(Color.WHITE)
+            mediumButton.setTextColor(Color.BLACK)
+            hightButton.setTextColor(Color.BLACK)
+        }
+
+        mediumButton.setOnClickListener {
+            significanceLevel = "Medium"
+            mediumButton.isSelected = true
+            lowButton.isSelected = false
+            hightButton.isSelected = false
+            mediumButton.setTextColor(Color.WHITE)
+            lowButton.setTextColor(Color.BLACK)
+            hightButton.setTextColor(Color.BLACK)
+        }
+
+        hightButton.setOnClickListener {
+            significanceLevel = "Hight"
+            hightButton.isSelected = true
+            lowButton.isSelected = false
+            mediumButton.isSelected = false
+            hightButton.setTextColor(Color.WHITE)
+            lowButton.setTextColor(Color.BLACK)
+            mediumButton.setTextColor(Color.BLACK)
+
+
+        }
+
         // ***** Observe answer on layout *****
 
         answerViewModel.question.observe(this.viewLifecycleOwner, { question ->
 
             // Condition not empty views of answer *****
-            if(question.isAnswered){
+            if (question.isAnswered) {
                 answerTextVew.setText(question.commentForQuestion)
                 answerDate = question.dateOfInspection.toLong()
                 val data = question.dateOfInspection.toLong()
                 //      currentAnswerId = answer.answerId
                 dateAnswer.text = formateDate.format(data)
-                if(question.answer == 1){
+                if (question.answer == 1) {
                     positiveButton.isSelected = true
                     negativeButton.isSelected = false
                     positiveButton.setTextColor(Color.WHITE)
-                }else{
+                } else {
                     positiveButton.isSelected = false
                     negativeButton.isSelected = true
                     negativeButton.setTextColor(Color.WHITE)
                 }
-                Log.d("My Log","from answer fragment: question: $question")
                 answerKeyPosition = question.answer
-                Log.d("My Log","from answer fragment: keyPosition from empty answer: $answerKeyPosition")
 
+                Log.d("MyLog", "answer fragment answer question: $question ")
+                when(question.significance){
+                    "Low" -> {
+                        lowButton.isSelected = true
+                        mediumButton.isSelected = false
+                        hightButton.isSelected = false
+                        lowButton.setTextColor(Color.WHITE)
+                    }
+                    "Medium" -> {
+                        lowButton.isSelected = false
+                        mediumButton.isSelected = true
+                        hightButton.isSelected = false
+                        mediumButton.setTextColor(Color.WHITE)
+                    }
+                    "Hight" -> {
+                        lowButton.isSelected = false
+                        mediumButton.isSelected = false
+                        hightButton.isSelected = true
+                        hightButton.setTextColor(Color.WHITE)
+                    }
+                    else -> {
+                        lowButton.isSelected = false
+                        mediumButton.isSelected = false
+                        hightButton.isSelected = false
+                    }
+                }
+                significanceLevel = question.significance
                 answerViewModel.getPhotos(question.questionid)
             }
-
-
-
-/*
-            if (!answer.answerDate.equals(0) && !answer.answerDate.equals(null)) {
-                answerTextVew.setText(answer.answer)
-                answerDate = answer.answerDate
-                val data = answer.answerDate
-                currentAnswerId = answer.answerId
-                dateAnswer.text = formateDate.format(data)
-                answerViewModel.getPhotos(answer.answerId)
-            }
-            */
-
         })
 
         // ****** Observe photos list *****
 
         answerViewModel.photos.observe(this.viewLifecycleOwner, {
 
-            if(!questionId.equals("")){
+            if (!questionId.equals("")) {
                 getRecyclerView(it, view, questionId)
             }
         })
@@ -286,7 +356,6 @@ class AnswerFragment : Fragment() {
 
             // ****** Check no empty required field ******
 
-            Log.d("My Log","from answer fragment: keyPosition before save: $answerKeyPosition")
             // Check answer data
             if (answerDate == 0L) {
                 dateAnswer.text = "Please enter the date"
@@ -306,7 +375,7 @@ class AnswerFragment : Fragment() {
                 val listId = listQuestionsId?.toList()
                 val answerValue = answerTextVew.text.toString()
                 if (listId != null) {
-                    for (questionId in listId){
+                    for (questionId in listId) {
                         val questions = Questions(
                             questionid = questionId,
                             comment = "",
@@ -320,10 +389,10 @@ class AnswerFragment : Fragment() {
                             categorynewid = "",
                             isAnswered = true,
                             images = 0,
-                            briefCaseId = 0
+                            briefCaseId = 0,
+                            significance = significanceLevel
                         )
                         answerViewModel.updateQuestion(questions)
-
                     }
                 }
 
@@ -332,6 +401,7 @@ class AnswerFragment : Fragment() {
                 // ***** Save data if answer for one question
 
             } else {
+                Log.d("MyLog", "answer fragment answer key position: $answerKeyPosition sign state: ${significanceLevel} ")
                 val answerValue = answerTextVew.text.toString()
                 val questions = Questions(
                     questionid = questionId,
@@ -343,19 +413,17 @@ class AnswerFragment : Fragment() {
                     commentForQuestion = answerValue,
                     categoryid = "",
                     origin = "",
-                   categorynewid = "",
+                    categorynewid = "",
                     isAnswered = true,
                     images = 0,
-                    briefCaseId = 0
+                    briefCaseId = 0,
+                    significance = significanceLevel
                 )
-
-                    answerViewModel.updateQuestion(questions)
+                answerViewModel.updateQuestion(questions)
 
                 navController.navigate(R.id.briefCaseFragment)
             }
         }
-
-
 
         // ***** Add photos to answer *****
 
@@ -372,23 +440,22 @@ class AnswerFragment : Fragment() {
             }
             answerViewModel.notes.observe(this.viewLifecycleOwner, {
 
-                if(it.isEmpty()){
-                    Toast.makeText(context, "There are currently no notes", Toast.LENGTH_SHORT).show()
-                }else{
+                if (it.isEmpty()) {
+                    Toast.makeText(context, "There are currently no notes", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
                     val answerText = answerTextVew.text.toString()
                     val bundle = Bundle()
                     bundle.putInt("answer fragment", 1)
                     bundle.putString("answer text", answerTextVew.text.toString())
                     bundle.putInt("answer key position", answerKeyPosition)
                     bundle.putLong("answer date", answerDate)
-                    Log.d("My Log","from answer fragment: keyPosition in notes: $answerKeyPosition, data: $answerDate")
+                    bundle.putString("significance", significanceLevel)
+
                     val navController = Navigation.findNavController(view)
                     navController.navigate(R.id.action_answerFragment_to_notesFragment, bundle)
                 }
             })
-
-
-
         }
 
         answerTextVew.doOnTextChanged { inputText, _, _, _ ->
@@ -407,12 +474,17 @@ class AnswerFragment : Fragment() {
 
         photoAdapter.shortOnClickListener = object : PhotoAdapter.ShortOnClickListener {
             override fun shortClick(photo: Photos) {
-                //            Log.d("My Log", "answer fragment shot click")
-                //            val bundle = Bundle()
-                //             bundle.putString("photoUri", photo.photoUri)
-                //             Log.d("My Log", "answer fragment shot click, photoUri: ${photo.photoUri}")
-                //             val navController = Navigation.findNavController(view)
-                //             navController.navigate(R.id.action_answerFragment_to_photoViewDialog, bundle)
+                val fullScreenImage = binding.ivAnswerFragmentFullImage
+                fullScreenImage.visibility = View.VISIBLE
+                val image = photo.photoUri
+                Glide.with(view).load(image)
+                    .centerCrop()
+                    .into(fullScreenImage)
+
+                fullScreenImage.setOnClickListener {
+                    fullScreenImage.visibility = View.GONE
+                }
+
             }
         }
 
@@ -431,33 +503,12 @@ class AnswerFragment : Fragment() {
         }
     }
 
-    val getPhotoGallary =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri: Uri? ->
-            savePhotoToAnswer(imageUri)
-        }
-
-
-
-
-
-
-
     private fun savePhotoToAnswer(imageUri: Uri?) {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val questionId = sharedPref?.getString(Constants.CURRENT_QUESTION_ID, "")
 
- //       val newPhoto = questionId?.let {
- //           Photos(
- //               photoId = 0,
- //               questionId = it,
- //               photoUri = imageUri.toString()
-//            )
- //       }
         val contentResolver = context?.getContentResolver()
 
-        //      Log.d("My Log", "answer fragment new photo: $newPhoto")
- //       if (newPhoto != null) {
- //           if (imageUri != null) {
         if (imageUri != null) {
             if (questionId != null) {
                 if (contentResolver != null) {
@@ -465,143 +516,21 @@ class AnswerFragment : Fragment() {
                 }
             }
         }
- //           }
- //       if (questionId != null) {
- //           answerViewModel.getPhotos(questionId)
-  //      }
-            //        Log.d("My Log", "answer fragment insert photo")
- //       }
     }
 
-    var resultUri: Uri? = null
-
-    private val getPhotoCapture =
-        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-
-            savePhotoToAnswer(resultUri)
-
-
-            Log.d("My Log", "answer fragment result photo capture: $success")
-
-        }
-
     private fun addChoosePhotoDirectionDialog() {
+
         val photoDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
-    //    resultUri = activity!!.contentResolver.insert(
-    //        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-    //        ContentValues()
-    //    )
-    //    Log.d("My Log", "answer fragment uri: $resultUri")
         val builder = AlertDialog.Builder(context)
 
         builder.setTitle("Choose variant of adding photo")
         builder.setItems(photoDialogItems) { _, position ->
             when (position) {
-                0 -> photoPicker.pickPhoto() //getPhotoGallary.launch(MIMETYPE_IMAGES) //choosePhotoFromGallary()
-                1 -> photoPicker.takePhoto() //getPhotoCapture.launch(resultUri) //arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA))
-                //takePhotoFromCamera()
+                0 -> photoPicker.pickPhoto()
+                1 -> photoPicker.takePhoto()
             }
         }
         builder.show()
     }
-
-
-    fun choosePhotoFromGallary() {
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(galleryIntent, 11)
-    }
-
-    private fun takePhotoFromCamera() {
-        val resultUri: Uri?
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        resultUri = activity!!.contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            ContentValues()
-        )
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, resultUri)
-        if (intent.resolveActivity(activity!!.packageManager) != null) {
-            startActivityForResult(intent, 22)
-        }
-
-
-    }
-/*
-    fun hasCameraPermission() = context?.let {
-        ContextCompat.checkSelfPermission(
-            it,
-            android.Manifest.permission.CAMERA
-        )
-    } == PackageManager.PERMISSION_GRANTED
-
-    fun createImageFile(): File {
-        val timeStamp = SimpleDateFormat.getDateTimeInstance().format(Date())
-        val storageDir = getPicturesDirectory()
-
-        return File.createTempFile(
-            "JPEG_${timeStamp}_",
-            ".jpg",
-            storageDir
-        ).apply {
-            currentImagePath = absolutePath
-        }
-    }
-
-    val uri = FileProvider.getUriForFile (context, "file_provider", file)
-*/
-/*
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_OK) {
-            if (requestCode == 11) {
-                if (data != null) {
-                    Uri contentURI = data . getData ();
-                    try {
-                        Bitmap bitmap = MediaStore . Images . Media . getBitmap (getActivity().getContentResolver(), contentURI);
-                        //                    String path = saveImage(bitmap);
-                        //                    Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
-                        iv_froncnic.setImageBitmap(bitmap);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                {
-                    Toast.makeText(getActivity(), "Data not found", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-
-    }
-
-  */
-
-
-    fun showCommentDialog() {
-        val commentDialog = CommentFragment()
-        commentDialog.show(parentFragmentManager, CommentFragment.COMMENT_TAG)
-    }
-
-    fun setupCommentDialogListener() {
-        parentFragmentManager.setFragmentResultListener(
-            CommentFragment.REQUEST_KEY,
-            this.viewLifecycleOwner,
-            FragmentResultListener { _, result ->
-                val which = result.getInt(CommentFragment.COMMENT_TAG)
-                if (which == DialogInterface.BUTTON_POSITIVE) Log.d("My Log", "Close comment")
-            })
-    }
-
-    companion object {
-        const val MIMETYPE_IMAGES = "image/*"
-    }
-
-
 }
 
