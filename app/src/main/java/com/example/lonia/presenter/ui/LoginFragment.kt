@@ -15,10 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.lonia.R
+import com.example.lonia.di.DaggerAppComponent
 import com.example.lonia.domain.model.LoginRequest
 import com.example.lonia.presenter.factories.LoginViewModelFactory
 import com.example.lonia.presenter.viewmodel.LoginViewModel
-import com.example.lonia.di.DaggerAppComponent
 import com.google.android.material.textfield.TextInputLayout
 import javax.inject.Inject
 
@@ -41,7 +41,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -74,6 +74,7 @@ class LoginFragment : Fragment() {
 
         val signInButton = view.findViewById<Button>(R.id.bt_sign_in_login_fragment)
 
+
         signInButton.setOnClickListener {
             loginErrorTextView.visibility = View.GONE
             if (loginText.text.isBlank()) {
@@ -89,7 +90,7 @@ class LoginFragment : Fragment() {
                 )
                 loginViewModel.getToken(tokenRequest)
 
-                loginViewModel.loginErrorMessage.observe(this.viewLifecycleOwner, {
+                loginViewModel.loginErrorMessage.observe(this.viewLifecycleOwner) {
 
                     if (it == "access is allowed") {
 
@@ -99,7 +100,7 @@ class LoginFragment : Fragment() {
 
                     loginErrorTextView.text = it
                     loginErrorTextView.visibility = View.VISIBLE
-                })
+                }
 
             }
         }

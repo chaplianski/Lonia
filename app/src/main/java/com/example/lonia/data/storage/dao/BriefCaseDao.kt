@@ -9,8 +9,8 @@ abstract class BriefcaseDao {
     @Query("SELECT * FROM briefcase WHERE briefCaseId= :id")
     abstract fun getBriefCase(id: Long): BriefCaseData
 
-    @Query("SELECT * FROM answers WHERE answerId= :answerId")
-    abstract fun getAnswer(answerId: Long): AnswersData
+//    @Query("SELECT * FROM answers WHERE answerId= :answerId")
+//    abstract fun getAnswer(answerId: Long): AnswersData
 
     @Query("SELECT * FROM questions WHERE questionid= :questionId")
     abstract fun getQuestion(questionId: String): QuestionsData
@@ -39,8 +39,8 @@ abstract class BriefcaseDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertBriefcase(briefCaseData: BriefCaseData): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertAnswer(answersData: AnswersData): Long
+//    @Insert(onConflict = OnConflictStrategy.IGNORE)
+//    abstract fun insertAnswer(answersData: AnswersData): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertNote(notesData: NotesData)
@@ -60,8 +60,8 @@ abstract class BriefcaseDao {
     @Delete
     abstract fun deletePhotos(photosData: PhotosData)
 
-    @Update
-    abstract fun updateAnswer(answersData: AnswersData)
+//    @Update
+//    abstract fun updateAnswer(answersData: AnswersData)
 
     @Update
     abstract fun updatePhotos(photosData: PhotosData)
@@ -92,24 +92,24 @@ abstract class BriefcaseDao {
         updateQuestion1(answer, dateOfInspection, commentForQuestion, isAnswered, questionId, significance)
     }
 
-    fun updateQuestionsAndInsertAnswer(questionsData: QuestionsData, answersData: AnswersData) {
-        val answerId = insertAnswer(answersData)
-        val isAnswered = true
-        val questionId = questionsData.questionid
-        updateQuestion(answerId, isAnswered, questionId)
-    }
+//    fun updateQuestionsAndInsertAnswer(questionsData: QuestionsData, answersData: AnswersData) {
+//        val answerId = insertAnswer(answersData)
+//        val isAnswered = true
+//        val questionId = questionsData.questionid
+//        updateQuestion(answerId, isAnswered, questionId)
+//    }
 
-    fun updateQuestionsListAndInsertAnswer(
-        questionsListId: List<String>,
-        answersData: AnswersData
-    ) {
-        val answerId = insertAnswer(answersData)
-        val isAnswered = true
-        for (questionId in questionsListId) {
-            updateQuestion(answerId, isAnswered, questionId)
-        }
-
-    }
+//    fun updateQuestionsListAndInsertAnswer(
+//        questionsListId: List<String>,
+//        answersData: AnswersData
+//    ) {
+//        val answerId = insertAnswer(answersData)
+//        val isAnswered = true
+//        for (questionId in questionsListId) {
+//            updateQuestion(answerId, isAnswered, questionId)
+//        }
+//
+//    }
 
 
 }

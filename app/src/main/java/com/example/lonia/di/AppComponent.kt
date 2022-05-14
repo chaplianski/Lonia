@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class, ApiModule::class])
 interface AppComponent {
 
-     fun briefcaseFragentInject(briefcaseFragment: BriefCaseFragment)
+     fun briefcaseFragmentInject(briefcaseFragment: BriefCaseFragment)
      fun vesselsFragmentInject(vesselsFragment: VesselsFragment)
      fun portFragmentFragmentInject(portFragment: PortFragment)
      fun inspectionTypeFragmentInject(inspectionTypeFragment: InspectionTypeFragment)

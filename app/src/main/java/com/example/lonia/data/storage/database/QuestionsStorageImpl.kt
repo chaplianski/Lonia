@@ -16,20 +16,19 @@ class QuestionsStorageImpl @Inject constructor() : QuestionsStorage {
         return briefcaseDao.getAllQuestions(briefcaseId)
     }
 
-    override fun updateQuestions(questionsData: QuestionsData, answersData: AnswersData) {
-        briefcaseDao.updateQuestionsAndInsertAnswer(questionsData, answersData)
-    }
+//    override fun updateQuestions(questionsData: QuestionsData, answersData: AnswersData) {
+//        briefcaseDao.updateQuestionsAndInsertAnswer(questionsData, answersData)
+//    }
 
     override fun getNotAnsweredQuestionsList(briefcaseId: Long): List<QuestionsData> {
         return briefcaseDao.getNotAnsweredQuestions(briefcaseId)
     }
 
-    override fun updateQuestionsListAddAnswer(questionsIdList: List<String>, answer: AnswersData) {
-        briefcaseDao.updateQuestionsListAndInsertAnswer(questionsIdList, answer)
-    }
+//    override fun updateQuestionsListAddAnswer(questionsIdList: List<String>, answer: AnswersData) {
+//        briefcaseDao.updateQuestionsListAndInsertAnswer(questionsIdList, answer)
+//    }
 
     override fun updateQuestion(questionsData: QuestionsData) {
-        Log.d("MyLog", "question storageImpl questionData: $questionsData")
         briefcaseDao.updateOneQuestion(questionsData)
     }
 

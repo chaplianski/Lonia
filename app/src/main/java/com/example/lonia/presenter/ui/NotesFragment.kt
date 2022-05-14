@@ -56,14 +56,12 @@ class NotesFragment : Fragment() {
         val answerKeyPosition = arguments?.getInt("answer key position")
         val significanceLevel = arguments?.getString("significance")
 
-        Log.d("My Log","notes fragment answerDate: $answerDate, answerText: $answerText, answerKeyPosition: $answerKeyPosition")
-
 
         if (briefcaseId != null) {
             notesViewModel.getNotes(briefcaseId)
         }
 
-        notesViewModel.notesList.observe(this.viewLifecycleOwner, {
+        notesViewModel.notesList.observe(this.viewLifecycleOwner) {
 
             val notesAdapter = NoteAdapter(it)
             recyclerViewNotes.layoutManager = LinearLayoutManager(context)
@@ -73,9 +71,7 @@ class NotesFragment : Fragment() {
 
                 override fun ShortClick(noteId: Long, noteValue: String, noteName: String) {
 
-                    Log.d("My Log", " notes fragment from answer fragment: answerData: $answerDate, answerText: $answerText, answerSelect: $answerKeyPosition")
-
-                    if (isFromAnswerFragment == 1){
+                    if (isFromAnswerFragment == 1) {
                         val bundle = Bundle()
                         bundle.putInt("from notes", 1)
                         bundle.putString("notes fragment", noteValue)
@@ -95,12 +91,15 @@ class NotesFragment : Fragment() {
                         bundle.putString("noteValue", noteValue)
                         bundle.putString("noteName", noteName)
                         val navController = Navigation.findNavController(view)
-                        navController.navigate(R.id.action_questionsNotesFragment_to_noteFragment, bundle)
+                        navController.navigate(
+                            R.id.action_questionsNotesFragment_to_noteFragment,
+                            bundle
+                        )
                     }
                 }
             }
 
-        })
+        }
 
         addButton.setOnClickListener {
             val bundle = Bundle()

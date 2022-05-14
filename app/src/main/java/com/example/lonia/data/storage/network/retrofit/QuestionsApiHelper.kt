@@ -1,6 +1,7 @@
 package com.example.lonia.data.storage.network.retrofit
 
 import android.content.Context
+import android.util.Log
 import com.example.lonia.R
 import com.example.lonia.data.storage.model.QuestionsData
 import com.example.lonia.data.storage.network.service.QuestionsApiService
@@ -34,15 +35,20 @@ class QuestionsApiHelper @Inject constructor() {
 
         when (responseQuestions.code()) {
             in 200..299 -> {
+                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 questionsDataResponse = responseQuestions.body() ?: emptyList()
             }
             in 300..399 -> {
+
+                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 throw NetworkException(R.string.internet_error)
             }
             in 400..499 -> {
+                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 throw NetworkException(R.string.client_error)
             }
             in 500..599 -> {
+                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 throw NetworkException(R.string.server_error)
             }
         }

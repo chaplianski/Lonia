@@ -50,7 +50,7 @@ class QuestionnairesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        activity?.title = "Questionnairs"
+        activity?.title = "Questionnaires"
         return inflater.inflate(R.layout.fragment_category, container, false)
     }
 
@@ -109,8 +109,6 @@ class QuestionnairesFragment : Fragment() {
         }
     }
 
-
-
     private fun getErrorMessage(@StringRes message: Int) {
         val messageTextView = view?.findViewById<TextView>(R.id.tv_questionnaries_fragment_error_message)
         messageTextView?.setText(message)
@@ -123,7 +121,6 @@ class QuestionnairesFragment : Fragment() {
         val navController = view?.let { Navigation.findNavController(it) }
         navController?.navigate(R.id.action_categoryFragment_to_briefCaseFragment)
     }
-
 
     fun getRecyclerView(rvAdapter: QuestionnairesAdapter) {
 
@@ -154,7 +151,6 @@ class QuestionnairesFragment : Fragment() {
                 val which = result.getInt(QuestionnariesDialogFragment.QUESTIONNARIES_KEY_RESPONSE)
                 val title = result.getString(QuestionnariesDialogFragment.TITLE_KEY_RESPONSE)
                 val qid = result.getInt(QuestionnariesDialogFragment.QID_KEY_RESPONSE)
-                Log.d("My Log", "which: $which, title: $title, qid: $qid")
 
                 if (which == DialogInterface.BUTTON_POSITIVE) {
 

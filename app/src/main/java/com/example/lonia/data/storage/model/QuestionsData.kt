@@ -20,6 +20,6 @@ data class QuestionsData(
     val isAnswered: Boolean = false,
     val images: Int? = null,
     var briefCaseId: Long = 0L,
-    val significance: String
+    val significance: String = ""
 )
 

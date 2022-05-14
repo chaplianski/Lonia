@@ -58,7 +58,7 @@ class AnswersFragment : Fragment() {
             answersViewModel.getAnswers(briefcaseId)
         }
 
-        answersViewModel.answersList.observe(this.viewLifecycleOwner, {
+        answersViewModel.answersList.observe(this.viewLifecycleOwner) {
 
             val answersAdapter = QuestionsAdapter(it)
             val questionsRV = view.findViewById<RecyclerView>(R.id.rv_answers)
@@ -78,11 +78,12 @@ class AnswersFragment : Fragment() {
                             ?.apply()
                         sharedPref?.edit()?.putString(Constants.CURRENT_QUESTION, question)?.apply()
                         sharedPref?.edit()?.putString(Constants.CURRENT_COMMENT, comment)?.apply()
-                        sharedPref?.edit()?.putBoolean(Constants.CURRENT_ISANSWERED, isAnswered)?.apply()
-                        Log.d("My Log","from answers fragment: isAnswered: $isAnswered")
+                        sharedPref?.edit()?.putBoolean(Constants.CURRENT_ISANSWERED, isAnswered)
+                            ?.apply()
+                        Log.d("My Log", "from answers fragment: isAnswered: $isAnswered")
                         navController.navigate(R.id.action_answersFragment_to_answerFragment)
                     }
                 }
-        })
+        }
     }
 }

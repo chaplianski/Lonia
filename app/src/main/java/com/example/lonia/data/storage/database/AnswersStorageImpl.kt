@@ -15,11 +15,11 @@ class AnswersStorageImpl @Inject constructor() : AnswersStorage {
         return briefcaseDao.getAnsweredQuestions(briefcaseId)
     }
 
-    override fun updatedAnswer(answersData: AnswersData) {
-        briefcaseDao.updateAnswer(answersData)
-    }
-
-    override fun getAnswer(answerId: Long): AnswersData {
-        return briefcaseDao.getAnswer(answerId)
-    }
+//    override fun updatedAnswer(answersData: AnswersData) {
+//        briefcaseDao.updateAnswer(answersData)
+//    }
+//
+//    override fun getAnswer(answerId: Long): AnswersData {
+//        return briefcaseDao.getAnswer(answerId)
+//    }
 }

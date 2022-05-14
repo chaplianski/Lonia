@@ -54,7 +54,6 @@ class NoteFragment : Fragment() {
         val briefcaseId = sharedPref?.getLong(Constants.CURRENT_BRIEFCASE, 0)
         val idNote = arguments?.getLong("noteId", 0)
 
-        Log.d("My Log", "note fragment noteId; $idNote")
         val valueNote = arguments?.getString("noteValue", "")
         val nameNote = arguments?.getString("noteName", "")
 

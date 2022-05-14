@@ -1,6 +1,7 @@
 package com.example.lonia.data.storage.network.retrofit
 
 import android.content.Context
+import android.util.Log
 import com.example.lonia.R
 import com.example.lonia.data.storage.model.LoginRequestData
 import com.example.lonia.data.storage.network.service.AuthorizationApiService
@@ -36,6 +37,7 @@ class LoginRequestApiHelper @Inject constructor() {
         when (responseToken.code()) {
             in 200..299 -> {
                 token = responseToken.body()?.token ?: ""
+
                 val sharedPref = context.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
                 sharedPref?.edit()?.putString(NetParameters.TOKEN, responseToken.body()?.token)?.apply()
                 isSuccess = 1

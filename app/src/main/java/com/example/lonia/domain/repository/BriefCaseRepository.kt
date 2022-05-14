@@ -8,4 +8,6 @@ interface BriefCaseRepository {
     fun addBriefCase(briefCase: BriefCase, questionsList: List<Questions>)
 
     fun getAllBriefCase(): List<BriefCase>
+
+    suspend fun saveBriefcase(briefcaseId: Long): String
 }

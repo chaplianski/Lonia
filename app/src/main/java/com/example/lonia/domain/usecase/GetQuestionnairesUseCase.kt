@@ -12,8 +12,6 @@ import javax.inject.Inject
 
 class GetQuestionnairesUseCase @Inject constructor(private val questionnairesRepository: QuestionnairesRepository) {
 
-
-
     suspend fun execute (): Result<List<Questionnaires>> {
         return Result.runCatching {
             try {

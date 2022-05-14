@@ -1,6 +1,5 @@
 package com.example.lonia.domain.repository
 
-import com.example.lonia.domain.model.Answers
 import com.example.lonia.domain.model.Questions
 
 interface AnswersRepository {

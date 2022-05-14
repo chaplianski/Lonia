@@ -1,6 +1,7 @@
 package com.example.lonia.data.storage.network.retrofit
 
 import android.content.Context
+import android.util.Log
 import com.example.lonia.R
 import com.example.lonia.data.storage.model.QuestionnairesData
 import com.example.lonia.data.storage.network.service.QuestionnairesApiService

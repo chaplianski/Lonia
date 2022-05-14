@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 
-typealias CustomInputDialogListener = (requestKey: String, volume: Int) -> Unit
 
 class QuestionnariesDialogFragment: DialogFragment() {
 

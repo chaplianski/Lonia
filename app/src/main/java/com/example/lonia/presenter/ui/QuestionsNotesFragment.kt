@@ -57,9 +57,6 @@ class QuestionsNotesFragment : Fragment() {
         TabLayoutMediator(tableLayout, pager) { tab, position ->
             tab.text = titleList[position]
         }.attach()
-
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -81,8 +78,5 @@ class QuestionsNotesFragment : Fragment() {
         override fun createFragment(position: Int): Fragment {
             return list[position]
         }
-
-
     }
-
 }

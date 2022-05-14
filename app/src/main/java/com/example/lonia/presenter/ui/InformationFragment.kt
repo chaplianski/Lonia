@@ -20,40 +20,11 @@ class InformationFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /*       dialog?.setOnShowListener { dialog ->
-                   val layout: FrameLayout? =
-                       (dialog as BottomSheetDialog).findViewById(com.google.android.material.R.id.design_bottom_sheet)
-                   layout?.let {
-                       val behavior = BottomSheetBehavior.from(it)
-                       behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                       behavior.skipCollapsed = true
-                   }
-               }
 
-       */
-//     val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(sheetBottom)
-        //     bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         val v = inflater.inflate(
             R.layout.dialog_comment,
             container, false
         )
-        //     val bottomSheet = v
-        //          .findViewById<ConstraintLayout>(R.id.design_bottom_sheet)
-        //    val behavior: BottomSheetBehavior<*>?
-        //     if (bottomSheet != null) {
-        //         behavior = BottomSheetBehavior.from(bottomSheet)
-        //        behavior?.state = BottomSheetBehavior.STATE_EXPANDED
-        //         behavior?.isDraggable = false
-        //     }
-
-        //  if (v.findViewById(R.layout.dialog_comment) != null ){
-        //        val sheetBottom = view?.findViewById<ConstraintLayout>(R.layout.dialog_comment)
-        //        val bottomSheetBehavior: BottomSheetBehavior<*>?
-        //         bottomSheetBehavior = BottomSheetBehavior.from(sheetBottom)
-        //        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        //     }
-
-
         return v
     }
 

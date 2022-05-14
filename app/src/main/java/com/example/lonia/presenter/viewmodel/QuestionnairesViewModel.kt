@@ -1,5 +1,6 @@
 package com.example.lonia.presenter.viewmodel
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,15 +35,18 @@ class QuestionnairesViewModel @Inject constructor(
     suspend fun getQuestionnairesList() {
 
         getQuestionnairesUseCase.execute().fold({
-           screenStateData.emit(State.Success(it))
+            screenStateData.emit(State.Success(it))
         }, {
             when (it) {
-                is NetworkException -> {screenStateData.emit(State.Error(it.errorMessage))}
-                is InternetConnectionException -> {screenStateData.emit(State.Error(it.errorMessage))}
+                is NetworkException -> {
+                    screenStateData.emit(State.Error(it.errorMessage))
+                }
+                is InternetConnectionException -> {
+                    screenStateData.emit(State.Error(it.errorMessage))
+                }
                 else -> {}
             }
         })
-
     }
 
     fun saveBriefcase(
@@ -61,19 +65,20 @@ class QuestionnairesViewModel @Inject constructor(
 
             val questionsResponse = fetchQuestionsUseCase.execute(qid).fold({
                 listResponse = it
-
             }, {
                 when (it) {
-                    is NetworkException -> {screenStateData.emit(State.Error(it.errorMessage))} //
-                    is InternetConnectionException -> {screenStateData.emit(State.Error(it.errorMessage))}
+                    is NetworkException -> {
+                        screenStateData.emit(State.Error(it.errorMessage))
+                    } //
+                    is InternetConnectionException -> {
+                        screenStateData.emit(State.Error(it.errorMessage))
+                    }
                     else -> {}
                 }
             }
-
-
             )
 
-            if (!listResponse.isNullOrEmpty()){
+            if (!listResponse.isNullOrEmpty()) {
                 val briefCase = BriefCase(
                     vessel = vessel,
                     inspectorType = inspectorType,
@@ -88,11 +93,9 @@ class QuestionnairesViewModel @Inject constructor(
                 addBriefCaseUseCase.execute(briefCase, listResponse)
 
                 screenStateData.value = State.DownWork
-            }else{
+            } else {
                 screenStateData.value = State.Error(R.string.server_error)
             }
-
-
         }
     }
 
@@ -103,10 +106,7 @@ class QuestionnairesViewModel @Inject constructor(
     sealed class State() {
         object DownWork : State()
         data class Error(@StringRes val exception: Int) : State()
-        data class Success (val questionarries: List<Questionnaires>): State()
+        data class Success(val questionarries: List<Questionnaires>) : State()
         object Loading : State()
     }
-
-
-
 }

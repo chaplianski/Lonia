@@ -10,8 +10,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -61,6 +64,8 @@ class AnswerFragment : Fragment() {
         activitySupport.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         activitySupport.supportActionBar?.setDisplayShowHomeEnabled(false)
 
+
+
         _binding = FragmentAnswerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -91,6 +96,7 @@ class AnswerFragment : Fragment() {
         val questionId = sharedPref?.getString(Constants.CURRENT_QUESTION_ID, "").toString()
         val isAnswered = sharedPref?.getBoolean(Constants.CURRENT_ISANSWERED, false)
         val briefcaseId = sharedPref?.getLong(Constants.CURRENT_BRIEFCASE, 0)
+        val informationValue = sharedPref?.getString(Constants.CURRENT_COMMENT, "")
         val buttonSelectionError = binding.tvAnswerButtonError
         val answerTextField = binding.etAnswerField
         val listQuestionsId = arguments?.getStringArray(Constants.LIST_QUESTIONS_ID)?.toList()
@@ -98,6 +104,10 @@ class AnswerFragment : Fragment() {
         var answerDate: Long = 0
         var significanceLevel = ""
         val isFromNotes = arguments?.getInt("from notes")
+
+         if (informationValue.isNullOrEmpty()){
+             informationButton.visibility = View.INVISIBLE
+         }
 
 
         positiveButton.isEnabled = true
@@ -292,7 +302,7 @@ class AnswerFragment : Fragment() {
 
         // ***** Observe answer on layout *****
 
-        answerViewModel.question.observe(this.viewLifecycleOwner, { question ->
+        answerViewModel.question.observe(this.viewLifecycleOwner) { question ->
 
             // Condition not empty views of answer *****
             if (question.isAnswered) {
@@ -313,7 +323,7 @@ class AnswerFragment : Fragment() {
                 answerKeyPosition = question.answer
 
                 Log.d("MyLog", "answer fragment answer question: $question ")
-                when(question.significance){
+                when (question.significance) {
                     "Low" -> {
                         lowButton.isSelected = true
                         mediumButton.isSelected = false
@@ -341,16 +351,16 @@ class AnswerFragment : Fragment() {
                 significanceLevel = question.significance
                 answerViewModel.getPhotos(question.questionid)
             }
-        })
+        }
 
         // ****** Observe photos list *****
 
-        answerViewModel.photos.observe(this.viewLifecycleOwner, {
+        answerViewModel.photos.observe(this.viewLifecycleOwner) {
 
             if (!questionId.equals("")) {
                 getRecyclerView(it, view, questionId)
             }
-        })
+        }
 
         saveBotton.setOnClickListener {
 
@@ -438,7 +448,7 @@ class AnswerFragment : Fragment() {
             if (briefcaseId != null) {
                 answerViewModel.getNotes(briefcaseId)
             }
-            answerViewModel.notes.observe(this.viewLifecycleOwner, {
+            answerViewModel.notes.observe(this.viewLifecycleOwner) {
 
                 if (it.isEmpty()) {
                     Toast.makeText(context, "There are currently no notes", Toast.LENGTH_SHORT)
@@ -455,7 +465,7 @@ class AnswerFragment : Fragment() {
                     val navController = Navigation.findNavController(view)
                     navController.navigate(R.id.action_answerFragment_to_notesFragment, bundle)
                 }
-            })
+            }
         }
 
         answerTextVew.doOnTextChanged { inputText, _, _, _ ->

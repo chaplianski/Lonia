@@ -10,4 +10,5 @@ interface BriefCaseStorage {
     fun getBriefCase (briefCaseId: Long): BriefCaseData
 
     fun getAllBriefCase (): List<BriefCaseData>
+
 }

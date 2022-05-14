@@ -53,7 +53,7 @@ class VesselsFragment : Fragment() {
 
         vesselViewModel.getListVassels()
 
-        vesselViewModel.vassels.observe(this.viewLifecycleOwner, { vesselsList ->
+        vesselViewModel.vassels.observe(this.viewLifecycleOwner) { vesselsList ->
 
             val vasselAdapter = VesselAdapter(vesselsList)
             val vesselsRV: RecyclerView = view.findViewById(R.id.rv_vessels)
@@ -67,7 +67,7 @@ class VesselsFragment : Fragment() {
                 }
             }
             setupCustomDialog()
-        })
+        }
     }
 
     fun showDialog(nameItem: String, item: String) {

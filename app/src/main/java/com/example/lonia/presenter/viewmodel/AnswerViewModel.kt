@@ -25,18 +25,12 @@ import javax.inject.Inject
 
 
 class AnswerViewModel @Inject constructor(
-//    private val getAnswerUseCase: GetAnswerUseCase,
-//    private val updateQuestionsUseCase: UpdateQuestionsUseCase,
-//    private val updateAnswerUseCase: UpdateAnswerUseCase,
     private val getPhotosUseCase: GetPhotosUseCase,
-//    private val updatePhotosUseCase: UpdatePhotosUseCase,
     private val insertPhotoUseCase: InsertPhotoUseCase,
     private val deletePhotoUseCase: DeletePhotoUseCase,
-//    private val updateListQuestionsUseCase: UpdateListQuestionsUseCase,
     private val updateQuestionUseCase: UpdateQuestionUseCase,
     private val getQuestionUseCase: GetQuestionUseCase,
     private val getNotesUseCase: GetNotesUseCase,
-//    private val context: Context
 ) : ViewModel() {
 
 
@@ -48,18 +42,6 @@ class AnswerViewModel @Inject constructor(
     val _photos = MutableLiveData<List<Photos>>()
     val photos: LiveData<List<Photos>> get() = _photos
 
-//    fun getAnswer(idAnswer: Long) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val responseAnswer = getAnswerUseCase.execute(idAnswer)
-//            //         _answer.postValue(responseAnswer)
-//        }
-//    }
-//
-//    fun updateAnswer(answers: Answers) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            updateAnswerUseCase.execute(answers)
-//        }
-//    }
 
     fun getQuestion(questionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -74,32 +56,12 @@ class AnswerViewModel @Inject constructor(
         }
     }
 
-//    fun updateQuestionAndAddAnswer(questions: Questions, answers: Answers) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            updateQuestionsUseCase.execute(questions, answers)
-//        }
-//    }
-//
-//    fun updateListQuestionsAndAddAnswer(questionsIdList: List<String>, answers: Answers) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            updateListQuestionsUseCase.execute(questionsIdList, answers)
-//        }
-//
-//    }
-
-
     fun getPhotos(questionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val responsePhotos = getPhotosUseCase.execute(questionId)
             _photos.postValue(responsePhotos)
         }
     }
-
-//    fun updatePhotos(photos: Photos) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//
-//        }
-//    }
 
     fun getNotes(briefcaseId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -157,7 +119,7 @@ class AnswerViewModel @Inject constructor(
                 Log.d("MyLog", "answer viewModel bitmap size: ${bitmapByteCount} ")
             }
 
-            val photo = bitmapPhoto?.let {
+            val photo = bitmapPhoto.let {
                 Photos(
                     photoId = 0,
                     questionId = idQuestion,
@@ -165,9 +127,7 @@ class AnswerViewModel @Inject constructor(
                 )
             }
 
-            if (photo != null) {
-                insertPhotoUseCase.execute(photo)
-            }
+            insertPhotoUseCase.execute(photo)
             getPhotos(idQuestion)
         }
     }
@@ -203,19 +163,6 @@ class AnswerViewModel @Inject constructor(
         return resizedBitmap
     }
 
-
-//    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
-//        val height = options.outHeight
-//        val width = options.outWidth
-//        var inSampleSize = 1
-//        if (height > reqHeight || width > reqWidth) {
-//            val heightRatio = round(height.toFloat() / reqHeight.toFloat()).toInt()
-//            val widthRatio = round(width.toFloat() / reqWidth.toFloat()).toInt()
-//            inSampleSize = if (heightRatio < widthRatio) heightRatio else widthRatio
-//        }
-//        return inSampleSize
-//    }
-
     fun deletePhoto(photo: Photos) {
         viewModelScope.launch(Dispatchers.IO) {
             deletePhotoUseCase.execute(photo)
@@ -225,8 +172,4 @@ class AnswerViewModel @Inject constructor(
     override fun onCleared() {
         viewModelScope.cancel()
     }
-
-//    companion object {
-//        val MAX_IMAGE_SIZE = 660000
-//    }
 }

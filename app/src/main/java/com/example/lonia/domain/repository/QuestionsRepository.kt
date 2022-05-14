@@ -13,7 +13,7 @@ interface QuestionsRepository {
 
     fun getNotAnsweredQuestions(briefcaseId: Long): List<Questions>
 
-    fun updateListQuestions(questionsListId: List<String>, answers: Answers)
+//    fun updateListQuestions(questionsListId: List<String>, answers: Answers)
 
     fun updateQuestion(question: Questions)
 

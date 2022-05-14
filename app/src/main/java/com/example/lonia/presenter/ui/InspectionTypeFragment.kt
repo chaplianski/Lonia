@@ -46,7 +46,7 @@ class InspectionTypeFragment : Fragment() {
 
         inspectionTypeViewModel.getInspectionTypeList()
 
-        inspectionTypeViewModel.inspectionTypeList.observe(this.viewLifecycleOwner, {
+        inspectionTypeViewModel.inspectionTypeList.observe(this.viewLifecycleOwner) {
 
             val inspectionTypeAdapter = InspectionTypeAdapter(it)
             val inspectionTypeRV = view.findViewById<RecyclerView>(R.id.rv_inspection_type)
@@ -62,7 +62,7 @@ class InspectionTypeFragment : Fragment() {
                     }
                 }
             setupCustomDialog()
-        })
+        }
     }
 
     fun showDialog(nameItem: String, item: String) {

@@ -1,23 +1,20 @@
 package com.example.lonia.domain.usecase
 
-import android.util.Log
 import com.example.lonia.R
 import com.example.lonia.domain.exceptions.InternetConnectionException
 import com.example.lonia.domain.exceptions.NetworkException
-import com.example.lonia.domain.model.Questions
-import com.example.lonia.domain.repository.QuestionsRepository
+import com.example.lonia.domain.repository.BriefCaseRepository
 import java.io.IOException
 import java.net.ConnectException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
-class FetchQuestionsUseCase @Inject constructor(private val questionsRepository: QuestionsRepository) {
+class SaveBriefcaseUseCase @Inject constructor(private val briefCaseRepository: BriefCaseRepository) {
 
-    suspend fun execute(qid: Int): Result<List<Questions>> {
-        Log.d("MyLog", "fetch question use case, qid: $qid")
+    suspend fun execute(briefcaseId: Long): Result<String>{
         return Result.runCatching {
             try {
-                questionsRepository.fetchQuestions(qid)
+                briefCaseRepository.saveBriefcase(briefcaseId)
             }catch (e: IOException){
                 throw  InternetConnectionException(R.string.internet_error)
             }catch (e: UnknownHostException){

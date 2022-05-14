@@ -28,10 +28,6 @@ class QuestionsViewModel @Inject constructor(private val getNotAsweredQuestionsU
 
         }
     }
-
-
-
-
 }
 
 

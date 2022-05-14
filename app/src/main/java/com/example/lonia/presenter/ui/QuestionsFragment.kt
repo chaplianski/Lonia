@@ -61,9 +61,10 @@ class QuestionsFragment : Fragment() {
             questionViewModel.getQuestionList(briefcaseId, isCheck)
         }
 
-        questionViewModel.questionList.observe(this.viewLifecycleOwner, {
+        questionViewModel.questionList.observe(this.viewLifecycleOwner) {
 
-            val expandableListView = view.findViewById<ExpandableListView>(R.id.elv_questions_expandable_list)
+            val expandableListView =
+                view.findViewById<ExpandableListView>(R.id.elv_questions_expandable_list)
             val questionsAdapter = it
             expandableListView.setAdapter(questionsAdapter)
 
@@ -76,15 +77,7 @@ class QuestionsFragment : Fragment() {
                 }
             }
 
-
-
-
             val questionsIdList = mutableListOf<String>()
-
-     //       val questionsAdapter = QuestionsAdapter(it)
-     //       val questionsRV = view.findViewById<RecyclerView>(R.id.rv_questions)
-     //       questionsRV.layoutManager = LinearLayoutManager(context)
-     //       questionsRV.adapter = questionsAdapter
 
             questionsAdapter.shortOnClickListener =
                 object : QuestionsExpanbleAdapter.ShortOnClickListener {
@@ -94,15 +87,15 @@ class QuestionsFragment : Fragment() {
                         questionId: String,
                         isAnswered: Boolean
                     ) {
-                        if (isCheck){
-                            if(questionsIdList.contains(questionId)){
-                                for ((index, element) in questionsIdList.withIndex()){
+                        if (isCheck) {
+                            if (questionsIdList.contains(questionId)) {
+                                for ((index, element) in questionsIdList.withIndex()) {
                                     if (element == questionId) {
                                         questionsIdList.removeAt(index)
                                         break
                                     }
                                 }
-                            }else{
+                            } else {
                                 questionsIdList.add(questionId)
                             }
 
@@ -110,33 +103,36 @@ class QuestionsFragment : Fragment() {
                                 val arrayQuestions = questionsIdList.toTypedArray()
                                 val bundle = Bundle()
                                 bundle.putStringArray(Constants.LIST_QUESTIONS_ID, arrayQuestions)
-                                sharedPref?.edit()?.putBoolean(Constants.CURRENT_ISANSWERED, false)?.apply()
+                                sharedPref?.edit()?.putBoolean(Constants.CURRENT_ISANSWERED, false)
+                                    ?.apply()
                                 val navController = Navigation.findNavController(view)
-                                navController.navigate(R.id.action_questionsNotesFragment_to_answerFragment, bundle)
-
+                                navController.navigate(
+                                    R.id.action_questionsNotesFragment_to_answerFragment,
+                                    bundle
+                                )
                             }
 
                         } else {
 
-                            sharedPref?.edit()?.putString(Constants.CURRENT_QUESTION_ID, questionId)                                ?.apply()
-                            sharedPref?.edit()?.putString(Constants.CURRENT_QUESTION, question)?.apply()
-                            sharedPref?.edit()?.putString(Constants.CURRENT_COMMENT, comment)?.apply()
-                            sharedPref?.edit()?.putBoolean(Constants.CURRENT_ISANSWERED, isAnswered)?.apply()
-                            Log.d("My Log","from question fragment: isAnswered: $isAnswered")
+                            sharedPref?.edit()?.putString(Constants.CURRENT_QUESTION_ID, questionId)
+                                ?.apply()
+                            sharedPref?.edit()?.putString(Constants.CURRENT_QUESTION, question)
+                                ?.apply()
+                            sharedPref?.edit()?.putString(Constants.CURRENT_COMMENT, comment)
+                                ?.apply()
+                            sharedPref?.edit()?.putBoolean(Constants.CURRENT_ISANSWERED, isAnswered)
+                                ?.apply()
+                            Log.d("My Log", "from question fragment: isAnswered: $isAnswered")
                             val navController = Navigation.findNavController(view)
                             navController.navigate(R.id.action_questionsNotesFragment_to_answerFragment)
 
                         }
-
-
                     }
                 }
-        })
+        }
     }
 
-
-
-    companion object{
+    companion object {
 
         fun getInstance() = QuestionsFragment()
     }

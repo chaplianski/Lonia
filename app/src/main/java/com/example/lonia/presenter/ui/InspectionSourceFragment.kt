@@ -55,52 +55,52 @@ class InspectionSourceFragment : Fragment() {
         inspectionSourceViewModel.getInspectionSourceList()
 
         inspectionSourceViewModel.inspectionSourceList.observe(
-            this.viewLifecycleOwner,
-            { inspectionSource ->
+            this.viewLifecycleOwner
+        ) { inspectionSource ->
 
-                var inspectionSourceAdapter = InspectionSourceAdapter(inspectionSource)
-                val inspectionSourceRV =
-                    view.findViewById<RecyclerView>(R.id.rv_inspection_source)
-                inspectionSourceRV.layoutManager = LinearLayoutManager(context)
-                inspectionSourceRV.adapter = inspectionSourceAdapter
-                clickToItem(inspectionSourceAdapter)
+            var inspectionSourceAdapter = InspectionSourceAdapter(inspectionSource)
+            val inspectionSourceRV =
+                view.findViewById<RecyclerView>(R.id.rv_inspection_source)
+            inspectionSourceRV.layoutManager = LinearLayoutManager(context)
+            inspectionSourceRV.adapter = inspectionSourceAdapter
+            clickToItem(inspectionSourceAdapter)
 
 
-                val searchView: SearchView =
-                    view.findViewById(R.id.sv_inspection_source_search)
-                var searchFilter = mutableListOf<String>()
+            val searchView: SearchView =
+                view.findViewById(R.id.sv_inspection_source_search)
+            var searchFilter = mutableListOf<String>()
 
-                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        return false
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    if (!newText.isNullOrBlank()) {
+                        searchFilter = inspectionSource.filter {
+                            it.uppercase().contains(newText.toString().uppercase())
+                        } as MutableList<String>
                     }
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-
-                        if (!newText.isNullOrBlank()) {
-                            searchFilter = inspectionSource.filter {
-                                it.uppercase().contains(newText.toString().uppercase())
-                            } as MutableList<String>
-                        }
-                        inspectionSourceAdapter = InspectionSourceAdapter(searchFilter)
-                        inspectionSourceRV.adapter = inspectionSourceAdapter
-                        clickToItem(inspectionSourceAdapter)
-
-                        return false
-                    }
-                })
-
-                val stopSearchButton = view.findViewById<ImageView>(R.id.search_close_btn)
-                val textSearchField = view.findViewById<EditText>(R.id.search_src_text)
-                stopSearchButton.setOnClickListener {
-                    textSearchField.text.clear()
-                    searchView.clearFocus()
-                    inspectionSourceAdapter = InspectionSourceAdapter(inspectionSource)
+                    inspectionSourceAdapter = InspectionSourceAdapter(searchFilter)
                     inspectionSourceRV.adapter = inspectionSourceAdapter
                     clickToItem(inspectionSourceAdapter)
+
+                    return false
                 }
             })
+
+            val stopSearchButton = view.findViewById<ImageView>(R.id.search_close_btn)
+            val textSearchField = view.findViewById<EditText>(R.id.search_src_text)
+            stopSearchButton.setOnClickListener {
+                textSearchField.text.clear()
+                searchView.clearFocus()
+                inspectionSourceAdapter = InspectionSourceAdapter(inspectionSource)
+                inspectionSourceRV.adapter = inspectionSourceAdapter
+                clickToItem(inspectionSourceAdapter)
+            }
+        }
     }
 
     fun clickToItem(inspectionSourceAdapter: InspectionSourceAdapter) {

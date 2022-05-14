@@ -52,7 +52,7 @@ class PortFragment : Fragment() {
 
         portViewModel.getPortList()
 
-        portViewModel.portList.observe(this.viewLifecycleOwner, { listPorts ->
+        portViewModel.portList.observe(this.viewLifecycleOwner) { listPorts ->
 
             var portAdapter = PortAdapter(listPorts)
             val portRV = view.findViewById<RecyclerView>(R.id.rv_port)
@@ -94,7 +94,7 @@ class PortFragment : Fragment() {
                 portRV.adapter = portAdapter
                 clickToItem(portAdapter)
             }
-        })
+        }
     }
 
     fun clickToItem(portAdapter: PortAdapter) {
