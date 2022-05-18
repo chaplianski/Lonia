@@ -12,7 +12,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="E-mail"
         app:errorEnabled="true"
         app:helperTextEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"

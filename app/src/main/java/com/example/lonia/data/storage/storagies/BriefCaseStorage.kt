@@ -11,4 +11,6 @@ interface BriefCaseStorage {
 
     fun getAllBriefCase (): List<BriefCaseData>
 
+    fun deleteBriefcase(briefCaseId: Long)
+
 }

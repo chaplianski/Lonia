@@ -25,4 +25,8 @@ class BriefCaseStorageImpl @Inject constructor() : BriefCaseStorage {
     override fun getAllBriefCase(): List<BriefCaseData> {
         return briefcaseDao.getAllBriefCases()
     }
+
+    override fun deleteBriefcase(briefCaseId: Long) {
+        briefcaseDao.deleleBriefcaseQuestionsPhotos(briefCaseId)
+    }
 }

@@ -35,20 +35,15 @@ class QuestionsApiHelper @Inject constructor() {
 
         when (responseQuestions.code()) {
             in 200..299 -> {
-                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 questionsDataResponse = responseQuestions.body() ?: emptyList()
             }
             in 300..399 -> {
-
-                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 throw NetworkException(R.string.internet_error)
             }
             in 400..499 -> {
-                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 throw NetworkException(R.string.client_error)
             }
             in 500..599 -> {
-                Log.d("MyLog", "questions helper response code: ${responseQuestions.code()}")
                 throw NetworkException(R.string.server_error)
             }
         }

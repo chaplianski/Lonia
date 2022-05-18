@@ -78,26 +78,24 @@ class LoginFragment : Fragment() {
         signInButton.setOnClickListener {
             loginErrorTextView.visibility = View.GONE
             if (loginText.text.isBlank()) {
-                loginField.error = "Please enter email"
-                Log.d("My Log", "Login Fragment ${passwordField.error}")
+                loginField.error = "Please enter e-mail"
             }else if (passwordText.text.isBlank()) {
                 passwordField.error = "Please enter password"
-                Log.d("My Log", "Login Fragment ${passwordField.error}")
             }else {
                 tokenRequest = LoginRequest(
                     email = loginValue,
                     password = passwordValue
                 )
                 loginViewModel.getToken(tokenRequest)
-
+                signInButton.isEnabled = false
                 loginViewModel.loginErrorMessage.observe(this.viewLifecycleOwner) {
 
                     if (it == "access is allowed") {
-
+                        loginErrorTextView.visibility = View.INVISIBLE
                         val navController = Navigation.findNavController(view)
                         navController.navigate(R.id.briefCaseFragment)
                     }
-
+                    signInButton.isEnabled = true
                     loginErrorTextView.text = it
                     loginErrorTextView.visibility = View.VISIBLE
                 }

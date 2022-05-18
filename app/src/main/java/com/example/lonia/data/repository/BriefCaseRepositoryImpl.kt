@@ -22,6 +22,10 @@ class BriefCaseRepositoryImpl @Inject constructor(
         return briefcaseToJsonHelper.getSendResult(briefcaseId)
     }
 
+    override fun deleteBriefcase(briefcaseId: Long) {
+        briefCaseStorage.deleteBriefcase(briefcaseId)
+    }
+
     override fun addBriefCase(briefcase: BriefCase, listQuestions: List<Questions>) {
         val briefCaseData = briefcase.briefcaseMapDomainToData()
         val listQuestionsData = listQuestions.map { it.questionsMapDomainToData() }

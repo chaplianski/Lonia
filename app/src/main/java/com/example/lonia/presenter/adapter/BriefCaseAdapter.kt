@@ -75,7 +75,7 @@ class BriefCaseAdapter(
             itemAnsweredQuestion.text = "Answered: ${briefCase.answered}"
 
 
-            if (briefCase.total == briefCase.answered && briefCase.isVisible == false) {
+            if (briefCase.total == briefCase.answered && briefCase.isVisible == false || briefCase.total == 0) {
                itemView.visibility = View.GONE
                itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
             } else {

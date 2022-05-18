@@ -10,6 +10,7 @@ import com.example.lonia.domain.exceptions.NetworkException
 import com.example.lonia.domain.model.BriefcasesAndQuestions
 import com.example.lonia.domain.model.Questionnaires
 import com.example.lonia.domain.model.Questions
+import com.example.lonia.domain.usecase.DeleteBriefcaseUseCase
 import com.example.lonia.domain.usecase.GetAllBriefCasesUseCase
 import com.example.lonia.domain.usecase.GetQuestionsUseCase
 import com.example.lonia.domain.usecase.SaveBriefcaseUseCase
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class BriefCaseViewModel @Inject constructor(
     private val getAllBriefCasesUseCase: GetAllBriefCasesUseCase,
     private val getQuestionsUseCase: GetQuestionsUseCase,
-    private val saveBriefcaseUseCase: SaveBriefcaseUseCase
+    private val saveBriefcaseUseCase: SaveBriefcaseUseCase,
+    private val deleteBriefcaseUseCase: DeleteBriefcaseUseCase
 ) : ViewModel() {
 
     val _briefCase = MutableLiveData<List<BriefcasesAndQuestions>>()
@@ -33,6 +35,7 @@ class BriefCaseViewModel @Inject constructor(
         BriefcaseState.Loading
     )
     val screenState = screenStateData.asStateFlow()
+    var saveresult = ""
 
 
     fun getBriefCaseList() {
@@ -77,6 +80,7 @@ class BriefCaseViewModel @Inject constructor(
             screenStateData.value = BriefcaseState.Loading
             saveBriefcaseUseCase.execute(briefcaseId).fold({
                 screenStateData.value = BriefcaseState.Success
+                saveresult = it
             }, {
                 when (it) {
                     is NetworkException -> {
@@ -96,14 +100,16 @@ class BriefCaseViewModel @Inject constructor(
 
     fun  deleteBriefcase(briefcaseId: Long){
         viewModelScope.launch(Dispatchers.IO) {
-
+            deleteBriefcaseUseCase.execute(briefcaseId)
         }
     }
 
-    fun saveAndDeleteBriefcase(briefcaseId: Long){
+     fun saveAndDeleteBriefcase(briefcaseId: Long){
         saveBriefcase(briefcaseId)
+        if (saveresult == "Success!")
         deleteBriefcase(briefcaseId)
-    }
+        getBriefCaseList()
+     }
 
     override fun onCleared() {
         viewModelScope.cancel()

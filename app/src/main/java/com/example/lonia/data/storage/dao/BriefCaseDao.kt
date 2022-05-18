@@ -60,6 +60,18 @@ abstract class BriefcaseDao {
     @Delete
     abstract fun deletePhotos(photosData: PhotosData)
 
+    @Query("DELETE FROM briefcase WHERE briefcaseId = :briefcaseId")
+    abstract fun deleteBriefcase(briefcaseId: Long)
+
+    @Query("DELETE FROM questions WHERE briefcaseId = :briefcaseId")
+    abstract fun deleteQuestions(briefcaseId: Long)
+
+    @Query("DELETE FROM photos WHERE questionId = :questionId")
+    abstract fun deletePhotosById(questionId: String)
+
+    @Query("DELETE FROM notes WHERE briefcaseId = :briefcaseId")
+    abstract fun deleteNotes(briefcaseId: Long)
+
 //    @Update
 //    abstract fun updateAnswer(answersData: AnswersData)
 
@@ -90,6 +102,16 @@ abstract class BriefcaseDao {
         val questionId = questionData.questionid
         val significance = questionData.significance
         updateQuestion1(answer, dateOfInspection, commentForQuestion, isAnswered, questionId, significance)
+    }
+
+    fun deleleBriefcaseQuestionsPhotos(briefcaseId: Long){
+        val questionList = getAllQuestions(briefcaseId)
+        for (question in questionList){
+            deletePhotosById(question.questionid)
+        }
+        deleteBriefcase(briefcaseId)
+        deleteQuestions(briefcaseId)
+        deleteNotes(briefcaseId)
     }
 
 //    fun updateQuestionsAndInsertAnswer(questionsData: QuestionsData, answersData: AnswersData) {

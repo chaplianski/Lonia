@@ -1,5 +1,6 @@
 package com.example.lonia.data.storage.network.service
 
+import com.example.lonia.data.storage.model.BriefcaseResponseData
 import com.example.lonia.data.storage.model.QuestionsData
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -14,6 +15,6 @@ interface BriefcaseSendApiService {
     suspend fun saveBriefcase(
         @Header("Authorization") token: String,
         @Body briefcase: RequestBody
-    ): Response<String>
+    ): Response<BriefcaseResponseData>
 
 }

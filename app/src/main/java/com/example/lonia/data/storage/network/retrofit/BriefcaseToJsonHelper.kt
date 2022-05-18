@@ -4,19 +4,15 @@ import android.content.Context
 import android.util.Log
 import com.example.lonia.R
 import com.example.lonia.data.storage.dao.BriefcaseDao
-import com.example.lonia.data.storage.model.BriefCaseData
-import com.example.lonia.data.storage.model.PhotosData
-import com.example.lonia.data.storage.model.QuestionsData
+import com.example.lonia.data.storage.database.PhotoConverters
 import com.example.lonia.data.storage.network.service.BriefcaseSendApiService
-import com.example.lonia.data.storage.network.service.QuestionsApiService
 import com.example.lonia.domain.exceptions.NetworkException
-import com.squareup.moshi.Json
-import com.squareup.moshi.Moshi
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import retrofit2.Retrofit
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class BriefcaseToJsonHelper @Inject constructor() {
@@ -36,28 +32,20 @@ class BriefcaseToJsonHelper @Inject constructor() {
 
         val sharedPref = context.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
         val token = sharedPref?.getString(NetParameters.TOKEN, "")
-        Log.d("MyLog", "briefcase helper sendData: 1")
         val sendData = getJson(briefcaseId)
-        Log.d("MyLog", "briefcase helper sendData: 2")
-        Log.d("MyLog", "briefcase helper sendData: ${sendData}")
         val responseBriefcase = retrofit.saveBriefcase("Bearer $token", sendData)
 
         when (responseBriefcase.code()) {
             in 200..299 -> {
-                Log.d("MyLog", "briefcase helper response code: ${responseBriefcase.code()}")
-                saveResult = responseBriefcase.body() ?: ""
+                saveResult = responseBriefcase.body()?.status ?: ""
             }
             in 300..399 -> {
-
-                Log.d("MyLog", "briefcase helper response code: ${responseBriefcase.code()}")
                 throw NetworkException(R.string.internet_error)
             }
             in 400..499 -> {
-                Log.d("MyLog", "briefcase helper response code: ${responseBriefcase.code()}")
                 throw NetworkException(R.string.client_error)
             }
             in 500..599 -> {
-                Log.d("MyLog", "briefcase helper response code: ${responseBriefcase.code()}")
                 throw NetworkException(R.string.server_error)
             }
         }
@@ -69,64 +57,92 @@ class BriefcaseToJsonHelper @Inject constructor() {
         val briefcaseJson = StringBuilder()
         val briefcase = briefcaseDao.getBriefCase(briefcaseId)
 
-        briefcaseJson.append("\"briefcase\":{" +
-                "\"name_case\": ${briefcase.inspectorName}_${briefcase.category}_${briefcase.dateOfCreation},"+
-                "\"InspectorName\": ${briefcase.inspectorName}, " +
-                "\"InspectionTypes\": ${briefcase.inspectorType}, " +
-                "\"InspectionSource\": ${briefcase.inspector}, "+
-                "\"vessel\": ${briefcase.vessel}, " +
-                "\"port\": ${briefcase.port}, " +
-                "\"date_in_vessel\": ${briefcase.dateOfCreation}}," +
-                "\"answer\" : ["
+        val formatedate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.getDefault())
+        val dateBriefcase = formatedate.format(briefcase.dateOfCreation)
+
+        briefcaseJson.append("{\"briefcase\" : {\n" +
+
+                "\"vessel\" : \"${briefcase.vessel}\", \n" +
+                "\"InspectionSource\" : \"${briefcase.inspector}\", \n"+
+                "\"name_case\": \"${briefcase.inspectorName}_${briefcase.category}_${briefcase.dateOfCreation}\", \n" +
+                "\"date_in_vessel\" : \"$dateBriefcase\", \n" +
+                "\"port\" : \"${briefcase.port}\", \n" +
+                "\"InspectorName\" : \"${briefcase.inspectorName}\", \n" +
+                "\"InspectionTypes\" : \"${briefcase.inspectorType}\" \n" +
+                "}, \n" +
+                "\"answer\" : {"
            )
 
         val questionsList = briefcaseDao.getAllQuestions(briefcaseId)
-        var answerCount = 0
+        var answerCount = 1
 
         for (question in questionsList){
+            Log.d("MyLog", "${question.question}")
+        }
+
+        for (question in questionsList){
+            var idCategory = question.categoryid
+            if (idCategory.equals("")){
+                idCategory = "1929"
+            }
+
+            val rightQuestion = getStringWithoutBreak(question.question)
+            val rightComment = getStringWithoutBreak(question.commentForQuestion)
+
             briefcaseJson.append(
-              "{\"answer_${answerCount++}\": {" +
-                      "\"answer\": ${question.answer}," +
-                      "\"comment\": ${question.comment}, " +
-                      "\"questionid\": ${question.questionid}, " +
-                      "\"question\": ${question.question}, " +
-                      "\"questioncode\": ${question.questioncode}," +
-                      "\"categoryid\": ${question.categoryid}," +
-                      "\"categorynewid\": ${question.categorynewid}, " +
-                      "\"origin\": ${question.origin}"
+                      "\"answer_${answerCount++}\" : { \n" +
+                      "\"comment\" : \"${rightComment}\", \n" +
+                      "\"question\" : \"${rightQuestion}\", \n" +
+                      "\"origin\" : \"${question.origin}\", \n" +
+                      "\"questionid\" : \"${question.questionid}\", \n" +
+                      "\"categoryid\" : ${idCategory}, \n" +
+                       "\"categorynewid\" : \"${question.categorynewid}\", \n" +
+                      "\"answer\" : ${question.answer}, \n" +
+                      "\"questioncode\" : \"${question.questioncode}\" \n"
 
 //                      "\"dateofinspection\" : ${question.dateOfInspection}, " +
 //                      "\"isanswered\" : ${question.isAnswered}, " +
 //                      "\"commentforquestion\" : ${question.commentForQuestion}, " +
 //                      "\"significance\" : ${question.significance}, "
            )
- //           Log.d("MyLog", "briefcase json helper answerCount: $answerCount, ${question.questioncode}")
 
            val photoList = briefcaseDao.getPhotos(question.questionid)
-           var photoCount = 0
+           var photoCount = 1
+            val converter = PhotoConverters()
            if (!photoList.isEmpty()){
-               briefcaseJson.append(", \"data_image\": [")
+               briefcaseJson.append(", \"data_image\": {")
                for (photo in photoList){
-                   briefcaseJson.append("\"foto_${photoCount++}\": ${photo.photoUri},")
+                   val rightPhotoString = getStringWithoutBreak(converter.fromBitmap(photo.photoUri))
+
+                   briefcaseJson.append("\"foto_${photoCount++}\": \"${rightPhotoString}\"")
+                   if (photoList.size >= photoCount) briefcaseJson.append(",")
                }
-               briefcaseJson.append("]")
-               Log.d("MyLog", "briefcase helper sendData: 1-1")
+               briefcaseJson.append("}")
+               briefcaseJson.append("}")
            }
-            Log.d("MyLog", "briefcase helper sendData: 1-2")
             briefcaseJson.append("}")
+            if (questionsList.size >= answerCount) briefcaseJson.append(",")
         }
-        Log.d("MyLog", "briefcase helper sendData: 1-3")
-        briefcaseJson.append("]")
+        briefcaseJson.append("}}")
+
         val jsonNew = briefcaseJson.toString()
-        Log.d("MyLog", "briefcase helper sendData json: $jsonNew")
- //       Log.d("MyLog", "briefcase json helper: $briefcaseJson")
-        Log.d("MyLog", "briefcase helper sendData: 1-4")
- //       val json = JSONObject(jsonNew)
-        Log.d("MyLog", "briefcase helper sendData: 1-5")
         val sendData = jsonNew.toRequestBody("application/json".toMediaTypeOrNull())
-//        val sendData = json.toString().toRequestBody("application/json".toMediaTypeOrNull())
-        Log.d("MyLog", "briefcase helper sendData: 1-6")
+
         return sendData
+    }
+
+    private fun getStringWithoutBreak(beginStringData: String): String {
+
+        var stringData = beginStringData.replace("\n", "\\n")
+        stringData = stringData.replace("\"", "\\\"")
+//        stringData = stringData.replace("/", "")
+        stringData = stringData.replace("\r", " ")
+        stringData = stringData.replace("\r\n", " ")
+        stringData = stringData.replace("\b", "\\b")
+        stringData = stringData.replace("\t", "\\t")
+        stringData = stringData.replace("/+", "\\/+")
+
+        return stringData
     }
 
 

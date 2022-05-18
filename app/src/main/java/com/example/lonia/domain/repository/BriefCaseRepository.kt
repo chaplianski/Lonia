@@ -10,4 +10,6 @@ interface BriefCaseRepository {
     fun getAllBriefCase(): List<BriefCase>
 
     suspend fun saveBriefcase(briefcaseId: Long): String
+
+    fun deleteBriefcase(briefcaseId: Long)
 }

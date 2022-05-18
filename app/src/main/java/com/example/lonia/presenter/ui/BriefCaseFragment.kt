@@ -133,6 +133,7 @@ class BriefCaseFragment : Fragment() {
                             }
                         }
                         is BriefCaseViewModel.BriefcaseState.Success -> {
+                            progressBar.visibility = View.GONE
                             showSuccessDialog()
                         }
                         is  BriefCaseViewModel.BriefcaseState.Error -> {
@@ -144,12 +145,8 @@ class BriefCaseFragment : Fragment() {
                     }
                     setupErrorDialog()
                 }
-
             }
-
         }
-
-
 
         addNewBriefCaseButton.setOnClickListener {
             navController.navigate(R.id.action_briefCaseFragment_to_vesselsFragment)
@@ -218,15 +215,12 @@ class BriefCaseFragment : Fragment() {
                 val navController = view?.let { Navigation.findNavController(it) }
                 when(which){
                     0 -> {
-                       Log.d("MyLog", "briefcase fragment : save and hold")
                         briefcaseViewModel.saveBriefcase(briefcaseId)
                     }
                     1 -> {
-                        Log.d("MyLog", "briefcase fragment : save and delete")
-                        briefcaseViewModel.saveBriefcase(briefcaseId)
+                        briefcaseViewModel.saveAndDeleteBriefcase(briefcaseId)
                     }
                     2 -> {
-                        Log.d("MyLog", "briefcase fragment : look")
                         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
                         sharedPref?.edit()
                             ?.putLong(Constants.CURRENT_BRIEFCASE, briefcaseId)
