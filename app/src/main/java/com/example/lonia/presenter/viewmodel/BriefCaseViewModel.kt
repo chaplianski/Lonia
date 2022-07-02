@@ -1,5 +1,6 @@
 package com.example.lonia.presenter.viewmodel
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -35,7 +36,6 @@ class BriefCaseViewModel @Inject constructor(
         BriefcaseState.Loading
     )
     val screenState = screenStateData.asStateFlow()
-    var saveresult = ""
 
 
     fun getBriefCaseList() {
@@ -80,7 +80,7 @@ class BriefCaseViewModel @Inject constructor(
             screenStateData.value = BriefcaseState.Loading
             saveBriefcaseUseCase.execute(briefcaseId).fold({
                 screenStateData.value = BriefcaseState.Success
-                saveresult = it
+                //              saveresult = it
             }, {
                 when (it) {
                     is NetworkException -> {
@@ -98,18 +98,26 @@ class BriefCaseViewModel @Inject constructor(
         }
     }
 
-    fun  deleteBriefcase(briefcaseId: Long){
+    fun deleteBriefcase(briefcaseId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteBriefcaseUseCase.execute(briefcaseId)
         }
     }
 
-     fun saveAndDeleteBriefcase(briefcaseId: Long){
+
+    fun saveAndDeleteBriefcase(briefcaseId: Long) {
         saveBriefcase(briefcaseId)
-        if (saveresult == "Success!")
-        deleteBriefcase(briefcaseId)
-        getBriefCaseList()
-     }
+        viewModelScope.launch(Dispatchers.IO) {
+            screenState.collect {
+                if (it == BriefcaseState.Success) {
+                    deleteBriefcase(briefcaseId)
+                    getBriefCaseList()
+                }
+            }
+
+        }
+
+    }
 
     override fun onCleared() {
         viewModelScope.cancel()

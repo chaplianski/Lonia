@@ -13,19 +13,22 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Collections.replaceAll
 import javax.inject.Inject
 
 class BriefcaseToJsonHelper @Inject constructor() {
 
     @Inject
     lateinit var briefcaseDao: BriefcaseDao
+
     @Inject
     lateinit var briefcaseRetrofit: Retrofit
+
     @Inject
     lateinit var context: Context
 
 
-    suspend fun getSendResult(briefcaseId: Long): String{
+    suspend fun getSendResult(briefcaseId: Long): String {
 
         val retrofit = briefcaseRetrofit.create(BriefcaseSendApiService::class.java)
         var saveResult = ""
@@ -52,7 +55,7 @@ class BriefcaseToJsonHelper @Inject constructor() {
         return saveResult
     }
 
-    fun getJson(briefcaseId: Long): RequestBody{
+    fun getJson(briefcaseId: Long): RequestBody {
 
         val briefcaseJson = StringBuilder()
         val briefcase = briefcaseDao.getBriefCase(briefcaseId)
@@ -60,29 +63,26 @@ class BriefcaseToJsonHelper @Inject constructor() {
         val formatedate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.getDefault())
         val dateBriefcase = formatedate.format(briefcase.dateOfCreation)
 
-        briefcaseJson.append("{\"briefcase\" : {\n" +
+        briefcaseJson.append(
+            "{\"briefcase\" : {\n" +
 
-                "\"vessel\" : \"${briefcase.vessel}\", \n" +
-                "\"InspectionSource\" : \"${briefcase.inspector}\", \n"+
-                "\"name_case\": \"${briefcase.inspectorName}_${briefcase.category}_${briefcase.dateOfCreation}\", \n" +
-                "\"date_in_vessel\" : \"$dateBriefcase\", \n" +
-                "\"port\" : \"${briefcase.port}\", \n" +
-                "\"InspectorName\" : \"${briefcase.inspectorName}\", \n" +
-                "\"InspectionTypes\" : \"${briefcase.inspectorType}\" \n" +
-                "}, \n" +
-                "\"answer\" : {"
-           )
+                    "\"vessel\" : \"${briefcase.vessel}\", \n" +
+                    "\"InspectionSource\" : \"${briefcase.inspector}\", \n" +
+                    "\"name_case\": \"${briefcase.inspectorName}_${briefcase.category}_${briefcase.dateOfCreation}\", \n" +
+                    "\"date_in_vessel\" : \"$dateBriefcase\", \n" +
+                    "\"port\" : \"${briefcase.port}\", \n" +
+                    "\"InspectorName\" : \"${briefcase.inspectorName}\", \n" +
+                    "\"InspectionTypes\" : \"${briefcase.inspectorType}\" \n" +
+                    "}, \n" +
+                    "\"answer\" : {"
+        )
 
         val questionsList = briefcaseDao.getAllQuestions(briefcaseId)
         var answerCount = 1
 
-        for (question in questionsList){
-            Log.d("MyLog", "${question.question}")
-        }
-
-        for (question in questionsList){
+        for (question in questionsList) {
             var idCategory = question.categoryid
-            if (idCategory.equals("")){
+            if (idCategory.equals("")) {
                 idCategory = "1929"
             }
 
@@ -90,42 +90,40 @@ class BriefcaseToJsonHelper @Inject constructor() {
             val rightComment = getStringWithoutBreak(question.commentForQuestion)
 
             briefcaseJson.append(
-                      "\"answer_${answerCount++}\" : { \n" +
-                      "\"comment\" : \"${rightComment}\", \n" +
-                      "\"question\" : \"${rightQuestion}\", \n" +
-                      "\"origin\" : \"${question.origin}\", \n" +
-                      "\"questionid\" : \"${question.questionid}\", \n" +
-                      "\"categoryid\" : ${idCategory}, \n" +
-                       "\"categorynewid\" : \"${question.categorynewid}\", \n" +
-                      "\"answer\" : ${question.answer}, \n" +
-                      "\"questioncode\" : \"${question.questioncode}\" \n"
+                "\"answer_${answerCount++}\" : { \n" +
+                        "\"comment\" : \"${rightComment}\", \n" +
+                        "\"question\" : \"${rightQuestion}\", \n" +
+                        "\"origin\" : \"${question.origin}\", \n" +
+                        "\"questionid\" : \"${question.questionid}\", \n" +
+                        "\"categoryid\" : ${idCategory}, \n" +
+                        "\"categorynewid\" : \"${question.categorynewid}\", \n" +
+                        "\"answer\" : ${question.answer}, \n" +
+                        "\"questioncode\" : \"${question.questioncode}\" \n"
 
-//                      "\"dateofinspection\" : ${question.dateOfInspection}, " +
-//                      "\"isanswered\" : ${question.isAnswered}, " +
-//                      "\"commentforquestion\" : ${question.commentForQuestion}, " +
-//                      "\"significance\" : ${question.significance}, "
-           )
+            )
 
-           val photoList = briefcaseDao.getPhotos(question.questionid)
-           var photoCount = 1
+            val photoList = briefcaseDao.getPhotos(question.questionid)
+            var photoCount = 1
             val converter = PhotoConverters()
-           if (!photoList.isEmpty()){
-               briefcaseJson.append(", \"data_image\": {")
-               for (photo in photoList){
-                   val rightPhotoString = getStringWithoutBreak(converter.fromBitmap(photo.photoUri))
+            if (!photoList.isEmpty()) {
+                briefcaseJson.append(", \"data_image\": {")
+                for (photo in photoList) {
+                    val rightPhotoString =
+                        getStringWithoutBreak(converter.fromBitmap(photo.photoUri))
 
-                   briefcaseJson.append("\"foto_${photoCount++}\": \"${rightPhotoString}\"")
-                   if (photoList.size >= photoCount) briefcaseJson.append(",")
-               }
-               briefcaseJson.append("}")
-               briefcaseJson.append("}")
-           }
+                    briefcaseJson.append("\"foto_${photoCount++}\": \"${rightPhotoString}\"")
+                    if (photoList.size >= photoCount) briefcaseJson.append(",")
+                }
+                briefcaseJson.append("}")
+ //               briefcaseJson.append("}")
+            }
             briefcaseJson.append("}")
             if (questionsList.size >= answerCount) briefcaseJson.append(",")
         }
         briefcaseJson.append("}}")
 
         val jsonNew = briefcaseJson.toString()
+
         val sendData = jsonNew.toRequestBody("application/json".toMediaTypeOrNull())
 
         return sendData
@@ -134,13 +132,9 @@ class BriefcaseToJsonHelper @Inject constructor() {
     private fun getStringWithoutBreak(beginStringData: String): String {
 
         var stringData = beginStringData.replace("\n", "\\n")
-        stringData = stringData.replace("\"", "\\\"")
-//        stringData = stringData.replace("/", "")
-        stringData = stringData.replace("\r", " ")
-        stringData = stringData.replace("\r\n", " ")
-        stringData = stringData.replace("\b", "\\b")
-        stringData = stringData.replace("\t", "\\t")
-        stringData = stringData.replace("/+", "\\/+")
+            .replace("\r\n", " ")
+            .replace("\b", "\\b")
+            .replace("\t", "\\t")
 
         return stringData
     }

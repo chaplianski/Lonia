@@ -25,7 +25,9 @@ class AppModule() {
             context,
             BriefCaseDB::class.java,
             "briefcase_db"
-        ).build()
+        )
+  //          .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     fun provideBriefcaseStorage(impl: BriefCaseStorageImpl): BriefCaseStorage = impl

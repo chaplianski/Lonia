@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.lonia.domain.model.Questions
 import com.example.lonia.domain.usecase.GetAnswersUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,5 +21,8 @@ class AnswersViewModel @Inject constructor(private val getAnswersUseCase: GetAns
             val list = getAnswersUseCase.execute(briefcaseId)
             _answersList.postValue(list)
         }
+    }
+    override fun onCleared() {
+        viewModelScope.cancel()
     }
 }

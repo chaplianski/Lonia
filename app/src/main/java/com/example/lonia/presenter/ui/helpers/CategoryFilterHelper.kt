@@ -1,4 +1,4 @@
-package com.example.lonia.presenter.ui.dialogs
+package com.example.lonia.presenter.ui.helpers
 
 import com.example.lonia.domain.model.Questions
 

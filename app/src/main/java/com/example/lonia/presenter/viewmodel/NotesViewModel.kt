@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.lonia.domain.model.Notes
 import com.example.lonia.domain.usecase.GetNotesUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class NotesViewModel @Inject constructor(private val getNotesUseCase: GetNotesUs
         }
     }
 
-
-
-
+    override fun onCleared() {
+        viewModelScope.cancel()
+    }
 }

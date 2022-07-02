@@ -1,5 +1,6 @@
 package com.example.lonia.data.storage.dao
 
+import android.util.Log
 import androidx.room.*
 import com.example.lonia.data.storage.model.*
 
@@ -104,7 +105,7 @@ abstract class BriefcaseDao {
         updateQuestion1(answer, dateOfInspection, commentForQuestion, isAnswered, questionId, significance)
     }
 
-    fun deleleBriefcaseQuestionsPhotos(briefcaseId: Long){
+    fun deleteBriefcaseQuestionsPhotos(briefcaseId: Long){
         val questionList = getAllQuestions(briefcaseId)
         for (question in questionList){
             deletePhotosById(question.questionid)

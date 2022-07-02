@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lonia.domain.usecase.GetNotAsweredQuestionsUseCase
 import com.example.lonia.presenter.adapter.QuestionsExpanbleAdapter
-import com.example.lonia.presenter.ui.dialogs.CategoryFilterHelper
+import com.example.lonia.presenter.ui.helpers.CategoryFilterHelper
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +28,10 @@ class QuestionsViewModel @Inject constructor(private val getNotAsweredQuestionsU
             _questionsList.postValue(adapter)
 
         }
+    }
+
+    override fun onCleared() {
+        viewModelScope.cancel()
     }
 }
 

@@ -60,7 +60,6 @@ class QuestionsNotesFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Log.d("MyLog", "Click back")
         if (item.itemId == android.R.id.home){
             val navController = view?.let { Navigation.findNavController(it) }
             navController?.navigate(R.id.action_questionsNotesFragment_to_briefCaseFragment)

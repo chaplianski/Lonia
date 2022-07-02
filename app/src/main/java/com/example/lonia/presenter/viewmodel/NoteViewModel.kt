@@ -6,6 +6,7 @@ import com.example.lonia.domain.model.Notes
 import com.example.lonia.domain.usecase.AddNoteUseCase
 import com.example.lonia.domain.usecase.UpdateNoteUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,6 +27,8 @@ class NoteViewModel @Inject constructor(
         }
 
     }
-
+    override fun onCleared() {
+        viewModelScope.cancel()
+    }
 
 }

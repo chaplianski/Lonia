@@ -1,5 +1,6 @@
 package com.example.lonia.data.storage.database
 
+import android.util.Log
 import com.example.lonia.data.storage.dao.BriefcaseDao
 import com.example.lonia.data.storage.model.BriefCaseData
 import com.example.lonia.data.storage.model.QuestionsData
@@ -27,6 +28,6 @@ class BriefCaseStorageImpl @Inject constructor() : BriefCaseStorage {
     }
 
     override fun deleteBriefcase(briefCaseId: Long) {
-        briefcaseDao.deleleBriefcaseQuestionsPhotos(briefCaseId)
+        briefcaseDao.deleteBriefcaseQuestionsPhotos(briefCaseId)
     }
 }

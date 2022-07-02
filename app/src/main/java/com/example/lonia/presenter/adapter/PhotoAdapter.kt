@@ -12,13 +12,13 @@ import com.example.lonia.domain.model.Photos
 
 class PhotoAdapter(photoList: List<Photos>): RecyclerView.Adapter<PhotoAdapter.ViewHolder>() {
 
-    var listPhoto: List<Photos> = photoList
+    var listPhoto = photoList as MutableList<Photos>
 
     interface ShortOnClickListener {
         fun shortClick(photo: Photos)
     }
     interface LongOnClickListener {
-        fun longClick(photo: Photos)
+        fun longClick(photo: Photos, position: Int)
     }
 
     var shortOnClickListener: ShortOnClickListener? = null
@@ -35,13 +35,18 @@ class PhotoAdapter(photoList: List<Photos>): RecyclerView.Adapter<PhotoAdapter.V
             shortOnClickListener?.shortClick(listPhoto[position])
         }
         holder.itemView.setOnLongClickListener {
-            longOnClickListener?.longClick(listPhoto[position])
+            longOnClickListener?.longClick(listPhoto[position], position)
             true
         }
     }
 
     override fun getItemCount(): Int {
         return listPhoto.size
+    }
+
+    fun deliteItem(position: Int){
+        listPhoto.removeAt(position)
+        notifyDataSetChanged()
     }
 
 

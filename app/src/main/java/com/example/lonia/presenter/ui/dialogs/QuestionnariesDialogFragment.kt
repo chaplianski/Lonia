@@ -1,4 +1,4 @@
-package com.example.lonia.presenter.ui
+package com.example.lonia.presenter.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -16,7 +16,8 @@ class QuestionnariesDialogFragment: DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val listener = DialogInterface.OnClickListener {_, which ->
-            parentFragmentManager.setFragmentResult(QUESTIONNARIES_REQUEST_KEY, bundleOf(
+            parentFragmentManager.setFragmentResult(
+                QUESTIONNARIES_REQUEST_KEY, bundleOf(
                 QUESTIONNARIES_KEY_RESPONSE to which,
                 TITLE_KEY_RESPONSE to title,
                 QID_KEY_RESPONSE to qid

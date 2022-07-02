@@ -10,11 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,6 +26,7 @@ import com.example.lonia.domain.model.Photos
 import com.example.lonia.domain.model.Questions
 import com.example.lonia.presenter.adapter.PhotoAdapter
 import com.example.lonia.presenter.factories.AnswerViewModelFactory
+import com.example.lonia.presenter.ui.helpers.PhotoPicker
 import com.example.lonia.presenter.viewmodel.AnswerViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -63,9 +61,6 @@ class AnswerFragment : Fragment() {
         activitySupport.title = "Answer"
         activitySupport.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         activitySupport.supportActionBar?.setDisplayShowHomeEnabled(false)
-
-
-
         _binding = FragmentAnswerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -129,15 +124,10 @@ class AnswerFragment : Fragment() {
 
         // ***** update answer *****
 
-        Log.d("My Log", "from answer fragment: isAnswered: $isAnswered")
 
         if (isAnswered == true && isFromNotes != 1) {
             answerViewModel.getQuestion(questionId)
 
-            Log.d(
-                "My Log",
-                "from answer fragment: isAnswered: $isAnswered isFromNotes: $isFromNotes"
-            )
         }
 
         // ***** Get comment *****
@@ -179,7 +169,12 @@ class AnswerFragment : Fragment() {
 
             val noteText = arguments?.getString("notes fragment")
             val answer = arguments?.getString("answer text")
-            answerTextVew.setText("$answer \n$noteText")
+            if (answer?.isEmpty() == true){
+                answerTextVew.setText("$noteText")
+            }else {
+                answerTextVew.setText("$answer \n$noteText")
+            }
+
             val date = arguments?.getLong("answer date")
             if (date == 0L) {
                 dateAnswer.text = "DATE OF VERIFICATION"
@@ -322,7 +317,6 @@ class AnswerFragment : Fragment() {
                 }
                 answerKeyPosition = question.answer
 
-                Log.d("MyLog", "answer fragment answer question: $question ")
                 when (question.significance) {
                     "Low" -> {
                         lowButton.isSelected = true
@@ -373,7 +367,7 @@ class AnswerFragment : Fragment() {
 
                 // Check answer text
             } else if (answerTextVew.text?.isBlank() == true) {
-                answerTextField.error = "Please enter email"
+                answerTextField.error = "Please enter comment"
 
                 // Check button select
             } else if (!positiveButton.isSelected && !negativeButton.isSelected) {
@@ -411,7 +405,6 @@ class AnswerFragment : Fragment() {
                 // ***** Save data if answer for one question
 
             } else {
-                Log.d("MyLog", "answer fragment answer key position: $answerKeyPosition sign state: ${significanceLevel} ")
                 val answerValue = answerTextVew.text.toString()
                 val questions = Questions(
                     questionid = questionId,
@@ -499,13 +492,14 @@ class AnswerFragment : Fragment() {
         }
 
         photoAdapter.longOnClickListener = object : PhotoAdapter.LongOnClickListener {
-            override fun longClick(photo: Photos) {
+            override fun longClick(photo: Photos, position: Int) {
 
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("Are you sure, that want delete image?")
                 builder.setPositiveButton("Yes") { dialog, id ->
                     answerViewModel.deletePhoto(photo)
-                    answerViewModel.getPhotos(questionId)
+  //                  answerViewModel.getPhotos(questionId)
+                    photoAdapter.deliteItem(position)
                 }
                 builder.setNegativeButton("No", null)
                 builder.show()

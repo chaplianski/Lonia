@@ -52,21 +52,22 @@ class LoginFragment : Fragment() {
         val loginField = view.findViewById<TextInputLayout>(R.id.login_field)
         val passwordField = view.findViewById<TextInputLayout>(R.id.password_field)
         val loginText = view.findViewById<EditText>(R.id.et_answer_answer_fragment)
-        var tokenRequest = LoginRequest("","")
+        var tokenRequest = LoginRequest("", "")
         val passwordText = view.findViewById<EditText>(R.id.et_password_login_fragment)
         val loginErrorTextView = view.findViewById<TextView>(R.id.tv_login_error_message)
         var loginValue = ""
         var passwordValue = ""
 
+
         loginText.doOnTextChanged { inputText, _, _, _ ->
-            if (inputText?.length!! > 0){
+            if (inputText?.length!! > 0) {
                 loginField.error = null
             }
             loginValue = inputText.toString()
         }
 
-        passwordText.doOnTextChanged{ inputText, _, _, _ ->
-            if (inputText?.length!! > 0){
+        passwordText.doOnTextChanged { inputText, _, _, _ ->
+            if (inputText?.length!! > 0) {
                 passwordField.error = null
             }
             passwordValue = inputText.toString()
@@ -76,12 +77,12 @@ class LoginFragment : Fragment() {
 
 
         signInButton.setOnClickListener {
-            loginErrorTextView.visibility = View.GONE
+            //         loginErrorTextView.visibility = View.GONE
             if (loginText.text.isBlank()) {
                 loginField.error = "Please enter e-mail"
-            }else if (passwordText.text.isBlank()) {
+            } else if (passwordText.text.isBlank()) {
                 passwordField.error = "Please enter password"
-            }else {
+            } else {
                 tokenRequest = LoginRequest(
                     email = loginValue,
                     password = passwordValue
@@ -91,7 +92,7 @@ class LoginFragment : Fragment() {
                 loginViewModel.loginErrorMessage.observe(this.viewLifecycleOwner) {
 
                     if (it == "access is allowed") {
-                        loginErrorTextView.visibility = View.INVISIBLE
+
                         val navController = Navigation.findNavController(view)
                         navController.navigate(R.id.briefCaseFragment)
                     }
@@ -99,10 +100,7 @@ class LoginFragment : Fragment() {
                     loginErrorTextView.text = it
                     loginErrorTextView.visibility = View.VISIBLE
                 }
-
             }
         }
     }
-
-
 }

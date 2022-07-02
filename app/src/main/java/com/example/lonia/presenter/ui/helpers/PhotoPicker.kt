@@ -1,4 +1,4 @@
-package com.example.lonia.presenter.ui
+package com.example.lonia.presenter.ui.helpers
 
 import android.content.Context
 import android.net.Uri

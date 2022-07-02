@@ -27,6 +27,7 @@ import com.example.lonia.presenter.adapter.QuestionnairesAdapter
 import com.example.lonia.presenter.factories.QuestionnairesViewModelFactory
 import com.example.lonia.presenter.viewmodel.QuestionnairesViewModel
 import com.example.lonia.di.DaggerAppComponent
+import com.example.lonia.presenter.ui.dialogs.QuestionnariesDialogFragment
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

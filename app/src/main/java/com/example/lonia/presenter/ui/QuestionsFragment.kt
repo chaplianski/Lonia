@@ -122,7 +122,6 @@ class QuestionsFragment : Fragment() {
                                 ?.apply()
                             sharedPref?.edit()?.putBoolean(Constants.CURRENT_ISANSWERED, isAnswered)
                                 ?.apply()
-                            Log.d("My Log", "from question fragment: isAnswered: $isAnswered")
                             val navController = Navigation.findNavController(view)
                             navController.navigate(R.id.action_questionsNotesFragment_to_answerFragment)
 

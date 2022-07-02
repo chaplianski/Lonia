@@ -9,6 +9,7 @@ import com.example.lonia.domain.exceptions.NetworkException
 import com.example.lonia.domain.model.LoginRequest
 import com.example.lonia.domain.usecase.getTokenUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,5 +45,9 @@ class LoginViewModel @Inject constructor(private val getTokenUseCase: getTokenUs
             }
             )
         }
+    }
+
+    override fun onCleared() {
+        viewModelScope.cancel()
     }
 }
