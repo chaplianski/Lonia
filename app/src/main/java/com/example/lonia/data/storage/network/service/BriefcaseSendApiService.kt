@@ -9,7 +9,7 @@ import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface BriefcaseSendApiService {
+interface       BriefcaseSendApiService {
     @Headers("Content-Type: application/json")
     @POST("api/answer")
     suspend fun saveBriefcase(

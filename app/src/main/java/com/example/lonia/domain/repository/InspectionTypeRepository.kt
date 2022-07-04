@@ -2,5 +2,5 @@ package com.example.lonia.domain.repository
 
 interface InspectionTypeRepository {
 
-    fun getInspectionType(): List<String>
+    suspend fun getInspectionType(): List<String>
 }
