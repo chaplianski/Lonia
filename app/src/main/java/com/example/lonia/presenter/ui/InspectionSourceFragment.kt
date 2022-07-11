@@ -3,6 +3,7 @@ package com.example.lonia.presenter.ui
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -215,7 +216,8 @@ class InspectionSourceFragment : Fragment() {
             val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
             sharedPref?.edit()?.putString(Constants.CURRENT_INSPECTION_SOURCE, it)?.apply()
             val navController = view?.let { Navigation.findNavController(it) }
-            navController?.navigate(R.id.action_inspectionSourceFragment_to_inspectorNameFragment)
+            navController?.navigate(R.id.action_inspectionSourceFragment_to_categoryFragment)
+//            navController?.navigate(R.id.action_inspectionSourceFragment_to_inspectorNameFragment)
         }
     }
 

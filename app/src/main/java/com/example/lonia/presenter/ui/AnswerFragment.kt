@@ -80,11 +80,12 @@ class AnswerFragment : Fragment() {
         val negativeButton = binding.btAnswerNo
         val questionTextView = binding.tvAnswerTitle
         val photoTextView = binding.tvAnswerAttachPhoto
-        val noteTextVeiw = binding.tvAnswerAttachNote
+  //      val noteTextVeiw = binding.tvAnswerAttachNote
         val saveBotton = binding.btAnswerSaveBotton
         val lowButton = binding.btAnswerFragmentLow
         val mediumButton = binding.btAnswerFragmentMedium
         val hightButton = binding.btAnswerFragmentHight
+        val significanceText = binding.tvAnswerSignificance
         val navController = Navigation.findNavController(view)
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val question = sharedPref?.getString(Constants.CURRENT_QUESTION, "").toString()
@@ -110,7 +111,9 @@ class AnswerFragment : Fragment() {
 
         informationButton.paint.isUnderlineText = true
         photoTextView.paint.isUnderlineText = true
-        noteTextVeiw.paint.isUnderlineText = true
+        significanceText.paint.isUnderlineText = true
+
+   //     noteTextVeiw.paint.isUnderlineText = true
 
         val formateDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
@@ -436,30 +439,30 @@ class AnswerFragment : Fragment() {
 
         // ***** Go to notes fragment *****
 
-        noteTextVeiw.setOnClickListener {
-
-            if (briefcaseId != null) {
-                answerViewModel.getNotes(briefcaseId)
-            }
-            answerViewModel.notes.observe(this.viewLifecycleOwner) {
-
-                if (it.isEmpty()) {
-                    Toast.makeText(context, "There are currently no notes", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    val answerText = answerTextVew.text.toString()
-                    val bundle = Bundle()
-                    bundle.putInt("answer fragment", 1)
-                    bundle.putString("answer text", answerTextVew.text.toString())
-                    bundle.putInt("answer key position", answerKeyPosition)
-                    bundle.putLong("answer date", answerDate)
-                    bundle.putString("significance", significanceLevel)
-
-                    val navController = Navigation.findNavController(view)
-                    navController.navigate(R.id.action_answerFragment_to_notesFragment, bundle)
-                }
-            }
-        }
+//        noteTextVeiw.setOnClickListener {
+//
+//            if (briefcaseId != null) {
+//                answerViewModel.getNotes(briefcaseId)
+//            }
+//            answerViewModel.notes.observe(this.viewLifecycleOwner) {
+//
+//                if (it.isEmpty()) {
+//                    Toast.makeText(context, "There are currently no notes", Toast.LENGTH_SHORT)
+//                        .show()
+//                } else {
+//                    val answerText = answerTextVew.text.toString()
+//                    val bundle = Bundle()
+//                    bundle.putInt("answer fragment", 1)
+//                    bundle.putString("answer text", answerTextVew.text.toString())
+//                    bundle.putInt("answer key position", answerKeyPosition)
+//                    bundle.putLong("answer date", answerDate)
+//                    bundle.putString("significance", significanceLevel)
+//
+//                    val navController = Navigation.findNavController(view)
+//                    navController.navigate(R.id.action_answerFragment_to_notesFragment, bundle)
+//                }
+//            }
+//        }
 
         answerTextVew.doOnTextChanged { inputText, _, _, _ ->
             if (inputText?.length!! > 0) {

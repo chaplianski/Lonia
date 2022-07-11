@@ -123,7 +123,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_answer_title"
                     app:layout_constraintVertical_bias="0.0" />
-
+                <!--
                 <TextView
                     android:id="@+id/tv_answer_attach_note"
                     android:layout_width="wrap_content"
@@ -138,7 +138,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_answer_attach_photo"
                     app:layout_constraintVertical_bias="0.0" />
-
+-->
                 <Button
                     android:id="@+id/bt_answer_save_botton"
                     android:layout_width="0dp"
@@ -242,11 +242,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/button_selector"
                     android:text="Low"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_answer_button_error" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_answer_significance" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bt_answer_fragment_medium"
@@ -259,6 +259,23 @@
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/bt_answer_fragment_low"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/tv_answer_significance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Significance"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bt_answer_yes"
                     app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -147,26 +147,14 @@
         android:label="fragment_inspection_source"
         tools:layout="@layout/fragment_inspection_source" >
         <action
-            android:id="@+id/action_inspectionSourceFragment_to_inspectorNameFragment"
-            app:destination="@id/inspectorNameFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left"
-            app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_left" />
+            android:id="@+id/action_inspectionSourceFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/inspectorNameFragment"
         android:name="com.example.lonia.presenter.ui.InspectorNameFragment"
         android:label="fragment_inspector_name"
-        tools:layout="@layout/fragment_inspector_name" >
-        <action
-            android:id="@+id/action_inspectorNameFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left"
-            app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_left" />
-    </fragment>
+        tools:layout="@layout/fragment_inspector_name" />
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.example.lonia.presenter.ui.QuestionnairesFragment"

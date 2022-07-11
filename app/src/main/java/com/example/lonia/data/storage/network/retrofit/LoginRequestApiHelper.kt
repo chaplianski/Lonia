@@ -23,6 +23,7 @@ class LoginRequestApiHelper @Inject constructor() {
 
         val retrofit = loginRequestretrofit.create(AuthorizationApiService::class.java)
         var token = ""
+        var inspectorName = ""
 
 
         val json = JSONObject()
@@ -37,10 +38,13 @@ class LoginRequestApiHelper @Inject constructor() {
         when (responseToken.code()) {
             in 200..299 -> {
                 token = responseToken.body()?.token ?: ""
+                inspectorName = responseToken.body()?.full_name ?: ""
 
                 val sharedPref = context.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
                 sharedPref?.edit()?.putString(NetParameters.TOKEN, responseToken.body()?.token)?.apply()
+                sharedPref?.edit()?.putString("Inspector Name", inspectorName)?.apply()
                 isSuccess = 1
+
                 return isSuccess
 
             }

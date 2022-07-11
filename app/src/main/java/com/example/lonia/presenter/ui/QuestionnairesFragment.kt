@@ -172,8 +172,10 @@ class QuestionnairesFragment : Fragment() {
         val inspectorType =
             sharedPref?.getString(Constants.CURRENT_INSPECTION_TYPE, "")
                 .toString()
+
+        val sharedNetPref = context?.getSharedPreferences("Net pref", Context.MODE_PRIVATE)
         val inspectorName =
-            sharedPref?.getString(Constants.CURRENT_INSPECTOR_NAME, "")
+            sharedNetPref?.getString(Constants.CURRENT_INSPECTOR_NAME, "")
                 .toString()
         val inspector =
             sharedPref?.getString(
@@ -183,7 +185,6 @@ class QuestionnairesFragment : Fragment() {
         val port =
             sharedPref?.getString(Constants.CURRENT_PORT, "").toString()
 
-        Log.d("My Log", "category: $title, qid: $qid")
         questionnairesViewModel.saveBriefcase(
             vessel,
             inspectorType,
