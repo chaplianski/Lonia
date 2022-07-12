@@ -80,7 +80,7 @@ class AnswerFragment : Fragment() {
         val negativeButton = binding.btAnswerNo
         val questionTextView = binding.tvAnswerTitle
         val photoTextView = binding.tvAnswerAttachPhoto
-  //      val noteTextVeiw = binding.tvAnswerAttachNote
+  //      val noteTextVeiw = binding.tvAnswerAttachNote///
         val saveBotton = binding.btAnswerSaveBotton
         val lowButton = binding.btAnswerFragmentLow
         val mediumButton = binding.btAnswerFragmentMedium
